@@ -1,12 +1,17 @@
 import './App.css'
 import './index.css'
-import Register from './register'
+import Home from './pages/home/home'
+import axios from 'axios'
 
 
 function App() {
+  axios.defaults.baseURL = 'http://localhost:3000'
+  axios.defaults.withCredentials = true;
 
   return (
-    <Register/>
+   <>
+    <Home/>
+   </>
   )
 }
 
