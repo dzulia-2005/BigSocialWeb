@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 
 
-const Register:React.FC = ()=>{
+const Login:React.FC = ()=>{
     const[username,setUsername]=useState("");
     const[password,setPassword]=useState("");
 
@@ -30,4 +30,4 @@ const Register:React.FC = ()=>{
         </div>
     )
 }
-export default Register;
+export default Login;

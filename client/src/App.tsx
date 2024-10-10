@@ -1,7 +1,7 @@
 import './App.css'
 import './index.css'
-import Home from './pages/home/home'
 import axios from 'axios'
+import Home from './pages/home/home'
 
 
 function App() {
@@ -10,7 +10,7 @@ function App() {
 
   return (
    <>
-    <Home/>
+   <Home/>
    </>
   )
 }
