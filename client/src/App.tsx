@@ -1,16 +1,22 @@
 import './App.css'
 import './index.css'
-import axios from 'axios'
-import Home from './pages/home/home'
-
+// import Profile from './pages/profile/profile'
+import Home from './pages/feed/home'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import Layout from './layout/default/layout'
 
 function App() {
-  axios.defaults.baseURL = 'http://localhost:3000'
-  axios.defaults.withCredentials = true;
+
 
   return (
    <>
-   <Home/>
+    <BrowserRouter>
+      <Routes>
+        <Route element={<Layout/>}>
+          <Route index element={<Home />} />
+        </Route> 
+      </Routes>
+    </BrowserRouter>
    </>
   )
 }

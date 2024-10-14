@@ -27,8 +27,8 @@ const Register:React.FC = ()=>{
                         type="password"placeholder="Password" className="block w-64 bg-[#4F4F4F] text-[#ffff h-12 rounded-lg mb-2 p-2"/>
 
                 <input  value={password}
-                                        onChange={(e)=>setPassword(e.target.value)}
-                                        type="password"placeholder="confrim your password" className="block w-64 bg-[#4F4F4F] text-[#ffff h-12 rounded-lg mb-2 p-2"/>
+                        onChange={(e)=>setPassword(e.target.value)}
+                        type="password"placeholder="confrim your password" className="block w-64 bg-[#4F4F4F] text-[#ffff h-12 rounded-lg mb-2 p-2"/>
 
                 <button className="bg-[#FFFFFF] block w-full h-12 rounded-lg mb-3">Create account</button>
                 <div className="text-[#ffff] text-center" >
