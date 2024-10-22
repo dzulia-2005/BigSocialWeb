@@ -35,7 +35,3 @@ app.use('/api/post',PostRoute)
 app.listen(8800,()=>{
     console.log("backend server is ready for running")
 })
-
-
-
-
