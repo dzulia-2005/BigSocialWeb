@@ -1,6 +1,6 @@
 import './App.css';
 import './index.css';
-import Home from './pages/feed/home';
+import Home from './pages/feed/view/home';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Layout from './layout/default/layout';
 import Register from './pages/register/register';

@@ -4,8 +4,11 @@ import Container from '../../components/container/container'
 import Leftcomponent from '../../components/leftsidecomponent/leftcomponent'
 import Mainsection from '../../components/container/section/mainsection'
 import Middle from '../../components/container/middlecontainer/middle'
+import Share from '../feed/components/share/share'
+import Post from '../feed/components/post/post'
 
 const  Profile:React.FC = () => {
+
   return (
     
     <Container >
@@ -34,23 +37,8 @@ const  Profile:React.FC = () => {
                               </div>
                            </div>
                         </div>
-                <div className='flex justify-center w-[100%] h-auto'>
-                           <div className='bg-[#4F4F4F] w-[90%] h-auto rounded-[10px] p-[3%]'>
-                                <div className='flex justify-center gap-[7%] mb-[2%]'>
-                                  <div className='w-[40px] h-[40px] bg-[#D9D9D9] rounded-full'></div>
-                                  <input placeholder='Create new post' type="text" className='bg-[#212121] rounded-xl p-[0_17px] w-[64%] text-[#ffff]' />
-                                  <div>
-                                    <svg width="35" height="35" viewBox="0 0 45 45" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M39.375 7.03125C40.1484 7.03125 40.7812 7.66406 40.7812 8.4375V36.5449L40.3418 35.9736L28.3887 20.5049C27.9932 19.9863 27.3691 19.6875 26.7188 19.6875C26.0684 19.6875 25.4531 19.9863 25.0488 20.5049L17.7539 29.9443L15.0732 26.1914C14.6777 25.6377 14.0449 25.3125 13.3594 25.3125C12.6738 25.3125 12.041 25.6377 11.6455 26.2002L4.61426 36.0439L4.21875 36.5889V36.5625V8.4375C4.21875 7.66406 4.85156 7.03125 5.625 7.03125H39.375ZM5.625 2.8125C2.52246 2.8125 0 5.33496 0 8.4375V36.5625C0 39.665 2.52246 42.1875 5.625 42.1875H39.375C42.4775 42.1875 45 39.665 45 36.5625V8.4375C45 5.33496 42.4775 2.8125 39.375 2.8125H5.625ZM12.6562 19.6875C13.2103 19.6875 13.7589 19.5784 14.2707 19.3664C14.7825 19.1544 15.2476 18.8436 15.6394 18.4519C16.0311 18.0601 16.3419 17.595 16.5539 17.0832C16.7659 16.5714 16.875 16.0228 16.875 15.4688C16.875 14.9147 16.7659 14.3661 16.5539 13.8543C16.3419 13.3425 16.0311 12.8774 15.6394 12.4856C15.2476 12.0939 14.7825 11.7831 14.2707 11.5711C13.7589 11.3591 13.2103 11.25 12.6562 11.25C12.1022 11.25 11.5536 11.3591 11.0418 11.5711C10.53 11.7831 10.0649 12.0939 9.67314 12.4856C9.2814 12.8774 8.97064 13.3425 8.75863 13.8543C8.54662 14.3661 8.4375 14.9147 8.4375 15.4688C8.4375 16.0228 8.54662 16.5714 8.75863 17.0832C8.97064 17.595 9.2814 18.0601 9.67314 18.4519C10.0649 18.8436 10.53 19.1544 11.0418 19.3664C11.5536 19.5784 12.1022 19.6875 12.6562 19.6875Z" fill="white"/></svg>
-                                  </div>
-                                </div>
-                                <div className='flex ml-[3%]'>
-                                  <button className = "text-[13px] w-[35%] h-[31px] bg-white rounded-xl">Add new post</button>
-                                </div>
-                           </div>
-                        </div>
-                        
-                        
-                        
+                      <Share/>
+                      
                    </Middle>
                    <div className='w-[25%] h-full '></div>
        </Mainsection>
