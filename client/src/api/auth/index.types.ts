@@ -14,14 +14,22 @@ export type SignUpPayload = {
 }
 
 export type meResponse = {
-    _id: string;
-    username: string;
-    email: string;
-    fullname: string;
-    profilePicture: string;
-    coverpicture:string;
-    posts: string[]; 
-    followers: string[]; 
+    _id: string,
+    user: string,
+    username: string,
+    email: string,
+    fullname: string,
+    profilePicture: string,
+    posts: { 
+        _id: string;
+        caption: string;
+        image: string[];
+        likes: string[];
+        comment: string[];
+        createdAt: string;
+        updatedAt: string;
+    }[], 
+    followers: string[];
     following: string[];
 }
 

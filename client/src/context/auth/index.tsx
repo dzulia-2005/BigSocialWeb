@@ -1,5 +1,6 @@
 import { createContext, PropsWithChildren } from "react";
 import { useGetMe } from "../../react-query/query/auth";
+import { data } from "react-router-dom";
 import  {useHttpInterceptor}  from "../../hooks/usehtttpinterceptor";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -15,7 +16,7 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
     useHttpInterceptor()
     const {data:user} = useGetMe({ isEnabled: !!accessToken , accessToken });
 
-    
+    console.log(data)
   return (
     <AuthContext.Provider value={{ user }}>
       {children}

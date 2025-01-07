@@ -13,7 +13,7 @@ const EditProfileSection:React.FC<EditProfileSectionProps> = ({
   setProfilePictureUrl,
   setCoverPictureUrl
 }) => {
-  const { user,setUser } = useAuthContext();
+  const { user } = useAuthContext();
   const { mutate: updateProfilePic } = useUpdateProfilePic();
   const { mutate: updateCoverPic } = useUpdateCoverProfPic();
   const accessToken = localStorage.getItem("accessToken");
@@ -43,11 +43,7 @@ const EditProfileSection:React.FC<EditProfileSectionProps> = ({
             const newProfilePictureUrl = `${data.User.profilePicture}?timestamp=${new Date().getTime()}`;
             setProfilePictureUrl(newProfilePictureUrl);
 
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            setUser((prevUser:any) => ({
-              ...prevUser,
-              profilePicture: newProfilePictureUrl,
-            }));
+            
           },
         }
       );
@@ -63,13 +59,6 @@ const EditProfileSection:React.FC<EditProfileSectionProps> = ({
           onSuccess: (data) => {
             const newCoverPictureUrl = `${data.User.coverpicture}?timestamp=${new Date().getTime()}`;
             setCoverPictureUrl(newCoverPictureUrl); 
-
-
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            setUser((prevUser:any) => ({
-              ...prevUser,
-              profilePicture: newCoverPictureUrl,
-            }));
           },
         }
       );
