@@ -1,44 +1,27 @@
 import './App.css';
-import './index.css';
-import Home from './pages/feed/view/home';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Layout from './layout/default/layout';
-import Register from './pages/register/register';
-import Login from './pages/login/login';
-import Profile from './pages/profile/profile';
-import Notification from './pages/notification/notification';
+import { Routes, Route} from 'react-router-dom';
+import Auth from './page/auth/view/index';
+import Home from './page/home/view/home';
+import Profile from './page/profile/view/profile';
+import AuthLayout from './layout/auth';
+import DashboardLayout from './layout/dashboard';
 
 function App() {
-  return (
-    <BrowserRouter>
-      <Routes>
-  
-        <Route  path="/:user" element={<Layout />}> 
-          <Route 
-              index 
-              element={<Home />} 
-          /> 
-        </Route>
+   
+    return (
+        <Routes>
 
-        <Route path='/profile/:user'>
-            <Route
-              index
-              element={<Profile/>}
-            />
-        </Route>
+            <Route  element={<AuthLayout/>}>
+                <Route path="/" element={<Auth />} />
+            </Route>
 
-        <Route path='/notification/:user'>
-          <Route
-            index
-            element={<Notification/>}
-          />
-        </Route>
-        
-        <Route path="/register" element={<Register />} /> 
-        <Route path="/login" element={<Login />} />
-      </Routes>
-    </BrowserRouter>
-  );
+            <Route  element={<DashboardLayout />}>
+                <Route path="/home" element={<Home />} />
+                <Route path="/profile" element={<Profile />} />
+            </Route>
+            
+        </Routes>
+    );
 }
 
 export default App;

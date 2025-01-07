@@ -1,0 +1,217 @@
+const Post = require("../models/post");
+const User = require("../models/user");
+const {CustomError} = require("../middlewares/errors");
+
+const createpostController = async(req,res,next) => {
+    const {userId,caption} = req.body;
+
+    try {
+        
+        const user = await User.findById(userId);
+        if (!user) {
+            throw new CustomError("user not found",404);
+        }
+        const newPost = new Post({
+            user:userId,
+            caption
+        })
+
+        await newPost.save();
+        user.posts.push(newPost._id);
+        await user.save();
+        res.status(201).json({message:"post created successfully",post:newPost});
+
+
+    } catch (error) {
+        next(error);
+    }
+}
+
+
+const generateFileUrl = (filename) => {
+    return process.env.URL+`/uploads/${filename}`
+}
+
+const createpostwithimageController = async(req,res,next) => {
+    const {userId}=req.params;
+    const {caption}=req.body;
+    const files = req.files;
+
+    try {
+        const user = await User.findById(userId);
+        if (!user) {
+            throw new CustomError("user not found",404);
+        }
+        const imageurl = files.map(file =>generateFileUrl(file.filename));
+        const newPost = new Post({
+            user:userId,
+            caption,
+            image:imageurl
+        })
+
+        await newPost.save();
+        user.posts.push(newPost._id);
+        await user.save();
+        res.status(201).json({message:"post created successfully",post:newPost});
+
+    } catch (error) {
+        next(error);
+    }
+
+}
+
+
+const updatePostController = async(req,res,next) => {
+    const {postId}=req.params;
+    const {caption}=req.body;
+
+    try {
+        const updateToPost = await Post.findById(postId);
+        if (!updateToPost) {
+            throw new CustomError("post not found",404);
+        }
+
+        const updatedpost = await Post.findByIdAndUpdate(
+            postId,
+            {caption},
+            {new:true}
+        )
+
+        await updateToPost.save();
+        res.status(201).json({message:"post updated successfully",post:updatedpost});
+
+
+    } catch (error) {
+        next(error);
+    }
+}
+
+const getAllPostController = async(req,res,next) => {
+    const {userId} = req.params;
+
+    try {
+        const user = await User.findById(userId).populate("posts");
+        if (!user) {
+            throw new CustomError("user not found",404);
+        }
+
+        const posts = user.posts;
+
+        res.status(201).json({message:"post fetched successfully",posts});
+
+
+    } catch (error) {
+        next(error)
+    }
+}
+
+const getUserPostController = async(req,res,next) => {
+    const {userId} = req.params;
+
+    try {
+        const posts = await Post.find({user:userId})
+
+        if (!posts || posts.length === 0) {
+            throw new CustomError("not found user posts",404)
+        }
+
+        res.status(201).json({message:"user post fetched successfully",posts})
+    } catch (error) {
+        next(error);
+    }
+}
+
+const deletePostController = async (req, res, next) => {
+    const { postId } = req.params;
+
+    try {
+        const postToDelete = await Post.findById(postId);
+        if (!postToDelete) {
+            return next(new CustomError("Post not found", 404));
+        }
+
+        const user = await User.findById(postToDelete.user);
+        if (!user) {
+            return next(new CustomError("User not found", 404));
+        }
+
+        user.posts = user.posts.filter(
+            (id) => id.toString() !== postToDelete._id.toString()
+        );
+        await user.save();
+
+        await postToDelete.deleteOne();
+
+        res.status(200).json({ message: "Post deleted successfully" });
+    } catch (error) {
+        next(error);
+    }
+};
+
+
+const likePostController = async(req,res,next) => {
+    const {postId} = req.params;
+    const {userId} = req.body;
+
+    try {
+        const post = await Post.findById(postId);
+        if(!post){
+            throw new CustomError("Post not found",404);
+        }
+        const user = await User.findById(userId);
+        if (!user) {
+            throw new CustomError("user not found",404);
+        }
+
+        if (post.likes.includes(userId)){
+            throw new CustomError("you have already liked this post",404);
+        }
+
+        post.likes.push(userId);
+        await post.save();
+        res.status(200).json({message:"post liked successfully"});
+    } catch (error) {
+        next(error)
+    }
+}
+
+
+const unlikePostController = async (req, res, next) => {
+    const { postId } = req.params;
+    const { userId } = req.body;
+
+    try {
+        const post = await Post.findById(postId);
+        if (!post) {
+            throw new CustomError("Post not found", 404);
+        }
+
+        const user = await User.findById(userId);
+        if (!user) {
+            throw new CustomError("User not found", 404);
+        }
+
+        if (!post.likes.includes(userId)) {
+            throw new CustomError("You have not liked this post yet", 400);
+        }
+
+        post.likes = post.likes.filter((id) => id.toString() !== userId.toString());
+        await post.save();
+
+        res.status(200).json({ message: "Post unliked successfully" });
+    } catch (error) {
+        next(error);
+    }
+};
+
+
+module.exports = {
+                  createpostController,
+                  createpostwithimageController,
+                  updatePostController,
+                  getAllPostController,
+                  getUserPostController,
+                  deletePostController,
+                  likePostController,
+                  unlikePostController
+                }
