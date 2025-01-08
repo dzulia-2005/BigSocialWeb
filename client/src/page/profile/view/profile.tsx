@@ -27,10 +27,10 @@ const Profile:React.FC = () => {
                       <div className="rounded-xl shadow bg-[#EAFF96]" key={post._id}>
                         <div className="pl-6 flex items-center pt-6">
                           <Avatar>
-                            <AvatarImage className="rounded-full h-10 w-10" src={user.profilePicture || image} />
+                            <AvatarImage className="rounded-full h-10 w-10" src={post.user?.profilePicture || image} />
                           </Avatar>
                           <div className="ml-4">
-                            <div className="p-0">{user.username}</div>
+                            <div className="p-0">{post.user?.username}</div>
                           </div>
                         </div>
                         <div className="pl-6">

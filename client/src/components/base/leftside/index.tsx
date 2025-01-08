@@ -10,11 +10,6 @@ const LeftSide:React.FC = () => {
   const navigate = useNavigate();
   const { refetch: handleLogOut } = useSignOut();
 
-  
-
-  
-  
-
   const handleLogoutClick = async () => {
     try {
       const { data } = await handleLogOut(); 
@@ -25,7 +20,6 @@ const LeftSide:React.FC = () => {
       alert('Failed to log out. Please try again.');
     }
   };
-
 
   return (
     <aside className=" md:w-1/6 space-y-8 hidden  md:block">

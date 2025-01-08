@@ -29,8 +29,8 @@ export type meResponse = {
         createdAt: string;
         updatedAt: string;
     }[], 
-    followers: string[];
-    following: string[];
+    followers: string[],
+    following: string[],
 }
 
 export type refreshPayload = {

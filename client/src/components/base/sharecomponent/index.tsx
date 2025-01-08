@@ -1,30 +1,101 @@
-import React from 'react'
+import React, { useState } from 'react';
 import { Avatar, AvatarImage } from '@radix-ui/react-avatar';
-import image from "../../../assets/defaultprofileimg.webp"
+import image from "../../../assets/defaultprofileimg.webp";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faImage } from '@fortawesome/free-solid-svg-icons';
 import { Input } from '../../ui/input';
+import { useAuthContext } from '../../../context/auth/hooks/useAuthContext';
+import { useCreatePostImg } from '../../../react-query/mutation/post';
 
-const Sharecomp:React.FC = () => {
-  return (
-                        <div className="rounded-xl  shadow bg-[#EAFF96]">
-                            <div className="p-1 flex items-center justify-around pt-6">
-                                <div>
-                                    <Avatar >
-                                        <AvatarImage className="rounded-full h-10 w-10" src={image}/>
-                                    </Avatar>
-                                </div>
-                                    <Input placeholder="Create new post" className='w-[70%] bg-[#4F4F4F] border-none text-[#ffff] focus:outline-none' />
-                                    <FontAwesomeIcon className='w-7 h-7' icon={faImage} />
+const Sharecomp: React.FC = () => {
+    const { user } = useAuthContext(); // მომხმარებლის ინფორმაცია
+    const [caption, setCaption] = useState<string>(''); // ტექსტი
+    const [selectedFile, setSelectedFile] = useState<File | null>(null); // სურათი
+    const createPostMutation = useCreatePostImg(); // პოსტის ატვირთვის ჰუკი
 
-                            </div>
-                            <div className="flex items-center p-6 ">
-                                <div className="flex space-x-2">
-                                    <button className=" text-[#EAFF96] bg-[#151515] rounded-xl h-6 w-40 text-xs">Add</button>
-                                </div>
-                            </div>
-                        </div>
-  )
-}
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files && e.target.files[0]) {
+            setSelectedFile(e.target.files[0]);
+        }
+    };
 
-export default Sharecomp
+    const handlePost = async () => {
+        if (!caption.trim()) {
+            alert("Please enter a caption for the post.");
+            return;
+        }
+        if (!selectedFile) {
+            alert("Please select an image.");
+            return;
+        }
+
+        // Create FormData object
+        const formData = new FormData();
+        formData.append("caption", caption);
+        formData.append("images", selectedFile);
+
+        if (!user?._id) {
+            alert("User not authenticated.");
+            return;
+        }
+
+        createPostMutation.mutate(
+            { userId: user._id, payload: formData },
+            {
+                onSuccess: () => {
+                    alert("Post created successfully!");
+                    setCaption("");
+                    setSelectedFile(null);
+                },
+                onError: (error) => {
+                    console.error("Error creating post:", error);
+                    alert("Failed to create post. Please try again.");
+                },
+            }
+        );
+    };
+
+
+    return (
+        <div className="rounded-xl shadow bg-[#EAFF96]">
+            <div className="p-1 flex items-center justify-around pt-6">
+                <div>
+                    <Avatar>
+                        <AvatarImage
+                            className="rounded-full h-10 w-10"
+                            src={user?.profilePicture || image}
+                        />
+                    </Avatar>
+                </div>
+                <Input
+                    placeholder="Create new post"
+                    value={caption}
+                    onChange={(e) => setCaption(e.target.value)} // ტექსტის ცვლილება
+                    className="w-[70%] bg-[#4F4F4F] border-none text-[#ffff] focus:outline-none"
+                />
+                <label htmlFor="image-upload">
+                    <FontAwesomeIcon className="w-7 h-7 cursor-pointer" icon={faImage} />
+                </label>
+                <input
+                    id="image-upload"
+                    type="file"
+                    accept="image/*"
+                    onChange={handleFileChange} // სურათის არჩევა
+                    style={{ display: 'none' }}
+                />
+            </div>
+            <div className="flex items-center p-6">
+                <div className="flex space-x-2">
+                    <button
+                        className="text-[#EAFF96] bg-[#151515] rounded-xl h-6 w-40 text-xs"
+                        onClick={handlePost} // პოსტის ატვირთვის ფუნქცია
+                    >
+                        Add
+                    </button>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default Sharecomp;

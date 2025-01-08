@@ -32,33 +32,49 @@ const generateFileUrl = (filename) => {
     return process.env.URL+`/uploads/${filename}`
 }
 
-const createpostwithimageController = async(req,res,next) => {
-    const {userId}=req.params;
-    const {caption}=req.body;
+const createpostwithimageController = async (req, res, next) => {
+    const { userId } = req.params;
+    const { caption } = req.body;
     const files = req.files;
 
     try {
+        // იპოვეთ მომხმარებელი
         const user = await User.findById(userId);
         if (!user) {
-            throw new CustomError("user not found",404);
+            throw new CustomError("User not found", 404);
         }
-        const imageurl = files.map(file =>generateFileUrl(file.filename));
+
+        // სურათის URL-ების გენერაცია
+        const imageurl = files.map((file) => generateFileUrl(file.filename));
+
+        // პოსტის შექმნა
         const newPost = new Post({
-            user:userId,
+            user: userId,
             caption,
-            image:imageurl
-        })
+            image: imageurl,
+        });
 
         await newPost.save();
+
+        // პოსტის დამატება მომხმარებლის პოსტებში
         user.posts.push(newPost._id);
         await user.save();
-        res.status(201).json({message:"post created successfully",post:newPost});
 
+        // Populate user data (username და profilePicture)
+        const populatedPost = await newPost.populate({
+            path: "user",
+            select: "username profilePicture",
+        });
+
+        // API პასუხი
+        res.status(201).json({
+            message: "Post created successfully",
+            post: populatedPost,
+        });
     } catch (error) {
         next(error);
     }
-
-}
+};
 
 
 const updatePostController = async(req,res,next) => {
@@ -86,40 +102,55 @@ const updatePostController = async(req,res,next) => {
     }
 }
 
-const getAllPostController = async(req,res,next) => {
-    const {userId} = req.params;
 
+const getAllPostController = async (req, res, next) => {
     try {
-        const user = await User.findById(userId).populate("posts");
-        if (!user) {
-            throw new CustomError("user not found",404);
+        const posts = await Post.find()
+            .populate("user", "profilePicture username") 
+            .populate("comment"); 
+
+        
+        if (!posts || posts.length === 0) {
+            return res.status(200).json({
+                message: "No posts found",
+                posts: [],
+            });
         }
 
-        const posts = user.posts;
-
-        res.status(201).json({message:"post fetched successfully",posts});
-
-
+        // წარმატებით დაბრუნებული პასუხი
+        res.status(200).json({
+            message: "Posts fetched successfully",
+            posts,
+        });
     } catch (error) {
-        next(error)
+        // შეცდომების მართვა
+        next(error);
     }
-}
+};
 
-const getUserPostController = async(req,res,next) => {
-    const {userId} = req.params;
 
+const getUserPostController = async (req, res, next) => {
+    const { userId } = req.params;
     try {
-        const posts = await Post.find({user:userId})
+        const posts = await Post.find({ user: userId })
+            .populate("user", "profilePicture username") 
+            .populate("comment"); 
 
         if (!posts || posts.length === 0) {
-            throw new CustomError("not found user posts",404)
+            return res.status(200).json({
+                message: "No posts found for the user",
+                posts: [],
+            });
         }
 
-        res.status(201).json({message:"user post fetched successfully",posts})
+        res.status(200).json({
+            message: "User posts fetched successfully",
+            posts,
+        });
     } catch (error) {
         next(error);
     }
-}
+};
 
 const deletePostController = async (req, res, next) => {
     const { postId } = req.params;

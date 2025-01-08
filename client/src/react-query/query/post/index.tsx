@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query"
 import { get_AllPost, get_UserPost } from "../../../api/post"
-import { getuserpostsType } from "../../../api/post/index.type"
+import { getallpostType, getuserpostsType } from "../../../api/post/index.type"
 
 export const useGetUserPost = (userId: string) => {
     return useQuery<getuserpostsType[]>({
@@ -10,9 +10,9 @@ export const useGetUserPost = (userId: string) => {
     })
 }
 
-export const useGetAllPost = () => {
-    return useQuery({
-        queryKey:["get-allpost"],
-        queryFn:get_AllPost
+export const useGetAllPost = (userId:string) => {
+    return useQuery<getallpostType[]>({
+        queryKey:["get-allpost",userId],
+        queryFn:()=> get_AllPost({userId})
     })
 }

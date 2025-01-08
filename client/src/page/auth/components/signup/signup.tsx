@@ -1,4 +1,4 @@
-import { TabsContent } from '@radix-ui/react-tabs'
+import {  TabsContent } from '@radix-ui/react-tabs'
 import React from 'react'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '../../../../components/ui/card'
 import { Label } from '@radix-ui/react-label'
@@ -41,12 +41,13 @@ const SignUp:React.FC = () => {
 
   const onSubmit = (SignUpPayload:registerFormValues) => {
     handleRegister({payload:SignUpPayload},{ onSuccess:() => {
-      navigate("/register")
+      navigate("/")
     }})
   }
 
 
   return (
+    
     <TabsContent value="password">
         <Card className='bg-[#EAFF96]'>
           <CardHeader>
@@ -116,6 +117,7 @@ const SignUp:React.FC = () => {
           </CardFooter>
         </Card>
       </TabsContent>
+    
   )
 }
 

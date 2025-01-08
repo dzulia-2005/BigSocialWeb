@@ -1,10 +1,14 @@
 import './App.css';
 import { Routes, Route} from 'react-router-dom';
-import Auth from './page/auth/view/index';
-import Home from './page/home/view/home';
-import Profile from './page/profile/view/profile';
 import AuthLayout from './layout/auth';
 import DashboardLayout from './layout/dashboard';
+import { lazy, Suspense } from 'react';
+// import AuthGuard from './route-guard';
+
+const Auth = lazy(()=>import('./page/auth/view/index'));
+const Home = lazy(()=>import('./page/home/view/home'));
+const Profile = lazy(()=>import('./page/profile/view/profile'));
+
 
 function App() {
    
@@ -12,12 +16,35 @@ function App() {
         <Routes>
 
             <Route  element={<AuthLayout/>}>
-                <Route path="/" element={<Auth />} />
+                <Route 
+                    path="/" 
+                    element={
+                        <Suspense fallback={<div>loading...</div>}>
+                            <Auth />
+                        </Suspense>} 
+                />
             </Route>
 
             <Route  element={<DashboardLayout />}>
-                <Route path="/home" element={<Home />} />
-                <Route path="/profile" element={<Profile />} />
+                <Route 
+                    path="/home" 
+                    element={
+                    <Suspense fallback={<div>loading...</div>}>
+                        {/* <AuthGuard> */}
+                            <Home />
+                        {/* </AuthGuard> */}
+                    </Suspense>
+                    }/>
+
+                <Route 
+                    path="/profile" 
+                    element={
+                        <Suspense>
+                            {/* <AuthGuard> */}
+                                <Profile/>
+                            {/* </AuthGuard> */}
+                        </Suspense>} 
+                    />
             </Route>
             
         </Routes>

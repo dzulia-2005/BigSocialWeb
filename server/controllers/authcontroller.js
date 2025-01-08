@@ -13,7 +13,7 @@ const registerController = async (req,res,next) => {
             throw new CustomError("Username or email already exists!",400)
         }
         const salt = await bcrypt.genSalt(10);
-        const hashedpassword = await bcrypt.hashSync(password,salt);
+        const hashedpassword = await bcrypt.hash(password,salt);
         const newuser = new user({...req.body, password:hashedpassword});
         const saveduser = await newuser.save();
         res.status(201).json(saveduser);

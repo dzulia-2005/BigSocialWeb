@@ -25,7 +25,6 @@ export type unlikePostType = {
 }
 
 export type getuserpostsType = {
-    
         _id: string,
         user: string,
         username: string,
@@ -44,4 +43,25 @@ export type getuserpostsType = {
         followers: string[],
         following: string[],
     
+}
+
+export type getallpostType = {
+    _id: string,
+    user: string,
+    username: string,
+    email: string,
+    fullname: string,
+    profilePicture: string,
+    posts: { 
+        _id: string;
+        caption: string;
+        image: string[];
+        likes: string[];
+        comment: string[];
+        createdAt: string;
+        updatedAt: string;
+    }[], 
+    followers: string[],
+    following: string[],
+
 }

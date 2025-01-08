@@ -9,10 +9,23 @@ import {
 } from "../../../components/ui/dropdown-menu"
 import React from 'react'
 import { Input } from '../../ui/input'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
+import { useSignOut } from '../../../react-query/query/auth'
 
 const Header:React.FC = () => {
     const [position, setPosition] = React.useState("bottom")
+    const navigate = useNavigate();
+    const { refetch: handleLogOut } = useSignOut();
+    const handleLogoutClick = async () => {
+      try {
+        const { data } = await handleLogOut(); 
+        console.log('User logged out successfully:', data);
+        navigate('/');
+      } catch (error) {
+        console.error('Logout failed:', error);
+        alert('Failed to log out. Please try again.');
+      }
+    };
   return (
     <header className='w-full h-16 bg-[#151515] border-b border-[#585858]-500 fixed z-10'>
     <nav className='py-4 px-7' >
@@ -27,6 +40,8 @@ const Header:React.FC = () => {
                     <NavLink to={'/profile'}><DropdownMenuRadioItem className='text-[#ffff]' value="bottom">Profile</DropdownMenuRadioItem></NavLink>
                     <DropdownMenuRadioItem className='text-[#ffff]' value="right">notification</DropdownMenuRadioItem>
                     <DropdownMenuRadioItem className='text-[#ffff]' value="right">chat</DropdownMenuRadioItem>
+                    <DropdownMenuRadioItem className='text-[#ffff]' value="right" onClick={handleLogoutClick}>LogOut</DropdownMenuRadioItem>
+                
                 </DropdownMenuRadioGroup>
             </DropdownMenuContent>
             </DropdownMenu>
