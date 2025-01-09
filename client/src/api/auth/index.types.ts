@@ -14,6 +14,8 @@ export type SignUpPayload = {
 }
 
 export type meResponse = {
+    name: string;
+    id: string;
     _id: string,
     user: string,
     username: string,

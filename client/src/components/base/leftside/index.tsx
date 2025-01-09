@@ -15,6 +15,8 @@ const LeftSide:React.FC = () => {
       const { data } = await handleLogOut(); 
       console.log('User logged out successfully:', data);
       navigate('/');
+      localStorage.removeItem("refreshToken");
+      localStorage.removeItem("accessToken");
     } catch (error) {
       console.error('Logout failed:', error);
       alert('Failed to log out. Please try again.');

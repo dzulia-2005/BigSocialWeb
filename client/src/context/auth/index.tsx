@@ -1,24 +1,62 @@
-import { createContext, PropsWithChildren } from "react";
+import { createContext, PropsWithChildren, useEffect, useState } from "react";
 import { useGetMe } from "../../react-query/query/auth";
-import { data } from "react-router-dom";
-import  {useHttpInterceptor}  from "../../hooks/usehtttpinterceptor";
+import { useHttpInterceptor } from "../../hooks/usehtttpinterceptor";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type AuthContextType = any;
+interface AuthContextType {
+  user: User | null;
+  isLoading: boolean;
+}
+
+interface User {
+  _id: string;
+  name: string;
+  email: string;
+  profilePicture?: string;
+  coverpicture?: string;
+  username?: string;
+  posts: { 
+    _id: string; 
+    caption: string; 
+    image: string[]; 
+    likes: string[]; 
+    comment: string[]; 
+    createdAt: string; 
+    updatedAt: string;
+  }[]; // შეეცვალა
+ 
+}
 
 // eslint-disable-next-line react-refresh/only-export-components
-export const AuthContext = createContext<AuthContextType>(null);
+export const AuthContext = createContext<AuthContextType | null>(null);
 
 export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
+  const [user, setUser] = useState<User | null >(null); 
+  const [isLoading, setIsLoading] = useState(true); 
 
-  const accessToken = localStorage.getItem("accessToken")
+  const accessToken = localStorage.getItem("accessToken");
+  useHttpInterceptor();
 
-    useHttpInterceptor()
-    const {data:user} = useGetMe({ isEnabled: !!accessToken , accessToken });
+  const { data, isLoading: queryLoading } = useGetMe({
+    isEnabled: !!accessToken,
+    accessToken,
+    
+  });
 
-    console.log(data)
+  
+  useEffect(() => {
+    if (data) {
+      setUser(data); 
+    }
+    setIsLoading(queryLoading); 
+  }, [data, queryLoading]);
+
+  
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
   return (
-    <AuthContext.Provider value={{ user }}>
+    <AuthContext.Provider value={{ user, isLoading }}>
       {children}
     </AuthContext.Provider>
   );

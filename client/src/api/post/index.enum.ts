@@ -3,6 +3,6 @@ export enum POST_ENDPOINTS {
     create_post_with_img = "/post/create/:userId",
     getAllPost = "/post/all/:userId",
     deletepost = "/post/delete/:postId",
-    likePost = "/post/unlike/:postId",
+    likePost = "/post/like/:postId",
     unlikePost = "/post//unlike/:postId"
 }

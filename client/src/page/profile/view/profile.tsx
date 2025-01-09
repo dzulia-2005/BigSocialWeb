@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React from 'react'
+import React, { useMemo } from 'react'
 import LeftSide from '../../../components/base/leftside'
 import Profileeditcomp from '../components/profileEditcomp/profileeditcomp'
 import Sharecomp from '../../../components/base/sharecomponent'
@@ -10,13 +10,52 @@ import image from '../../../assets/defaultprofileimg.webp';
 import { faComment, faHeart } from '@fortawesome/free-solid-svg-icons';
 import { useGetUserPost } from '../../../react-query/query/post'
 import { useAuthContext } from '../../../context/auth/hooks/useAuthContext'
+import { queryClient } from '../../../main'
+import { useLikePost, useUnlikePost } from '../../../react-query/mutation/post'
 
 
 
 const Profile:React.FC = () => {
   const { user } = useAuthContext();
-  const { data }:{data:any} = useGetUserPost(user?._id);
+  const { data }:{data:any} = useGetUserPost(user?._id || "");
+  const { mutate: likePost } = useLikePost(); 
+const { mutate: unlike_post } = useUnlikePost();
 
+
+  const likedPosts = useMemo(() => {
+    if (data && Array.isArray(data.posts)) {
+        return new Set(
+            data.posts
+                .filter((post: any) => post.likes.includes(user?._id))
+                .map((post: any) => post._id)
+        );
+    }
+    return new Set();
+}, [data, user?._id]);
+const handleLikeToggle = (postId: string) => {
+    const isLiked = likedPosts.has(postId);
+    if (isLiked) {
+        unlike_post({ userId: user?._id, postId }, {
+            onSuccess: () => {
+              if (user?._id) {
+                queryClient.invalidateQueries(['get-allpost', user._id], { exact: true })
+              }              },
+            onError: (error) => {
+                console.error('Error unliking post:', error);
+            },
+        });
+    } else {
+        likePost({ userId: user?._id, postId }, {
+            onSuccess: () => {
+              if (user?._id) {
+                queryClient.invalidateQueries(['get-allpost', user._id], { exact: true })
+              }              },
+            onError: (error) => {
+                console.error('Error liking post:', error);
+            },
+        });
+    }
+};
   if (!user) {
     return <div>Loading...</div>; 
   }
@@ -48,10 +87,13 @@ const Profile:React.FC = () => {
                           />
                         </div>
                         <div className="flex mx-6 justify-between mb-4 mt-3">
-                          <div className="flex items-center">
-                            <FontAwesomeIcon icon={faHeart} />
-                            <div>{post.likes.length} likes</div>
-                          </div>
+                        <div className="flex items-center" onClick={()=>handleLikeToggle(post._id)}>
+                          <FontAwesomeIcon 
+                          icon={faHeart} 
+                          className={likedPosts.has(post._id) ? 'text-red-500' : 'text-gray-500'} 
+                          />
+                          <div>{post.likes.length} likes</div>
+                        </div>
                           <div className="flex items-center">
                             <FontAwesomeIcon icon={faComment} />
                             <div>{post.comment.length} comments</div>

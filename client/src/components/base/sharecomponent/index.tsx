@@ -6,12 +6,13 @@ import { faImage } from '@fortawesome/free-solid-svg-icons';
 import { Input } from '../../ui/input';
 import { useAuthContext } from '../../../context/auth/hooks/useAuthContext';
 import { useCreatePostImg } from '../../../react-query/mutation/post';
+import { queryClient } from '../../../main';
 
 const Sharecomp: React.FC = () => {
-    const { user } = useAuthContext(); // მომხმარებლის ინფორმაცია
-    const [caption, setCaption] = useState<string>(''); // ტექსტი
-    const [selectedFile, setSelectedFile] = useState<File | null>(null); // სურათი
-    const createPostMutation = useCreatePostImg(); // პოსტის ატვირთვის ჰუკი
+    const { user } = useAuthContext(); 
+    const [caption, setCaption] = useState<string>(''); 
+    const [selectedFile, setSelectedFile] = useState<File | null>(null); 
+    const createPostMutation = useCreatePostImg(); 
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files[0]) {
@@ -44,6 +45,7 @@ const Sharecomp: React.FC = () => {
             {
                 onSuccess: () => {
                     alert("Post created successfully!");
+                    queryClient.invalidateQueries("create-postwith-img"); 
                     setCaption("");
                     setSelectedFile(null);
                 },

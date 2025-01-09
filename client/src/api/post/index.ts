@@ -1,6 +1,6 @@
 import { httpClient } from ".."
 import { POST_ENDPOINTS } from "./index.enum"
-import { createPostType,  getallpostType,  getuserpostsType,  likePostType, unlikePostType } from "./index.type"
+import { createPostType,  getallpostType,  getuserpostsType} from "./index.type"
 
 
 export const createPost = async({payload}:createPostType) => {
@@ -106,16 +106,50 @@ export const delete_post = () => {
 
 
 
-export const like_post = ({payload}:likePostType) => {
-    return httpClient 
-        .post(POST_ENDPOINTS.likePost,payload)
-        .then((res)=>res.data)
+export const like_post = async({userId,postId}:{ userId?:string;postId:string }) => {
+  try {
+      const accessToken = localStorage.getItem("accessToken");
+      const refreshToken = localStorage.getItem("refreshToken");
+
+      const headers = {
+        Authorization: `Bearer ${accessToken}`,
+        "X-Refresh-Token": refreshToken,
+      }
+
+      const response = await httpClient.post(
+            POST_ENDPOINTS.likePost.replace(':postId',postId),
+            {userId},
+            {headers}
+        )
+
+            return response.data
+  } catch (error) {
+    console.error("Error liking the post:", error);
+    throw error
+  }
 }
 
 
+export const unlike_post = async({userId,postId}:{userId?:string,postId:string}) => {
+        try {
+          const accessToken = localStorage.getItem("accessToken");
+          const refreshToken = localStorage.getItem("refreshToken");
 
-export const unlike_post = ({payload}:unlikePostType) => {
-    return httpClient 
-        .post(POST_ENDPOINTS.unlikePost,payload)
-        .then((res)=>res.data)
+          const headers = {
+            Authorization: `Bearer ${accessToken}`,
+            "X-Refresh-Token": refreshToken,
+          }
+
+          const response = await httpClient.post(
+            POST_ENDPOINTS.unlikePost.replace(":postId",postId),
+            {userId},
+            {headers}
+          )
+
+          return response.data
+        } catch (error) {
+          console.error("Error unlike the post",error)
+          throw error
+        }
+        
 }

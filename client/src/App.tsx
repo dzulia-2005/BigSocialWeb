@@ -3,7 +3,7 @@ import { Routes, Route} from 'react-router-dom';
 import AuthLayout from './layout/auth';
 import DashboardLayout from './layout/dashboard';
 import { lazy, Suspense } from 'react';
-import AuthGuard from './route-guard';
+import AuthGuard from './components/route-guard/index';
 
 const Auth = lazy(()=>import('./page/auth/view/index'));
 const Home = lazy(()=>import('./page/home/view/home'));
