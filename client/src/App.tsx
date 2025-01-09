@@ -3,7 +3,7 @@ import { Routes, Route} from 'react-router-dom';
 import AuthLayout from './layout/auth';
 import DashboardLayout from './layout/dashboard';
 import { lazy, Suspense } from 'react';
-// import AuthGuard from './route-guard';
+import AuthGuard from './route-guard';
 
 const Auth = lazy(()=>import('./page/auth/view/index'));
 const Home = lazy(()=>import('./page/home/view/home'));
@@ -30,9 +30,9 @@ function App() {
                     path="/home" 
                     element={
                     <Suspense fallback={<div>loading...</div>}>
-                        {/* <AuthGuard> */}
+                        <AuthGuard>
                             <Home />
-                        {/* </AuthGuard> */}
+                        </AuthGuard>
                     </Suspense>
                     }/>
 
@@ -40,9 +40,9 @@ function App() {
                     path="/profile" 
                     element={
                         <Suspense>
-                            {/* <AuthGuard> */}
+                            <AuthGuard>
                                 <Profile/>
-                            {/* </AuthGuard> */}
+                            </AuthGuard>
                         </Suspense>} 
                     />
             </Route>

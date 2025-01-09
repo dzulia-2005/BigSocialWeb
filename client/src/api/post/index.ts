@@ -27,7 +27,8 @@ export const createPost = async({payload}:createPostType) => {
 
 export const createPostImg = async({
   userId,
-  payload
+  payload,
+  
 }:{
   userId: string;
   payload: FormData;

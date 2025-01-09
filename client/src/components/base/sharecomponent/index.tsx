@@ -80,7 +80,7 @@ const Sharecomp: React.FC = () => {
                     id="image-upload"
                     type="file"
                     accept="image/*"
-                    onChange={handleFileChange} // სურათის არჩევა
+                    onChange={handleFileChange} 
                     style={{ display: 'none' }}
                 />
             </div>
@@ -88,7 +88,7 @@ const Sharecomp: React.FC = () => {
                 <div className="flex space-x-2">
                     <button
                         className="text-[#EAFF96] bg-[#151515] rounded-xl h-6 w-40 text-xs"
-                        onClick={handlePost} // პოსტის ატვირთვის ფუნქცია
+                        onClick={handlePost} 
                     >
                         Add
                     </button>

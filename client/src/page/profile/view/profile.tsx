@@ -16,6 +16,10 @@ import { useAuthContext } from '../../../context/auth/hooks/useAuthContext'
 const Profile:React.FC = () => {
   const { user } = useAuthContext();
   const { data }:{data:any} = useGetUserPost(user?._id);
+
+  if (!user) {
+    return <div>Loading...</div>; 
+  }
   
   return (
     <div className='mx-auto flex flex-col md:flex-row gap-9 '>

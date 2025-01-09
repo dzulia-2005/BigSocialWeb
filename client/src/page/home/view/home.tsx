@@ -12,7 +12,6 @@ import { useGetAllPost } from '../../../react-query/query/post';
 
 
 
-
 const Home:React.FC = () => {
     const { user } = useAuthContext();
     const { data }:{data:any} = useGetAllPost(user?._id);
