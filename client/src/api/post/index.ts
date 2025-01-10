@@ -22,9 +22,6 @@ export const createPost = async({payload}:createPostType) => {
 }
 
 
-
-
-
 export const createPostImg = async({
   userId,
   payload,
@@ -49,9 +46,6 @@ export const createPostImg = async({
     }
 
 }
-
-
-
 
 
 export const get_AllPost = async({userId}:{userId:string}):Promise<getallpostType[]> => {
@@ -98,10 +92,26 @@ export const get_UserPost = async ({ userId }: { userId: string }): Promise<getu
 
 
 
-export const delete_post = () => {
-    return httpClient
-        .delete(POST_ENDPOINTS.deletepost)
-        .then((res)=>res.data)
+export const delete_post = async({postId}:{postId:string}) => {
+  try {
+    const accessToken = localStorage.getItem("accessToken");
+    const refreshToken = localStorage.getItem("refreshToken");
+
+    const headers = {
+      Authorization: `Bearer ${accessToken}`,
+      "X-Refresh-Token": refreshToken,
+    }
+
+    const response = await httpClient.delete(
+      POST_ENDPOINTS.deletepost.replace(":postId",postId),
+      {headers}
+    )
+
+    return response.data
+  } catch (error) {
+    console.error("error delete post",error)
+    throw error
+  }
 }
 
 
@@ -122,7 +132,7 @@ export const like_post = async({userId,postId}:{ userId?:string;postId:string })
             {headers}
         )
 
-            return response.data
+      return response.data
   } catch (error) {
     console.error("Error liking the post:", error);
     throw error

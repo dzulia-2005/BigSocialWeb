@@ -72,7 +72,7 @@ const Sharecomp: React.FC = () => {
                 <Input
                     placeholder="Create new post"
                     value={caption}
-                    onChange={(e) => setCaption(e.target.value)} // ტექსტის ცვლილება
+                    onChange={(e) => setCaption(e.target.value)} 
                     className="w-[70%] bg-[#4F4F4F] border-none text-[#ffff] focus:outline-none"
                 />
                 <label htmlFor="image-upload">

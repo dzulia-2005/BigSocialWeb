@@ -38,13 +38,12 @@ const createpostwithimageController = async (req, res, next) => {
     const files = req.files;
 
     try {
-        // იპოვეთ მომხმარებელი
+       
         const user = await User.findById(userId);
         if (!user) {
             throw new CustomError("User not found", 404);
         }
 
-        // სურათის URL-ების გენერაცია
         const imageurl = files.map((file) => generateFileUrl(file.filename));
 
         // პოსტის შექმნა
@@ -56,17 +55,17 @@ const createpostwithimageController = async (req, res, next) => {
 
         await newPost.save();
 
-        // პოსტის დამატება მომხმარებლის პოსტებში
+        
         user.posts.push(newPost._id);
         await user.save();
 
-        // Populate user data (username და profilePicture)
+        
         const populatedPost = await newPost.populate({
             path: "user",
             select: "username profilePicture",
         });
 
-        // API პასუხი
+        
         res.status(201).json({
             message: "Post created successfully",
             post: populatedPost,
@@ -117,13 +116,11 @@ const getAllPostController = async (req, res, next) => {
             });
         }
 
-        // წარმატებით დაბრუნებული პასუხი
         res.status(200).json({
             message: "Posts fetched successfully",
             posts,
         });
     } catch (error) {
-        // შეცდომების მართვა
         next(error);
     }
 };

@@ -4,6 +4,8 @@ import AuthLayout from './layout/auth';
 import DashboardLayout from './layout/dashboard';
 import { lazy, Suspense } from 'react';
 import AuthGuard from './components/route-guard/index';
+import CommentRoute from './page/comment';
+import NotFound from './page/NotFoundPage';
 
 const Auth = lazy(()=>import('./page/auth/view/index'));
 const Home = lazy(()=>import('./page/home/view/home'));
@@ -11,6 +13,7 @@ const Profile = lazy(()=>import('./page/profile/view/profile'));
 
 
 function App() {
+   
    
     return (
         <Routes>
@@ -45,8 +48,19 @@ function App() {
                             </AuthGuard>
                         </Suspense>} 
                     />
+
+                <Route
+                    path='/comment/:postId'
+                    element={
+                        <Suspense>
+                            <AuthGuard>
+                                <CommentRoute/>
+                            </AuthGuard>
+                        </Suspense>
+                    }
+                />    
             </Route>
-            
+            <Route path='*' element={<NotFound/>}/>
         </Routes>
     );
 }

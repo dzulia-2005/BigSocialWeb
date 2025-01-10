@@ -22,7 +22,7 @@ interface User {
     comment: string[]; 
     createdAt: string; 
     updatedAt: string;
-  }[]; // შეეცვალა
+  }[]; 
  
 }
 

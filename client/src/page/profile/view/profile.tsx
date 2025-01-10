@@ -11,15 +11,16 @@ import { faComment, faHeart } from '@fortawesome/free-solid-svg-icons';
 import { useGetUserPost } from '../../../react-query/query/post'
 import { useAuthContext } from '../../../context/auth/hooks/useAuthContext'
 import { queryClient } from '../../../main'
-import { useLikePost, useUnlikePost } from '../../../react-query/mutation/post'
-
-
+import { useDeletePost, useLikePost, useUnlikePost } from '../../../react-query/mutation/post'
+import { faDeleteLeft } from '@fortawesome/free-solid-svg-icons';
+import { NavLink } from 'react-router-dom'
 
 const Profile:React.FC = () => {
   const { user } = useAuthContext();
   const { data }:{data:any} = useGetUserPost(user?._id || "");
   const { mutate: likePost } = useLikePost(); 
-const { mutate: unlike_post } = useUnlikePost();
+  const {mutate:delete_post} = useDeletePost();
+  const { mutate: unlike_post } = useUnlikePost();
 
 
   const likedPosts = useMemo(() => {
@@ -32,6 +33,7 @@ const { mutate: unlike_post } = useUnlikePost();
     }
     return new Set();
 }, [data, user?._id]);
+
 const handleLikeToggle = (postId: string) => {
     const isLiked = likedPosts.has(postId);
     if (isLiked) {
@@ -59,6 +61,22 @@ const handleLikeToggle = (postId: string) => {
   if (!user) {
     return <div>Loading...</div>; 
   }
+
+  const handleDeletePost = (postId: string) => {
+    delete_post(
+      {postId},
+      {
+        onSuccess:()=>{
+          if (user?._id) {
+            queryClient.invalidateQueries(['delete-post', user._id], { exact: true })
+          }     
+        },
+        onError: (error) => {
+          console.error('Error deleting post:', error);
+        },
+      }
+    )
+  }
   
   return (
     <div className='mx-auto flex flex-col md:flex-row gap-9 '>
@@ -68,14 +86,17 @@ const handleLikeToggle = (postId: string) => {
                     <Sharecomp/>  
                     {data && Array.isArray(data.posts) && data.posts.map((post:any) => (
                       <div className="rounded-xl shadow bg-[#EAFF96]" key={post._id}>
-                        <div className="pl-6 flex items-center pt-6">
-                          <Avatar>
-                            <AvatarImage className="rounded-full h-10 w-10" src={post.user?.profilePicture || image} />
-                          </Avatar>
-                          <div className="ml-4">
-                            <div className="p-0">{post.user?.username}</div>
-                          </div>
-                        </div>
+                       <div className='flex items-center justify-between pr-6 relative'>
+                          <div className="pl-6 flex items-center pt-6">
+                              <Avatar>
+                                <AvatarImage className="rounded-full h-10 w-10" src={post.user?.profilePicture || image} />
+                              </Avatar>
+                              <div className="ml-4">
+                                <div className="p-0">{post.user?.username}</div>
+                              </div>
+                         </div>
+                         <FontAwesomeIcon icon={faDeleteLeft} className='relative top-3 w-7 h-7' onClick={() => handleDeletePost(post._id)}  />
+                       </div>        
                         <div className="pl-6">
                           <p className="py-2">{post.caption}</p>
                         </div>
@@ -94,10 +115,10 @@ const handleLikeToggle = (postId: string) => {
                           />
                           <div>{post.likes.length} likes</div>
                         </div>
-                          <div className="flex items-center">
+                          <NavLink to={`/comment/${user._id}`} className="flex items-center" >
                             <FontAwesomeIcon icon={faComment} />
                             <div>{post.comment.length} comments</div>
-                          </div>
+                          </NavLink>
                         </div>
                       </div>
                     ))}
