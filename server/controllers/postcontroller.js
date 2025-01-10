@@ -46,7 +46,6 @@ const createpostwithimageController = async (req, res, next) => {
 
         const imageurl = files.map((file) => generateFileUrl(file.filename));
 
-        // პოსტის შექმნა
         const newPost = new Post({
             user: userId,
             caption,
@@ -60,10 +59,16 @@ const createpostwithimageController = async (req, res, next) => {
         await user.save();
 
         
-        const populatedPost = await newPost.populate({
+        const populatedPost = await newPost.populate([
+            {
             path: "user",
             select: "username profilePicture",
-        });
+            },
+            {
+                path: "comment",
+                select: "text _id",
+            },
+        ]);
 
         
         res.status(201).json({

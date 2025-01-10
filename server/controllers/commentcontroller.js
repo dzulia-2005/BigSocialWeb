@@ -29,7 +29,7 @@ const CreateCommentController = async (req, res, next) => {
         post.comment.push(newComment._id);
         await post.save();
 
-        const populatedComment = await newComment.populate("user", "username profilePicture");
+        const populatedComment = await newComment.populate("user", "profilePicture username");
 
         res.status(201).json({
             message: "Comment added to the post",
@@ -50,28 +50,34 @@ const populateUserDetails = async(comments) => {
     }   
 }
 
-
 const getCommentsByPostController = async(req,res,next) => {
     const {postId} = req.params;
 
     try {
-        const post = await Post.findById(postId)
-             
+        const post = await Post.findById(postId).populate("user","username profilePicture");         
         if(!post){
             throw new CustomError("comment not found",404)
         }
 
-        let comments = await Comment.find({post:postId});
+        let comments = await Comment.find({ post: postId }).populate("user", "username profilePicture");
 
-        await populateUserDetails(comments);
+        comments = comments.map(comment => ({
+            ...comment._doc,
+            user: {
+                ...comment.user,
+                profilePicture: comment.user.profilePicture || "default-image-path" 
+            }
+        }));
+
 
         res.status(200).json({comments});
-
 
     } catch (error) {
         next(error);
     }
 }
+
+
 
 const DeleteCommentController = async(req,res,next) => {
     const {commentId} = req.params;

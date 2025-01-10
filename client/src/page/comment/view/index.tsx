@@ -1,17 +1,18 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from 'react';
-import { useAuthContext } from '../../context/auth/hooks/useAuthContext';
-import { useGetUserPost } from '../../react-query/query/post';
+import { useAuthContext } from '../../../context/auth/hooks/useAuthContext';
+import { useGetUserPost } from '../../../react-query/query/post';
 import { Avatar, AvatarImage } from '@radix-ui/react-avatar';
 import image from 'antd/es/image';
-import LeftSide from '../../components/base/leftside';
-import { Input } from '../../components/ui/input';
-import { useCreateComment } from '../../react-query/mutation/comment';
+import LeftSide from '../../../components/base/leftside';
+import { Input } from '../../../components/ui/input';
+import { useCreateComment } from '../../../react-query/mutation/comment';
+import Comments from '../components';
+import { queryClient } from '../../../main';
 
 const CommentRoute: React.FC = () => {
   const { user } = useAuthContext();
   const { data }: { data: any } = useGetUserPost(user?._id || "");
-
 
     const [commentText, setCommentText] = useState("");
     const { mutate: createComment } = useCreateComment()
@@ -32,6 +33,9 @@ const CommentRoute: React.FC = () => {
         onSuccess: () => {
           console.log("Comment successfully created!");
           setCommentText("");
+          if (user?._id) {
+            queryClient.invalidateQueries(['create-comment', user._id], { exact: true });
+          }             
         },
         onError: (error) => {
           console.error("Failed to add comment:", error);
@@ -99,8 +103,8 @@ const CommentRoute: React.FC = () => {
                 Add
               </button>
             </div>
+            <Comments postId={post._id}/>
           </div>
-          
         ))}
       </section>
       <aside className='md:w-1/3 space-y-8'></aside>

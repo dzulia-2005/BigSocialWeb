@@ -11,6 +11,8 @@ import image from '../../../assets/defaultprofileimg.webp';
 import { useGetAllPost } from '../../../react-query/query/post';
 import { useLikePost, useUnlikePost } from '../../../react-query/mutation/post';
 import { queryClient } from '../../../main';
+import Comments from '../../comment/components';
+import { NavLink } from 'react-router-dom';
 
 
 
@@ -20,6 +22,7 @@ const Home:React.FC = () => {
   const { mutate: likePost } = useLikePost(); 
   const { mutate: unlike_post } = useUnlikePost();
 
+  console.log(data,"hcsdcsd")
   
   const likedPosts = useMemo(() => {
       if (data && Array.isArray(data.posts)) {
@@ -93,11 +96,12 @@ const Home:React.FC = () => {
                             />
                             <div>{post.likes.length} likes</div>
                           </div>
-                          <div className="flex items-center">
+                          <NavLink to={`/comment/${user?._id}`} className="flex items-center">
                             <FontAwesomeIcon icon={faComment} />
                             <div>{post.comment.length} comments</div>
-                          </div>
+                          </NavLink>
                         </div>
+                        
                       </div>
                       ))}
                     

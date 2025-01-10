@@ -4,7 +4,7 @@ import AuthLayout from './layout/auth';
 import DashboardLayout from './layout/dashboard';
 import { lazy, Suspense } from 'react';
 import AuthGuard from './components/route-guard/index';
-import CommentRoute from './page/comment';
+import CommentRoute from './page/comment/view';
 import NotFound from './page/NotFoundPage';
 
 const Auth = lazy(()=>import('./page/auth/view/index'));

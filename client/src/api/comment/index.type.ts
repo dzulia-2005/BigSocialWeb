@@ -8,15 +8,16 @@ export type createCommentType = {
 
 
 export type getAllCommentType = {
-        user: {
-            _id: string;
-            username: string;
-            profilePicture: string;
-        },
-        post: string;
-        text: string;
-        likes: [],
+    _id:string;
+    user: {
         _id: string;
-        replies: [],
-        createAt:string;
+        username: string;
+        profilePicture:string;
+    },
+    post: string;
+    text: string;
+    likes: [],
+    replies: [],
+    createAt:string;
+    
 }

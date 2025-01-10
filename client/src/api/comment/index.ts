@@ -37,13 +37,15 @@ export const deleteComment = () => {
         .then((res)=>res.data)
 }
 
+
+
 export const getAllComment = async(postId?: string):Promise<getAllCommentType[]> => {
     try {
         const accessToken = localStorage.getItem("accessToken");
         const refreshToken = localStorage.getItem("refreshToken");
 
         const response = await httpClient.get(
-            `/comments/${postId}`,
+            `/comments/post/${postId}`,
             {
                 headers : {
                     Authorization: `Bearer ${accessToken}`,
