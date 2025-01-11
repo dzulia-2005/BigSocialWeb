@@ -41,7 +41,7 @@ const Header:React.FC = () => {
                     <NavLink to={"/home"}> <DropdownMenuRadioItem className='text-[#ffff]' value="top">home</DropdownMenuRadioItem></NavLink>
                     <NavLink to={'/profile'}><DropdownMenuRadioItem className='text-[#ffff]' value="bottom">Profile</DropdownMenuRadioItem></NavLink>
                     <DropdownMenuRadioItem className='text-[#ffff]' value="right">notification</DropdownMenuRadioItem>
-                    <DropdownMenuRadioItem className='text-[#ffff]' value="right">chat</DropdownMenuRadioItem>
+                    <NavLink to={"/chat"}><DropdownMenuRadioItem className='text-[#ffff]' value="right">chat</DropdownMenuRadioItem></NavLink>
                     <DropdownMenuRadioItem className='text-[#ffff]' value="right" onClick={handleLogoutClick}>LogOut</DropdownMenuRadioItem>
                 
                 </DropdownMenuRadioGroup>

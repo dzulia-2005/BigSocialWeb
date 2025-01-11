@@ -115,7 +115,7 @@ const handleLikeToggle = (postId: string) => {
                           />
                           <div>{post.likes.length} likes</div>
                         </div>
-                          <NavLink to={`/comment/${user._id}`} className="flex items-center" >
+                          <NavLink to={`/comment/${post._id}`} className="flex items-center" >
                             <FontAwesomeIcon icon={faComment} />
                             <div>{post.comment.length} comments</div>
                           </NavLink>

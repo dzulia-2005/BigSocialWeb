@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from 'react';
 import { useAuthContext } from '../../../context/auth/hooks/useAuthContext';
-import { useGetUserPost } from '../../../react-query/query/post';
+import { useGetAllPost } from '../../../react-query/query/post';
 import { Avatar, AvatarImage } from '@radix-ui/react-avatar';
 import image from 'antd/es/image';
 import LeftSide from '../../../components/base/leftside';
@@ -12,7 +12,7 @@ import { queryClient } from '../../../main';
 
 const CommentRoute: React.FC = () => {
   const { user } = useAuthContext();
-  const { data }: { data: any } = useGetUserPost(user?._id || "");
+  const { data }: { data: any } = useGetAllPost(user?._id || "");
 
     const [commentText, setCommentText] = useState("");
     const { mutate: createComment } = useCreateComment()
@@ -81,7 +81,7 @@ const CommentRoute: React.FC = () => {
               <Avatar>
                 <AvatarImage 
                   className="rounded-full h-10 w-10" 
-                  src={post.user?.profilePicture || image} 
+                  src={user?.profilePicture || image} 
                 />
               </Avatar>
               <div className="ml-4">

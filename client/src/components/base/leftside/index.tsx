@@ -31,7 +31,7 @@ const LeftSide:React.FC = () => {
                 <NavLink to="/home"><div><FontAwesomeIcon icon={faHouse} className="h-7 w-7 text-[#858585]" /></div></NavLink>
                 <NavLink to="/profile"><div><FontAwesomeIcon icon={faUser} className="h-7 w-7 text-[#858585]" /></div></NavLink>
                 <div><FontAwesomeIcon icon={faBell} className="h-7 w-7 text-[#858585]" /></div>
-                <div><FontAwesomeIcon icon={faRocketchat} className="h-7 w-7 text-[#858585]" /></div>
+                <NavLink to={"/chat"}><FontAwesomeIcon icon={faRocketchat} className="h-7 w-7 text-[#858585]" /></NavLink>
             </ul>
             <ul onClick={handleLogoutClick}>
                 <div>

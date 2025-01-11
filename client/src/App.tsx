@@ -10,7 +10,7 @@ import NotFound from './page/NotFoundPage';
 const Auth = lazy(()=>import('./page/auth/view/index'));
 const Home = lazy(()=>import('./page/home/view/home'));
 const Profile = lazy(()=>import('./page/profile/view/profile'));
-
+const Chat = lazy(()=>import("./page/chat/view"))
 
 function App() {
    
@@ -42,7 +42,7 @@ function App() {
                 <Route 
                     path="/profile" 
                     element={
-                        <Suspense>
+                        <Suspense fallback={<div>loading...</div>}>
                             <AuthGuard>
                                 <Profile/>
                             </AuthGuard>
@@ -52,13 +52,24 @@ function App() {
                 <Route
                     path='/comment/:postId'
                     element={
-                        <Suspense>
+                        <Suspense fallback={<div>loading...</div>}>
                             <AuthGuard>
                                 <CommentRoute/>
                             </AuthGuard>
                         </Suspense>
                     }
                 />    
+
+                <Route
+                    path='/chat'
+                    element={
+                        <Suspense fallback={<div>loading...</div>}>
+                            <AuthGuard>
+                                <Chat/>
+                            </AuthGuard>
+                        </Suspense>
+                    }    
+                />
             </Route>
             <Route path='*' element={<NotFound/>}/>
         </Routes>

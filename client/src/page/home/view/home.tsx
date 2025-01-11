@@ -11,7 +11,6 @@ import image from '../../../assets/defaultprofileimg.webp';
 import { useGetAllPost } from '../../../react-query/query/post';
 import { useLikePost, useUnlikePost } from '../../../react-query/mutation/post';
 import { queryClient } from '../../../main';
-import Comments from '../../comment/components';
 import { NavLink } from 'react-router-dom';
 
 
@@ -96,7 +95,7 @@ const Home:React.FC = () => {
                             />
                             <div>{post.likes.length} likes</div>
                           </div>
-                          <NavLink to={`/comment/${user?._id}`} className="flex items-center">
+                          <NavLink to={`/comment/${post?._id}`} className="flex items-center">
                             <FontAwesomeIcon icon={faComment} />
                             <div>{post.comment.length} comments</div>
                           </NavLink>
