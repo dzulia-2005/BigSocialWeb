@@ -12,6 +12,7 @@ const Search = () => {
   const [, setQuery] = useState("");
   const [debouncedQuery, setDebouncedQuery] = useState("");
 
+
   interface User {
     _id: string;
     username: string;

@@ -5,13 +5,17 @@ export type createConversationType = {
     }
 }
 
-export type getConversationOfUserResponse = {
+export type Participant = {
     _id: string;
-    participants: [
-        string,
-        string
-    ],
-}
+    username: string;
+    email: string;
+    profilePicture: string;
+  };
+  
+  export type getConversationOfUserResponse = {
+    _id: string;
+    participants: Participant[]; // ეს არის ობიექტების მასივი, არა მხოლოდ string[]
+  }[];
 
 export type getFindTwoUsersConversationResponse = {
     _id: string;

@@ -2,36 +2,44 @@ const Conversation = require("../models/conversation");
 const CustomError = require("../middlewares/errors");
 const Message = require("../models/message");
 
-const createNewConversationController = async(req,res,next) => {
+const createNewConversationController = async (req, res, next) => {
     try {
-        let newConversation;
-        if (req.body.firstUser !== req.body.secondUser) {
-            newConversation = new Conversation({
-                participants:[req.body.firstUser,req.body.secondUser]
-            });
-        }else{
-            throw new CustomError("sender and reciver can`t be same",400);
-        }
-
-        const savedConversation = await newConversation.save();
-        res.status(201).json(savedConversation)
+      if (req.body.firstUser === req.body.secondUser) {
+        throw new CustomError("Sender and receiver can't be the same", 400);
+      }
+  
+      const newConversation = new Conversation({
+        participants: [req.body.firstUser, req.body.secondUser],
+      });
+  
+      const savedConversation = await newConversation.save();
+  
+      const populatedConversation = await Conversation.findById(savedConversation._id)
+        .populate({
+          path: "participants",
+          select: "username email profilePicture",
+        });
+  
+      res.status(201).json(populatedConversation);
     } catch (error) {
-        next(error);
+      next(error);
     }
-}
+  };
 
-const getConversationOFuserController = async(req,res,next) => {
-
+  const getConversationOFuserController = async (req, res, next) => {
     try {
-        const conversation = await Conversation.find({
-            participants:{$in:[req.params.userId]}
-        })
-        res.status(200).json(conversation);
-
+      const conversations = await Conversation.find({
+        participants: { $in: [req.params.userId] },
+      }).populate({
+        path: "participants", 
+        select: "username email profilePicture", 
+      });
+  
+      res.status(200).json(conversations);
     } catch (error) {
-        next(error);
+      next(error);
     }
-}
+  };
 
 const getTwoUserConversationController = async(req,res,next) => {
     try {

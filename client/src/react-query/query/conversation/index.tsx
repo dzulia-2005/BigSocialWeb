@@ -1,10 +1,11 @@
 import { useQuery } from "@tanstack/react-query"
 import { getConversationOfUser, getFindTwoUsersConversation } from "../../../api/conversation"
+import { getConversationOfUserResponse } from "../../../api/conversation/index.type"
 
-export const useGetConversationOfUser = () => {
-    return useQuery({
-        queryKey:["GetConversation-OfUser"],
-        queryFn:getConversationOfUser
+export const useGetConversationOfUser = (userId:string) => {
+    return useQuery<getConversationOfUserResponse | undefined>({
+        queryKey:["GetConversation-OfUser",userId],
+        queryFn:()=>getConversationOfUser({userId})
     })
 }
 
