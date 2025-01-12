@@ -1,4 +1,4 @@
-import { faBars, faMagnifyingGlassPlus } from '@fortawesome/free-solid-svg-icons'
+import { faBars } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   DropdownMenu,
@@ -8,7 +8,6 @@ import {
   DropdownMenuTrigger,
 } from "../../../components/ui/dropdown-menu"
 import React from 'react'
-import { Input } from '../../ui/input'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { useSignOut } from '../../../react-query/query/auth'
 
@@ -48,8 +47,7 @@ const Header:React.FC = () => {
             </DropdownMenuContent>
             </DropdownMenu>
             <div className='flex items-center bg-[#4F4F4F] lg:absolute right-[44%] rounded-md'>
-                <div><FontAwesomeIcon icon={faMagnifyingGlassPlus} className='text-[#ffff] pl-1 rounded-sm' /></div>
-                 <Input placeholder="username" className=' border-none text-[#ffff] focus:outline-none'/>
+                 
             </div>
         </ul>
     </nav>

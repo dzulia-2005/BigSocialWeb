@@ -8,9 +8,11 @@ export const useGetUser = () => {
     })
 }
 
-export const useSearchUser = () => {
+
+export const useSearchUser = (query:string) => {
     return useQuery({
-        queryKey:["searchuser"],
-        queryFn:SearchUser
+        queryKey:["searchuser",query],
+        queryFn:()=>SearchUser({query}),
+        enabled: Boolean(query),
     })
 }

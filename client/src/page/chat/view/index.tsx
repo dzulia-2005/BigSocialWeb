@@ -1,25 +1,17 @@
 import { Input } from '../../../components/ui/input';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMagnifyingGlassPlus } from '@fortawesome/free-solid-svg-icons';
 import { Avatar, AvatarImage } from '../../../components/ui/avatar';
 import image from '../../../assets/defaultprofileimg.webp';
+import Search from '../../../components/ui/search';
+
 
 const Chat = () => {
+
   return (
     <div className="rounded-xl shadow bg-[#EAFF96] h-[600px] overflow-hidden">
       <div className="flex h-full">
         {/* Sidebar */}
         <div className="w-[30%] border-r border-[#ccc] hidden md:flex flex-col p-4 bg-[#EAFF96]">
-          <div className="flex items-center bg-[#4F4F4F] rounded-md mb-6 p-2">
-            <FontAwesomeIcon
-              icon={faMagnifyingGlassPlus}
-              className="text-[#fff] pl-1 rounded-sm"
-            />
-            <Input
-              placeholder="Search username"
-              className="border-none text-[#fff] focus:outline-none bg-transparent ml-2"
-            />
-          </div>
+            <Search/>
           <div className="overflow-y-auto max-h-full space-y-4">
             
               <div className="flex items-center py-4 px-2 border-t border-[#ccc]"
@@ -31,7 +23,7 @@ const Chat = () => {
                   />
                 </Avatar>
                 <div className="ml-4">
-                  <div className="font-semibold text-[#333]">Username </div>
+                  <div className="font-semibold text-[#333]">Username</div>
                 </div>
               </div>
             

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { httpClient } from ".."
 import { USER_ENDPOINTS } from "./index.enum"
 import { followUser, getUserResponse, searchUser, unfollowUser, UpdateCoverPicType, UpdateProfilePicType, } from "./index.types"
@@ -21,11 +22,38 @@ export const UnfollowUser = ({payload}:unfollowUser) => {
         .then((res)=>res.data)
 }
 
-export const SearchUser = () => {
-    return httpClient
-        .get<searchUser>(USER_ENDPOINTS.Search_user)
-        .then((res)=>res.data)
-}
+export const SearchUser = async ({ query }: { query: string }) => {
+    try {
+      const accessToken = localStorage.getItem("accessToken");
+      const refreshToken = localStorage.getItem("refreshToken");
+  
+      if (!query) {
+        console.warn("Query is empty. Skipping request.");
+        return [];
+      }
+  
+      const response = await httpClient.get<searchUser[]>(
+        `/user/search/${query}`,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "X-Refresh-Token": refreshToken,
+          },
+        }
+      );
+  
+      return response.data;
+    } catch (error:any) {
+      if (error.response?.status === 404) {
+        console.error("No users found for the query.");
+      } else {
+        console.error("SearchUser Error:", error.message);
+      }
+  
+      throw error; 
+    }
+  };
+  
 
 
 export const UpdateProfilePic = async ({ payload }: UpdateProfilePicType) => {

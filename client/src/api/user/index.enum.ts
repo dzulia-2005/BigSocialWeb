@@ -3,7 +3,6 @@ export enum USER_ENDPOINTS {
     Update_User = "/user/update/:userId",
     Follow_User = "/user/follow/:userId",
     Unfollow_user = "/user/unfollow/:userId",
-    Search_user = "/user/search/:query",
     UpdateProfilePic = `/user/update-profile-picture/:userId`,
     UpdateCoverPic = "/user/update-cover-picture/:userId"
 }

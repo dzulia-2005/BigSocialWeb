@@ -24,18 +24,19 @@ export type unfollowUser = {
 export type searchUser = {
     users: [
         {
-            _id: string
-            username:string
-            email: string
-            password: string
-            profilePicture: string
-            posts: [],
-            followers: [],
-            following: [],
-            blocklist: [],
-            createdAt: string
-            updatedAt: string
-            __v: number
+            _id: string;
+            username: string;
+            email: string;
+            password: string;
+            profilePicture: string;
+            posts: string[];
+            followers: string[];
+            following: string[];
+            blocklist: string[];
+            createdAt: string;
+            updatedAt: string;
+            __v: number;
+            coverpicture: string;
         }
     ]
 }
