@@ -1,16 +1,18 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Search from '../../../../components/ui/search';
 import { useAuthContext } from '../../../../context/auth/hooks/useAuthContext';
 import { useGetConversationOfUser } from '../../../../react-query/query/conversation';
 import { Avatar, AvatarImage } from '../../../../components/ui/avatar';
 
-
-
-
-const Sidebar = () => {
+const Sidebar = ({ onSelectUser }:{onSelectUser:any}) => {
     const { user } = useAuthContext();
     const userId = user?._id
     const { data: conversation } = useGetConversationOfUser(userId || "");
 
+    const handleConversationClick = (userId:any) => {
+      onSelectUser(userId); 
+    };
+  
   return (
     <div className="w-[30%] border-r border-[#ccc] hidden md:flex flex-col p-4 bg-[#EAFF96]">
     <Search/>
@@ -18,7 +20,12 @@ const Sidebar = () => {
   {conversation?.map((c) => (
     <div
       key={c._id}
-      className="flex items-center py-4 px-2 border-t border-[#ccc]"
+      className="flex items-center py-4 px-2 border-t border-[#ccc] cursor-default"
+      onClick={() =>
+        handleConversationClick(
+          c.participants[0]?._id !== userId ? c.participants[0]?._id : c.participants[1]?._id
+        )
+      }
     >
       <Avatar>
         <AvatarImage

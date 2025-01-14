@@ -40,8 +40,9 @@ const handleLikeToggle = (postId: string) => {
         unlike_post({ userId: user?._id, postId }, {
             onSuccess: () => {
               if (user?._id) {
-                queryClient.invalidateQueries(['get-allpost', user._id], { exact: true })
-              }              },
+                queryClient.invalidateQueries({ queryKey: ['get-allpost',user._id] });
+             }
+             },
             onError: (error) => {
                 console.error('Error unliking post:', error);
             },
@@ -50,7 +51,7 @@ const handleLikeToggle = (postId: string) => {
         likePost({ userId: user?._id, postId }, {
             onSuccess: () => {
               if (user?._id) {
-                queryClient.invalidateQueries(['get-allpost', user._id], { exact: true })
+                queryClient.invalidateQueries({queryKey:['get-allpost',user._id]})
               }              },
             onError: (error) => {
                 console.error('Error liking post:', error);

@@ -1,80 +1,145 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Input } from '../../../components/ui/input';
 import { Avatar, AvatarImage } from '../../../components/ui/avatar';
 import image from '../../../assets/defaultprofileimg.webp';
 import Sidebar from '../components/sidebar';
 import { useAuthContext } from '../../../context/auth/hooks/useAuthContext';
-import {useGetMessage} from '../../../react-query/query/message/index'
-
-
+import { useGetMessage } from '../../../react-query/query/message/index';
+import { useGetConversationOfUser } from '../../../react-query/query/conversation';
+import {  useRef, useState } from 'react';
+import { useCreateMessage } from '../../../react-query/mutation/message';
+import { queryClient } from '../../../main';
 
 const Chat = () => {
-
-  const {user} = useAuthContext();
+  const { user } = useAuthContext();
   const userId = user?._id;
-  const {data:Getmessage} = useGetMessage(userId || "");
 
-  console.log(Getmessage,"this is data message");
+  const [selectedUserId, setSelectedUserId] = useState(null);
+  const messagesEndRef = useRef<HTMLDivElement>(null); 
+
+  const { data: conversation } = useGetConversationOfUser(userId || "");
+
+  const conversationId = conversation?.find(
+    (c) =>
+      c.participants[0]?._id === selectedUserId || c.participants[1]?._id === selectedUserId
+  )?._id;
+
+  const { data: Getmessage } = useGetMessage(conversationId || "" );
+  const [newMessage, setNewMessage] = useState("");
+  const { mutate: sendMessage,} = useCreateMessage(); 
+ 
+
+  const handleSubmit = () => {
+   
+      if (!newMessage.trim()) {
+        alert("Please enter a message.");
+        return;
+      }
   
+      if (!conversationId) {
+        alert("No conversation selected. Please select a conversation.");
+        return;
+      }
+  
+      if (!userId) {
+        alert("User not authenticated.");
+        return;
+      }
+
+  sendMessage(
+    {
+      payload: {
+        conversationId,
+        sender: userId,
+        text: newMessage,
+      },
+    },
+    {
+      onSuccess: () => {
+        setNewMessage(""); 
+        queryClient.invalidateQueries({
+          queryKey: ["get-message", conversationId],
+          onSuccess: () => {
+            console.log("Successfully fetched messages");
+          },
+          
+          onError: (err: any) => {
+            console.error("Error fetching messages", err);
+            alert("Failed to fetch messages. Please try again.");
+          }
+        });
+        if (messagesEndRef.current) {
+          messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+        }
+      },
+      onError: () => {
+        alert("Failed to send message. Please try again.");
+      },
+    }
+  );
+};
+
   return (
     <div className="rounded-xl shadow bg-[#EAFF96] h-[600px] overflow-hidden">
       <div className="flex h-full">
         {/* Sidebar */}
-        <Sidebar/>
+        <Sidebar  onSelectUser={setSelectedUserId}/>
 
         {/* Chat Window */}
-        <div className="w-full flex flex-col justify-between p-6">
-          <div className="overflow-y-auto max-h-[500px] space-y-6">
-            
-            {/* Incoming Message */}
-            <div className="flex gap-4 items-start">
-              <Avatar>
-                <AvatarImage
-                  className="rounded-full h-10 w-10"
-                  src={image}
+        {selectedUserId && Getmessage && Getmessage.length > 0 ? (
+          <>
+            <div className="w-full flex flex-col justify-between p-6">
+              <div className="overflow-y-auto max-h-[500px] space-y-6">
+                {Getmessage.map((message) => (
+                  <div
+                    key={message._id}
+                    className={`flex gap-4 items-start ${
+                      message.sender._id === userId ? "justify-end" : ""
+                    }`}
+                  >
+                    
+                    {message.sender._id !== userId && (
+                      <Avatar>
+                        <AvatarImage className="rounded-full h-10 w-10" src={message.sender.profilePicture || image} />
+                      </Avatar>
+                    )}
+                    <div
+                      className={`w-auto max-w-[70%] rounded-md text-[#fff] p-4 ${
+                        message.sender._id === userId ? "bg-[#386dc5] text-right" : "bg-[#039005]"
+                      }`}
+                    >
+                      <p className="text-base">{message.text}</p>
+                    </div>
+                    {message.sender._id === userId && (
+                      <Avatar>
+                        <AvatarImage className="rounded-full h-10 w-10" src={message.sender.profilePicture || image} />
+                      </Avatar>
+                    )}
+                  </div>
+                ))}
+                <div ref={messagesEndRef}/>
+              </div >
+
+              <div className="flex items-center gap-4 mt-4 border-t border-[#ccc] pt-4">
+                <Input
+                  placeholder="Type your message..."
+                  className="flex-grow border-none focus:outline-none bg-[#4f4f4f] rounded-md p-4 text-[#ffff]"
+                  onChange={(e)=>setNewMessage(e.target.value)}
+                  value={newMessage}
                 />
-              </Avatar>
-              <div className="bg-[#039005] w-auto max-w-[70%] rounded-md text-[#fff] p-4">
-                <p className="text-base">
-                  როგორ ხარ ნიკა? ძალიან მომენატრე, სად დაიკარგე? შეგიძლია ხვალ
-                  მესტუმრო და პლეისთეიშენი ვითამაშოთ?
-                </p>
+                <button 
+                  className="bg-[#386dc5] text-[#fff] px-6 py-2 rounded-md hover:bg-[#274a8f]"
+                  onClick={handleSubmit}
+                  disabled={!newMessage.trim() || !conversationId || !userId}
+                  >
+                  Send
+                </button>
               </div>
             </div>
-
-            {/* Outgoing Message */}
-            <div className="flex gap-4 items-start justify-end">
-              <div className="bg-[#386dc5] w-auto max-w-[70%] rounded-md text-[#fff] p-4">
-                <p className="text-base">
-                  აუცილებლად! ძალიან კარგია იდეა, ნიკა!
-                </p>
-              </div>
-              <Avatar>
-                <AvatarImage
-                  className="rounded-full h-10 w-10"
-                  src={image}
-                />
-              </Avatar>
-            </div>
-
-          </div>
-
-          
-          {/* Message Input */}
-          <div className="flex items-center gap-4 mt-4 border-t border-[#ccc] pt-4">
-            <Input
-              placeholder="Type your message..."
-              className="flex-grow border-none focus:outline-none bg-[#4f4f4f] rounded-md p-4 text-[#ffff]"
-            />
-            <button className="bg-[#386dc5] text-[#fff] px-6 py-2 rounded-md hover:bg-[#274a8f]">
-              Send
-            </button>
-          </div>
-
-
-        </div>
-
-
-
+          </>
+        ) : (
+          <span className='relative top-52 text-neutral-300 text-[40px] items-center left-8 cursor-default'>Open to Conversation to start a Chat</span>
+        )}
       </div>
     </div>
   );

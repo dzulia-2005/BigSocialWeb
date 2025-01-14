@@ -3,11 +3,15 @@ import BGImage from '../../../../assets/post.png'
 import React, { useEffect, useState } from 'react'
 import EditProfileSection from './editProfileSection'
 import { useAuthContext } from '../../../../context/auth/hooks/useAuthContext'
+// import { useGetUser } from '../../../../react-query/query/user'
 
 
 
 const Profileeditcomp:React.FC = () => {
-    const { user } = useAuthContext();
+    const { user } = useAuthContext(); 
+    // const {data} = useGetUser(user?._id)
+
+    // console.log("user Id is :",data?._id);
     const [profilePictureUrl, setProfilePictureUrl] = useState<string>(user?.profilePicture || Image);
     const [coverPictureUrl,setCoverPictureUrl] = useState<string>(user?.coverpicture || BGImage)
 

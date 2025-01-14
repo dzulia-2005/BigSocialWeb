@@ -12,7 +12,7 @@ const Sharecomp: React.FC = () => {
     const { user } = useAuthContext(); 
     const [caption, setCaption] = useState<string>(''); 
     const [selectedFile, setSelectedFile] = useState<File | null>(null); 
-    const createPostMutation = useCreatePostImg(); 
+    const {mutate:createPost} = useCreatePostImg(); 
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files[0]) {
@@ -20,42 +20,42 @@ const Sharecomp: React.FC = () => {
         }
     };
 
-    const handlePost = async () => {
+
+    const handlePost = () => {
         if (!caption.trim()) {
-            alert("Please enter a caption for the post.");
-            return;
+          alert("Please enter a caption for the post.");
+          return;
         }
         if (!selectedFile) {
-            alert("Please select an image.");
-            return;
+          alert("Please select an image.");
+          return;
         }
-
-        // Create FormData object
+        if (!user?._id) {
+          alert("User not authenticated.");
+          return;
+        }
+      
         const formData = new FormData();
         formData.append("caption", caption);
         formData.append("images", selectedFile);
-
-        if (!user?._id) {
-            alert("User not authenticated.");
-            return;
-        }
-
-        createPostMutation.mutate(
-            { userId: user._id, payload: formData },
-            {
-                onSuccess: () => {
-                    alert("Post created successfully!");
-                    queryClient.invalidateQueries("create-postwith-img"); 
-                    setCaption("");
-                    setSelectedFile(null);
-                },
-                onError: (error) => {
-                    console.error("Error creating post:", error);
-                    alert("Failed to create post. Please try again.");
-                },
-            }
+      
+        createPost(
+          { userId: user._id, payload: formData },
+          {
+            onSuccess: () => {
+              alert("Post created successfully!");
+              queryClient.invalidateQueries("create-postwith-img");
+             
+              setCaption("");
+              setSelectedFile(null);
+            },
+            onError: (error) => {
+              console.error("Error creating post:", error);
+              alert("Failed to create post. Please try again.");
+            },
+          }
         );
-    };
+      };
 
 
     return (

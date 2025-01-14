@@ -4,10 +4,27 @@ import { USER_ENDPOINTS } from "./index.enum"
 import { followUser, getUserResponse, searchUser, unfollowUser, UpdateCoverPicType, UpdateProfilePicType, } from "./index.types"
 
 
-export const getUser = () => {
-    return httpClient
-        .get<getUserResponse>(USER_ENDPOINTS.Get_user)
-        .then((res)=>res.data)
+export const getUser = async({userId}:{userId:string}) => {
+  try {
+    const accessToken = localStorage.getItem("accessToken");
+    const refreshToken = localStorage.getItem("refreshToken");
+
+    const response = await httpClient.get<getUserResponse>(
+      USER_ENDPOINTS.Get_user.replace(":userId",userId),
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "X-Refresh-Token": refreshToken,
+        }
+      }
+    )
+
+    return response.data || []
+
+  } catch (error) {
+    console.error("get user Error",error)
+    throw error
+  }
 }
 
 export const FollowUser = ({payload}:followUser) => {

@@ -5,7 +5,7 @@ const conversationschema = new mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:"user",
         required:true,
-    }]
+    }],
 })
 
 const conversation = mongoose.model("conversation",conversationschema);
