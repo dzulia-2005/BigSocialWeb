@@ -1,18 +1,14 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useUpdateProfilePic, useUpdateCoverProfPic } from "../../../../react-query/mutation/user";
 import { faImage } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ChangeEvent, } from "react";
 import { useAuthContext } from "../../../../context/auth/hooks/useAuthContext";
+import { queryClient } from "../../../../main";
 
-type EditProfileSectionProps = {
-  setProfilePictureUrl: (url: string) => void;
-  setCoverPictureUrl:(url:string) => void;
-};
 
-const EditProfileSection:React.FC<EditProfileSectionProps> = ({
-  setProfilePictureUrl,
-  setCoverPictureUrl
-}) => {
+
+const EditProfileSection:React.FC = () => {
   const { user } = useAuthContext();
   const { mutate: updateProfilePic } = useUpdateProfilePic();
   const { mutate: updateCoverPic } = useUpdateCoverProfPic();
@@ -39,9 +35,8 @@ const EditProfileSection:React.FC<EditProfileSectionProps> = ({
           },
         },
         {
-          onSuccess: (data) => {
-            const newProfilePictureUrl = `${data.User.profilePicture}?timestamp=${new Date().getTime()}`;
-            setProfilePictureUrl(newProfilePictureUrl);
+          onSuccess: () => {
+              queryClient.invalidateQueries<any>(['updateprofpic', user._id]);            
 
             
           },
@@ -56,9 +51,9 @@ const EditProfileSection:React.FC<EditProfileSectionProps> = ({
           },
         },
         {
-          onSuccess: (data) => {
-            const newCoverPictureUrl = `${data.User.coverpicture}?timestamp=${new Date().getTime()}`;
-            setCoverPictureUrl(newCoverPictureUrl); 
+          onSuccess: () => {
+            queryClient.invalidateQueries<any>(['updateprofcoverpic', user._id]);
+            
           },
         }
       );

@@ -8,7 +8,8 @@ const {createpostController,
        getUserPostController,
        deletePostController,
        likePostController,
-       unlikePostController
+       unlikePostController,
+       getOnePostController
     } = require("../controllers/postcontroller")
 
 //create post
@@ -22,6 +23,9 @@ router.put("/update/:postId",updatePostController);
 
 //get all posts
 router.get("/all/:userId",getAllPostController);
+
+//get one post 
+router.get("/getonepost/:postId",getOnePostController)
 
 //get user posts
 router.get("/userposts/:userId",getUserPostController);

@@ -13,14 +13,19 @@ import { useAuthContext } from '../../../context/auth/hooks/useAuthContext'
 import { queryClient } from '../../../main'
 import { useDeletePost, useLikePost, useUnlikePost } from '../../../react-query/mutation/post'
 import { faDeleteLeft } from '@fortawesome/free-solid-svg-icons';
-import { NavLink } from 'react-router-dom'
+import { NavLink, useParams } from 'react-router-dom'
+import { useGetUser } from '../../../react-query/query/user'
 
 const Profile:React.FC = () => {
+  const { userId } = useParams<{ userId: string }>();
   const { user } = useAuthContext();
-  const { data }:{data:any} = useGetUserPost(user?._id || "");
+  const { data }:{data:any} = useGetUserPost(userId || "");
   const { mutate: likePost } = useLikePost(); 
   const {mutate:delete_post} = useDeletePost();
   const { mutate: unlike_post } = useUnlikePost();
+  const { data: userData } = useGetUser(userId ?? "");
+  
+
 
 
   const likedPosts = useMemo(() => {
@@ -40,7 +45,7 @@ const handleLikeToggle = (postId: string) => {
         unlike_post({ userId: user?._id, postId }, {
             onSuccess: () => {
               if (user?._id) {
-                queryClient.invalidateQueries({ queryKey: ['get-allpost',user._id] });
+                queryClient.invalidateQueries<any>(['get-allpost',user._id]);
              }
              },
             onError: (error) => {
@@ -51,7 +56,7 @@ const handleLikeToggle = (postId: string) => {
         likePost({ userId: user?._id, postId }, {
             onSuccess: () => {
               if (user?._id) {
-                queryClient.invalidateQueries({queryKey:['get-allpost',user._id]})
+                queryClient.invalidateQueries<any>(['get-allpost',user._id])
               }              },
             onError: (error) => {
                 console.error('Error liking post:', error);
@@ -68,9 +73,7 @@ const handleLikeToggle = (postId: string) => {
       {postId},
       {
         onSuccess:()=>{
-          if (user?._id) {
-            queryClient.invalidateQueries(['delete-post', user._id], { exact: true })
-          }     
+          queryClient.invalidateQueries<any>(['delete-post', user._id]);
         },
         onError: (error) => {
           console.error('Error deleting post:', error);
@@ -80,11 +83,13 @@ const handleLikeToggle = (postId: string) => {
   }
   
   return (
-    <div className='mx-auto flex flex-col md:flex-row gap-9 '>
+    <div  className='mx-auto flex flex-col md:flex-row gap-9 '>
                 <LeftSide/>
                 <section className='md:w-3/4 space-y-8 flex flex-col'> 
                     <Profileeditcomp/>
-                    <Sharecomp/>  
+                    {user._id === userData?._id ? <Sharecomp/> : null} 
+
+
                     {data && Array.isArray(data.posts) && data.posts.map((post:any) => (
                       <div className="rounded-xl shadow bg-[#EAFF96]" key={post._id}>
                        <div className='flex items-center justify-between pr-6 relative'>
@@ -96,7 +101,7 @@ const handleLikeToggle = (postId: string) => {
                                 <div className="p-0">{post.user?.username}</div>
                               </div>
                          </div>
-                         <FontAwesomeIcon icon={faDeleteLeft} className='relative top-3 w-7 h-7' onClick={() => handleDeletePost(post._id)}  />
+                        { userData?._id === user._id ? <FontAwesomeIcon icon={faDeleteLeft} className='relative top-3 w-7 h-7' onClick={() => handleDeletePost(post._id)}/> : null}
                        </div>        
                         <div className="pl-6">
                           <p className="py-2">{post.caption}</p>
@@ -123,6 +128,8 @@ const handleLikeToggle = (postId: string) => {
                         </div>
                       </div>
                     ))}
+
+
                   </section> 
                 <Rightside/>
         </div>

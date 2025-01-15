@@ -65,3 +65,20 @@ export type getallpostType = {
     following: string[],
 
 }
+
+export type getonePostType = {
+    _id: string;
+    user: {
+        _id:string;
+        email:string;
+        username: string;
+        profilePicture:string;
+    },
+    caption: string;
+    image: string[];
+    likes: string[];
+    comment: [],
+    createdAt: string;
+    updatedAt: string;
+    __v: number;
+}

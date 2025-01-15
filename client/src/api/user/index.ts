@@ -1,15 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { httpClient } from ".."
 import { USER_ENDPOINTS } from "./index.enum"
-import { followUser, getUserResponse, searchUser, unfollowUser, UpdateCoverPicType, UpdateProfilePicType, } from "./index.types"
+import {  getUserResponse, searchUser, UpdateCoverPicType, UpdateProfilePicType, } from "./index.types"
 
 
-export const getUser = async({userId}:{userId:string}) => {
+export const getUser = async({userId}:{userId:string}):Promise<getUserResponse> => {
   try {
     const accessToken = localStorage.getItem("accessToken");
     const refreshToken = localStorage.getItem("refreshToken");
 
-    const response = await httpClient.get<getUserResponse>(
+    const response = await httpClient.get(
       USER_ENDPOINTS.Get_user.replace(":userId",userId),
       {
         headers: {
@@ -27,17 +27,69 @@ export const getUser = async({userId}:{userId:string}) => {
   }
 }
 
-export const FollowUser = ({payload}:followUser) => {
-    return httpClient
-        .post(USER_ENDPOINTS.Follow_User,payload)
-        .then((res)=>res.data)
+export const FollowUser = async({
+  userId
+  ,_id
+}:{
+  userId:string;
+  _id:string;
+}) => {
+  try {
+    const accessToken =  localStorage.getItem("accessToken");
+    const refreshToken =  localStorage.getItem("refreshToken")
+
+
+    const headers = {
+      Authorization: `Bearer ${accessToken}`,
+      "X-Refresh-Token": refreshToken,
+    }
+
+    const response = await  httpClient.post(
+      USER_ENDPOINTS.Follow_User.replace(":userId",userId),
+      {_id},
+      {headers}
+    )
+
+    return response.data || []
+  } catch (error) {
+    console.error("follow user error",error)
+    throw error
+  }
 }
 
-export const UnfollowUser = ({payload}:unfollowUser) => {
-    return httpClient
-        .post(USER_ENDPOINTS.Unfollow_user,payload)
-        .then((res)=>res.data)
+export const UnfollowUser = async({
+  userId,
+  _id
+}:{
+  userId:string;
+  _id:string
+}) => {
+    try {
+      const accessToken = localStorage.getItem("accessToken");
+      const refreshToken = localStorage.getItem("refreshToken");
+
+
+      const headers = {
+        Authorization: `Bearer ${accessToken}`,
+        "X-Refresh-Token": refreshToken,
+      }
+
+      const response = await httpClient.post(
+          USER_ENDPOINTS.Unfollow_user.replace(":userId",userId),
+          {_id},
+          {headers}
+        )
+
+      return response.data || []
+    } catch (error) {
+      console.error("unfollow user error",error)
+      throw error
+    }
 }
+
+
+
+
 
 export const SearchUser = async ({ query }: { query: string }) => {
     try {

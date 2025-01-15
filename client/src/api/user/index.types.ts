@@ -4,6 +4,7 @@ export type getUserResponse = {
     email: string;
     fullname: string;
     profilePicture: string;
+    coverpicture:string;
     posts: string[]; 
     followers: string[]; 
     following: string[];

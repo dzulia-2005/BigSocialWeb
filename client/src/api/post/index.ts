@@ -1,6 +1,6 @@
 import { httpClient } from ".."
 import { POST_ENDPOINTS } from "./index.enum"
-import { createPostType,  getallpostType,  getuserpostsType} from "./index.type"
+import { createPostType,  getallpostType,  getonePostType,  getuserpostsType} from "./index.type"
 
 
 export const createPost = async({payload}:createPostType) => {
@@ -162,4 +162,25 @@ export const unlike_post = async({userId,postId}:{userId?:string,postId:string})
           throw error
         }
         
+}
+
+export const getOnePost = async({postId}:{postId:string}):Promise<getonePostType[] | undefined> => {
+  try {
+    const accessToken = localStorage.getItem("accessToken");
+    const refreshToken = localStorage.getItem("refreshToken");
+
+    const response = await httpClient.get(
+      POST_ENDPOINTS.getonePost.replace(":postId",postId),
+      {
+         headers:{
+           Authorization: `Bearer ${accessToken}`,
+           "X-Refresh-Token": refreshToken,
+        }
+      }
+  )
+
+  return response.data || []
+  } catch (error) {
+    console.error("getonepost error",error)
+  }
 }

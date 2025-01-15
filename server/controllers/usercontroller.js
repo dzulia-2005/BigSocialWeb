@@ -41,69 +41,81 @@ const updateUserController = async(req,res,next)=>{
     }
 }
 
-
-const followUserController = async(req,res,next)=>{
-    const {userId} = req.params;
-    const {_id} = req.body;
+const followUserController = async (req, res, next) => {
+    const { userId } = req.params;
+    const { _id } = req.body;
 
     try {
-        if(userId === _id){
-            throw new CustomError("You can not follow yourself",500);
-        }
-        const usertofollow = await user.findById(userId);
-        const loggedinuser = await user.findById(_id);
-
-        if(!usertofollow || !loggedinuser){
-            throw new CustomError("user not found",404)
+        if (userId === _id) {
+            throw new CustomError("You cannot follow yourself", 400);
         }
 
-        if(loggedinuser.following.includes(userId)){
-            throw new CustomError("already following this user!")
+        const userToFollow = await user.findById(userId);
+        const loggedInUser = await user.findById(_id);
+
+        if (!userToFollow || !loggedInUser) {
+            throw new CustomError("User not found", 404);
         }
 
-        loggedinuser.following.push(userId);
-        usertofollow.followers.push(_id);
+        if (loggedInUser.following.includes(userId)) {
+            throw new CustomError("Already following this user", 400);
+        }
 
-        await loggedinuser.save();
-        await usertofollow.save();
+        loggedInUser.following.push(userId);
+        userToFollow.followers.push(_id);
 
-        res.status(200).json({message:"succesfully followed user"})
+        await loggedInUser.save();
+        await userToFollow.save();
 
+        res.status(200).json({
+            message: "Successfully followed user",
+            userId,
+            followerId: _id,
+        });
     } catch (error) {
         next(error);
     }
-}
+};
 
-const unfollowUserController = async(req,res,next) => {
-    const {userId} = req.params;
-    const {_id} = req.body;
+
+const unfollowUserController = async (req, res, next) => {
+    const { userId } = req.params;
+    const { _id } = req.body;
+
     try {
-        if(userId === _id){
-            throw new CustomError("You can not unfollow yourself",500);
+        if (userId === _id) {
+            throw new CustomError("You cannot unfollow yourself", 400);
         }
+
         const userToUnfollow = await user.findById(userId);
         const loggedInUser = await user.findById(_id);
 
-        if(!userToUnfollow || !loggedInUser){
-            throw new CustomError("user not found",404);
+        if (!userToUnfollow || !loggedInUser) {
+            throw new CustomError("User not found", 404);
         }
 
-        if(!loggedInUser.following.includes(userId)){
-            throw new CustomError("not following this user");
+        if (!loggedInUser.following.includes(userId)) {
+            throw new CustomError("You are not following this user", 400);
         }
 
-        loggedInUser.following = loggedInUser.following.filter(id=>id.toString()!==userId);
-        userToUnfollow.followers = userToUnfollow.followers.filter(id=>id.toString()!==id);
+        loggedInUser.following = loggedInUser.following.filter(id => id.toString() !== userId);
+        userToUnfollow.followers = userToUnfollow.followers.filter(id => id.toString() !== _id);
 
         await loggedInUser.save();
         await userToUnfollow.save();
 
-        res.status(200).json({message:"succesfully unfollowed user"});
-
+        res.status(200).json({
+            message: "Successfully unfollowed user",
+            userId,
+            unfollowerId: _id,
+        });
     } catch (error) {
         next(error);
     }
-}   
+};
+
+
+
 
 const deleteUserController = async(req,res,next) => {
     const {userId} = req.params;

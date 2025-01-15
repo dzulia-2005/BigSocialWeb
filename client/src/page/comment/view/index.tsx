@@ -34,7 +34,7 @@ const CommentRoute: React.FC = () => {
           console.log("Comment successfully created!");
           setCommentText("");
           if (user?._id) {
-            queryClient.invalidateQueries(['create-comment', user._id], { exact: true });
+            queryClient.invalidateQueries<any>(['create-comment', user._id]);
           }             
         },
         onError: (error) => {
@@ -81,7 +81,7 @@ const CommentRoute: React.FC = () => {
               <Avatar>
                 <AvatarImage 
                   className="rounded-full h-10 w-10" 
-                  src={user?.profilePicture || image} 
+                  src={post.user.profilePicture || image} 
                 />
               </Avatar>
               <div className="ml-4">

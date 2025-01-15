@@ -40,7 +40,7 @@ function App() {
                     }/>
 
                 <Route 
-                    path="/profile" 
+                    path="/profile/:userId" 
                     element={
                         <Suspense fallback={<div>loading...</div>}>
                             <AuthGuard>

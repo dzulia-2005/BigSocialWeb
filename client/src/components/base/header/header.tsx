@@ -10,8 +10,10 @@ import {
 import React from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { useSignOut } from '../../../react-query/query/auth'
+import { useAuthContext } from '../../../context/auth/hooks/useAuthContext'
 
 const Header:React.FC = () => {
+   const { user } = useAuthContext();
     const [position, setPosition] = React.useState("bottom")
     const navigate = useNavigate();
     const { refetch: handleLogOut } = useSignOut();
@@ -38,7 +40,7 @@ const Header:React.FC = () => {
             <DropdownMenuContent className="w-56 bg-[#151515] border-[#585858] ml-3 mt-5 "> 
                 <DropdownMenuRadioGroup value={position} onValueChange={setPosition}>
                     <NavLink to={"/home"}> <DropdownMenuRadioItem className='text-[#ffff]' value="top">home</DropdownMenuRadioItem></NavLink>
-                    <NavLink to={'/profile'}><DropdownMenuRadioItem className='text-[#ffff]' value="bottom">Profile</DropdownMenuRadioItem></NavLink>
+                    <NavLink to={`/profile/${user?._id}`}><DropdownMenuRadioItem className='text-[#ffff]' value="bottom">Profile</DropdownMenuRadioItem></NavLink>
                     <DropdownMenuRadioItem className='text-[#ffff]' value="right">notification</DropdownMenuRadioItem>
                     <NavLink to={"/chat"}><DropdownMenuRadioItem className='text-[#ffff]' value="right">chat</DropdownMenuRadioItem></NavLink>
                     <DropdownMenuRadioItem className='text-[#ffff]' value="right" onClick={handleLogoutClick}>LogOut</DropdownMenuRadioItem>

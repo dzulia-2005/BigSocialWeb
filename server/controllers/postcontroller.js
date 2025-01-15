@@ -237,6 +237,26 @@ const unlikePostController = async (req, res, next) => {
     }
 };
 
+const getOnePostController = async (req, res, next) => {
+    try {
+      const { postId } = req.params;
+  
+      
+      const post = await Post.findById(postId)
+      .populate("user", "profilePicture username") 
+      .populate("comment"); 
+  
+      if (!post) {
+        return res.status(404).json({ message: 'Post not found' });
+      }
+  
+      res.status(200).json(post);
+    } catch (error) {
+      console.error('Error fetching post:', error);
+      next(error); 
+    }
+  };
+  
 
 module.exports = {
                   createpostController,
@@ -246,5 +266,6 @@ module.exports = {
                   getUserPostController,
                   deletePostController,
                   likePostController,
-                  unlikePostController
+                  unlikePostController,
+                  getOnePostController
                 }
