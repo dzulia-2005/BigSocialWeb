@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { httpClient } from ".."
 import { USER_ENDPOINTS } from "./index.enum"
-import {  getUserResponse, searchUser, UpdateCoverPicType, UpdateProfilePicType, } from "./index.types"
+import {  getUserResponse, searchUser, UpdateCoverPicType, UpdateProfilePicType,GetAllFollowers } from "./index.types"
 
 
 export const getUser = async({userId}:{userId:string}):Promise<getUserResponse> => {
@@ -179,3 +179,25 @@ export const UpdateProfilePic = async ({ payload }: UpdateProfilePicType) => {
         console.error("Error updating cover picture",error)
     }
   };
+
+
+  export const getallfollowers = async({userId}:{userId:string}):Promise<GetAllFollowers[] | undefined> => {
+    try {
+      const accessToken = localStorage.getItem("accessToken");
+      const refreshToken = localStorage.getItem("refreshToken");
+
+      const response = await httpClient.get(
+        USER_ENDPOINTS.getallFollower.replace(":userId",userId),
+        {
+          headers : {
+            Authorization: `Bearer ${accessToken}`,
+            "X-Refresh-Token": refreshToken
+          }
+       }
+      )
+
+      return response.data || []
+    } catch (error) {
+      console.error("get all Follower Error",error)
+    }
+  }

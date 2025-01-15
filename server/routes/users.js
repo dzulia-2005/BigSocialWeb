@@ -7,7 +7,8 @@ const {
     deleteUserController,
     searchUserController,
     uploadProfilePictureController,
-    uploadCoverPictureController
+    uploadCoverPictureController,
+    GetFollowersController
 } = require("../controllers/usercontroller");
 const upload = require("../middlewares/upload")
 const router = express.Router();
@@ -28,16 +29,19 @@ router.post("/follow/:userId",followUserController);
 router.post("/unfollow/:userId",unfollowUserController);
 
 //delete user
-router.delete("/delete/:userId",deleteUserController)
+router.delete("/delete/:userId",deleteUserController);
 
 //search user
-router.get("/search/:query",searchUserController)
+router.get("/search/:query",searchUserController);
 
 //update profile picture
-router.put("/update-profile-picture/:userId",upload.single("profilepicture"),uploadProfilePictureController)
+router.put("/update-profile-picture/:userId",upload.single("profilepicture"),uploadProfilePictureController);
 
 //update cover picture
-router.put("/update-cover-picture/:userId",upload.single("coverpicture"),uploadCoverPictureController)
+router.put("/update-cover-picture/:userId",upload.single("coverpicture"),uploadCoverPictureController);
+
+//get notification
+router.get("/followers/:userId",GetFollowersController);
 
 module.exports = router;
 

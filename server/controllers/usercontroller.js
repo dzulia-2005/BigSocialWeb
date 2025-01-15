@@ -3,6 +3,8 @@ const user = require("../models/user");
 const post = require("../models/post");
 const comment = require("../models/comment");
 const story = require("../models/story");
+const Follower = require("../models/followers")
+
 
 const getUserController = async(req,res,next) => {
     const {userId} = req.params
@@ -220,8 +222,32 @@ const uploadCoverPictureController = async(req,res,next) => {
     }
 }
 
+const GetFollowersController = async (req, res, next) => {
+    const { userId } = req.params;
+    try {
+        
+        const User = await user.findById(userId)
+            .populate({
+                path: "followers",
+                select: "username email createdAt", 
+            });
+
+        if (!User) {
+            return res.status(404).json({ message: "Followers not found" });
+        }
+        const followers = User.followers || [];
+        res.status(200).json(User.followers);
+    } catch (error) {
+        console.error("Error fetching followers:", error); 
+        next(error);
+    }
+}
+
+
+
 module.exports = {getUserController,updateUserController,
                   followUserController,unfollowUserController,
                   deleteUserController,searchUserController,
-                  uploadProfilePictureController,uploadCoverPictureController
+                  uploadProfilePictureController,uploadCoverPictureController,
+                  GetFollowersController
                 }

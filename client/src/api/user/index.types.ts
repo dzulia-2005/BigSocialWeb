@@ -56,3 +56,11 @@ export type UpdateProfilePicType = {
     };
   };
   
+
+  export type GetAllFollowers = {
+    _id: string;
+    username:  string;
+    email:  string;
+    createdAt:  string;
+  }
+  

@@ -11,9 +11,9 @@ const Auth = lazy(()=>import('./page/auth/view/index'));
 const Home = lazy(()=>import('./page/home/view/home'));
 const Profile = lazy(()=>import('./page/profile/view/profile'));
 const Chat = lazy(()=>import("./page/chat/view"))
+const Notification = lazy(()=>import("./page/notification/view/index"))
 
 function App() {
-   
    
     return (
         <Routes>
@@ -69,6 +69,17 @@ function App() {
                             </AuthGuard>
                         </Suspense>
                     }    
+                />
+
+                <Route
+                path='/notification'
+                element = {
+                    <Suspense fallback = {<div>laoding...</div>}>
+                        <AuthGuard>
+                            <Notification/>
+                        </AuthGuard>
+                    </Suspense>
+                }
                 />
             </Route>
             <Route path='*' element={<NotFound/>}/>

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from 'react';
 import { Avatar, AvatarImage } from '@radix-ui/react-avatar';
 import image from "../../../assets/defaultprofileimg.webp";
@@ -44,7 +45,7 @@ const Sharecomp: React.FC = () => {
           {
             onSuccess: () => {
               alert("Post created successfully!");
-              queryClient.invalidateQueries("create-postwith-img");
+              queryClient.invalidateQueries<any>("create-postwith-img");
              
               setCaption("");
               setSelectedFile(null);

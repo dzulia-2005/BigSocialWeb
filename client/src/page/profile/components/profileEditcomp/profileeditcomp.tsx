@@ -39,6 +39,7 @@ const Profileeditcomp:React.FC = () => {
               <div className="mt-1 flex items-center justify-center">
               <span className="text-sm text-gray-500">{userData?.posts.length + " Post"}</span>
               <span className=" ml-2 text-sm text-gray-500">{userData?.followers.length + " Followers"}</span>
+              <span className=" ml-2 text-sm text-gray-500">{userData?.following.length + " Following"}</span>
               <span className="mx-2 w-3 h-3 bg-blue-500 rounded-full"></span>
               </div>
           </div>

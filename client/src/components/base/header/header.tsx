@@ -41,7 +41,7 @@ const Header:React.FC = () => {
                 <DropdownMenuRadioGroup value={position} onValueChange={setPosition}>
                     <NavLink to={"/home"}> <DropdownMenuRadioItem className='text-[#ffff]' value="top">home</DropdownMenuRadioItem></NavLink>
                     <NavLink to={`/profile/${user?._id}`}><DropdownMenuRadioItem className='text-[#ffff]' value="bottom">Profile</DropdownMenuRadioItem></NavLink>
-                    <DropdownMenuRadioItem className='text-[#ffff]' value="right">notification</DropdownMenuRadioItem>
+                    <NavLink to={"/notification"}><DropdownMenuRadioItem className='text-[#ffff]' value="right">notification</DropdownMenuRadioItem></NavLink>
                     <NavLink to={"/chat"}><DropdownMenuRadioItem className='text-[#ffff]' value="right">chat</DropdownMenuRadioItem></NavLink>
                     <DropdownMenuRadioItem className='text-[#ffff]' value="right" onClick={handleLogoutClick}>LogOut</DropdownMenuRadioItem>
                 
