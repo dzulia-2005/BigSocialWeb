@@ -26,8 +26,6 @@ const Profile:React.FC = () => {
   const { data: userData } = useGetUser(userId ?? "");
   
 
-
-
   const likedPosts = useMemo(() => {
     if (data && Array.isArray(data.posts)) {
         return new Set(
@@ -88,8 +86,6 @@ const handleLikeToggle = (postId: string) => {
                 <section className='md:w-3/4 space-y-8 flex flex-col'> 
                     <Profileeditcomp/>
                     {user._id === userData?._id ? <Sharecomp/> : null} 
-
-
                     {data && Array.isArray(data.posts) && data.posts.map((post:any) => (
                       <div className="rounded-xl shadow bg-[#EAFF96]" key={post._id}>
                        <div className='flex items-center justify-between pr-6 relative'>
@@ -128,8 +124,6 @@ const handleLikeToggle = (postId: string) => {
                         </div>
                       </div>
                     ))}
-
-
                   </section> 
                 <Rightside/>
         </div>
