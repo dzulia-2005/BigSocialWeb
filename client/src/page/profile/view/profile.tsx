@@ -3,7 +3,6 @@ import React, { useMemo } from 'react'
 import LeftSide from '../../../components/base/leftside'
 import Profileeditcomp from '../components/profileEditcomp/profileeditcomp'
 import Sharecomp from '../../../components/base/sharecomponent'
-import Rightside from '../../home/components/rightside'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Avatar, AvatarImage } from '@radix-ui/react-avatar';
 import image from '../../../assets/defaultprofileimg.webp';
@@ -15,6 +14,7 @@ import { useDeletePost, useLikePost, useUnlikePost } from '../../../react-query/
 import { faDeleteLeft } from '@fortawesome/free-solid-svg-icons';
 import { NavLink, useParams } from 'react-router-dom'
 import { useGetUser } from '../../../react-query/query/user'
+import Rightside from '../../../components/base/rightsidefollowers';
 
 const Profile:React.FC = () => {
   const { userId } = useParams<{ userId: string }>();

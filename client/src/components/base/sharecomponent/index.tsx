@@ -13,7 +13,8 @@ const Sharecomp: React.FC = () => {
     const { user } = useAuthContext(); 
     const [caption, setCaption] = useState<string>(''); 
     const [selectedFile, setSelectedFile] = useState<File | null>(null); 
-    const {mutate:createPost} = useCreatePostImg(); 
+    const {mutate:createPost } = useCreatePostImg(); 
+
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files[0]) {
@@ -63,12 +64,12 @@ const Sharecomp: React.FC = () => {
         <div className="rounded-xl shadow bg-[#EAFF96]">
             <div className="p-1 flex items-center justify-around pt-6">
                 <div>
-                    <Avatar>
-                        <AvatarImage
-                            className="rounded-full h-10 w-10"
-                            src={user?.profilePicture || image}
-                        />
-                    </Avatar>
+                        <Avatar>
+                            <AvatarImage
+                                className="rounded-full h-10 w-10"
+                                src={user?.profilePicture || image}
+                            />
+                        </Avatar>
                 </div>
                 <Input
                     placeholder="Create new post"

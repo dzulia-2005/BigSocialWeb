@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useMemo } from 'react'
-import Rightside from '../components/rightside';
 import LeftSide from '../../../components/base/leftside/index';
 import Sharecomp from '../../../components/base/sharecomponent/index';
 import { useAuthContext } from '../../../context/auth/hooks/useAuthContext';
@@ -12,6 +11,7 @@ import { useGetAllPost } from '../../../react-query/query/post';
 import { useLikePost, useUnlikePost } from '../../../react-query/mutation/post';
 import { queryClient } from '../../../main';
 import { NavLink } from 'react-router-dom';
+import Rightside from '../../../components/base/rightsidefollowers';
 
 
 
@@ -20,7 +20,7 @@ const Home:React.FC = () => {
   const { data:allpost }: { data: any } = useGetAllPost(user?._id ?? "");
   const { mutate: likePost } = useLikePost(); 
   const { mutate: unlike_post } = useUnlikePost();
-
+  
   
   const likedPosts = useMemo(() => {
       if (allpost && Array.isArray(allpost.posts)) {

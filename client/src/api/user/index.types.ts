@@ -62,5 +62,6 @@ export type UpdateProfilePicType = {
     username:  string;
     email:  string;
     createdAt:  string;
+    profilePicture:string;
   }
   

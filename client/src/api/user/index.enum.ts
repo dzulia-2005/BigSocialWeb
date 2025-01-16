@@ -5,5 +5,6 @@ export enum USER_ENDPOINTS {
     Unfollow_user = "/user/unfollow/:userId",
     UpdateProfilePic = `/user/update-profile-picture/:userId`,
     UpdateCoverPic = "/user/update-cover-picture/:userId",
-    getallFollower = "/user/followers/:userId"
+    getallFollower = "/user/followers/:userId",
+    getallfolloweractive = "/user/active-followers/:userId"
 }

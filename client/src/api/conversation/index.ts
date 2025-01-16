@@ -2,8 +2,26 @@ import { httpClient } from ".."
 import { CONVERSATION_ENDPOINT } from "./index.enum"
 import { createConversationType, getConversationOfUserResponse, getFindTwoUsersConversationResponse } from "./index.type";
 
-export const createNewConversation = ({payload}:createConversationType) => {
-    return httpClient.post(CONVERSATION_ENDPOINT.createNewConversation,payload).then((res)=>res.data);
+export const createNewConversation = async({payload}:createConversationType) => {
+    try {
+        const accessToken = localStorage.getItem("accessToken");
+        const refreshToken = localStorage.getItem("refreshToken");
+
+        const response = await httpClient.post(
+            CONVERSATION_ENDPOINT.createNewConversation,
+            payload,
+            {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                    "X-Refresh-Token": refreshToken,
+                }
+            }
+        );
+        
+        return response.data || []
+    } catch (error) {
+        console.error("create new conversation ",error)
+    }
 }
 
 export const getConversationOfUser = async({userId}:{userId:string}) => {

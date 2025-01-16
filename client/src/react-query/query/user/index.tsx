@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query"
 import { getallfollowers, getUser, SearchUser } from "../../../api/user"
-import { GetAllFollowers } from "../../../api/user/index.types"
+import { GetAllFollowers, searchUser } from "../../../api/user/index.types"
 
 export const useGetUser = (userId:string) => {
     return useQuery({
@@ -9,14 +9,13 @@ export const useGetUser = (userId:string) => {
     })
 }
 
-
-export const useSearchUser = (query:string) => {
-    return useQuery({
-        queryKey:["searchuser",query],
-        queryFn:()=>SearchUser({query}),
-        enabled: Boolean(query),
-    })
-}
+export const useSearchUser = (query: string) => {
+    return useQuery<searchUser | { users: [] }>({
+      queryKey: ["searchuser", query],
+      queryFn: () => SearchUser({ query }),
+      enabled: Boolean(query),
+    });
+  };
 
 export const useGetallfollowers = (userId:string) => {
     return useQuery<GetAllFollowers[] | undefined>({

@@ -8,11 +8,10 @@ const {
     searchUserController,
     uploadProfilePictureController,
     uploadCoverPictureController,
-    GetFollowersController
+    GetFollowersController,
 } = require("../controllers/usercontroller");
 const upload = require("../middlewares/upload")
 const router = express.Router();
-const {verifyToken} = require('../middlewares/verifyToken')
 
 
 

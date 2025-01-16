@@ -1,69 +1,90 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import { AutoComplete, Avatar, Input, Spin } from 'antd';
-import { useSearchUser } from '../../react-query/query/user';
-import { useCallback, useState } from 'react';
-import image from "../../assets/defaultprofileimg.webp";
-import debounce from 'lodash/debounce';
-import { UseQueryResult } from '@tanstack/react-query';
-import { searchUser } from '../../api/user/index.types';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useState } from "react";
+import { useSearchUser } from "../../react-query/query/user";
+import { useCreateNewConversation } from "../../react-query/mutation/conversation";
+import { useAuthContext } from "../../context/auth/hooks/useAuthContext";
 
+const SearchInput = () => {
+  const { user } = useAuthContext(); 
+  const userId = user?._id;
 
-const Search = () => {
-  const [, setQuery] = useState("");
-  const [debouncedQuery, setDebouncedQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
+  const { data, isLoading } = useSearchUser(searchQuery);
 
+  console.log(data?.users[0]?._id,"this is cdscs");
 
-  interface User {
-    _id: string;
-    username: string;
-    profilePicture: string;
-  }
+  const { mutate: createConversation } = useCreateNewConversation();
 
-  const debouncedSearch = useCallback(
-    debounce((value: string) => {
-      setDebouncedQuery(value); 
-    }, 600),
-    []
-  );
-
-  const handleSearch = (value: string) => {
-    setQuery(value); 
-    debouncedSearch(value); 
+  const handleSearch = (query: string) => {
+    setSearchQuery(query);
   };
 
-  const { data, isLoading } = useSearchUser(debouncedQuery)as UseQueryResult<searchUser[]>;
-  
-  
-  
-  const users: User[] = data?.users || [];
+  const handleUserClick = (secondUserId: string | undefined) => {
+    if (!userId) {
+      console.error("User is not logged in.");
+      return;
+    }
+    if (!secondUserId) {
+      console.error("Selected user ID is undefined.");
+      return;
+    }
 
-  const options = users.map(user => ({
-    value: user.username,
-    label: (
-      <div className="flex items-center">
-        <Avatar src={user.profilePicture || image} />
-        <span className="ml-2">{user.username}</span>
-      </div>
-    ),
-  }));
+    createConversation({
+      payload: {
+        firstUser: userId, 
+        secondUser: secondUserId
+      },
+    });
+  };
 
   return (
-    <div>
-      {isLoading ? (
-        <Spin />
-      ) : (
-        <AutoComplete
-          options={options}
-          className="md:w-64 sm:w-48"
-          placeholder="Search user"
-          onSearch={handleSearch} 
-          filterOption={false}
-        >
-          <Input.Search allowClear />
-        </AutoComplete>
-      )}
+    <div className="flex flex-col items-center p-4">
+      
+      <div className="relative w-80">
+        <input
+          type="text"
+          value={searchQuery}
+          onChange={(e) => handleSearch(e.target.value)}
+          placeholder="Search..."
+          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+
+        
+        {isLoading && (
+          <div className="absolute left-0 right-0 mt-2 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
+            <p className="px-4 py-2">Loading...</p>
+          </div>
+        )}
+
+        
+        {!isLoading && data && data.users.length > 0 && (
+          <ul className="absolute left-0 right-0 mt-2 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
+            {data.users.map((user: any) => (
+              <li
+                key={user._id}
+                className="px-4 py-2 hover:bg-blue-100 cursor-pointer flex items-center space-x-3"
+                onClick={() => handleUserClick(user._id)} 
+              >
+                <img
+                  src={user.profilePicture}
+                  alt={user.username}
+                  className="w-8 h-8 rounded-full"
+                />
+                <span>{user.username}</span>
+              </li>
+            ))}
+          </ul>
+        )}
+
+        
+        {!isLoading && data && data.users.length === 0 && searchQuery && (
+          <div className="absolute left-0 right-0 mt-2 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
+            <p className="px-4 py-2">No results found</p>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
 
-export default Search;
+export default SearchInput;

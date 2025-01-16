@@ -90,39 +90,37 @@ export const UnfollowUser = async({
 
 
 
+export const SearchUser = async ({ query }: { query: string }): Promise<searchUser | { users: [] }> => {
+  try {
+    const accessToken = localStorage.getItem("accessToken");
+    const refreshToken = localStorage.getItem("refreshToken");
 
-export const SearchUser = async ({ query }: { query: string }) => {
-    try {
-      const accessToken = localStorage.getItem("accessToken");
-      const refreshToken = localStorage.getItem("refreshToken");
-  
-      if (!query) {
-        console.warn("Query is empty. Skipping request.");
-        return [];
+    if (!query) {
+      console.warn("Query is empty. Skipping request.");
+      return { users: [] }; // ცარიელი მონაცემები
+    }
+
+    const response = await httpClient.get<searchUser>(
+      `/user/search/${query}`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "X-Refresh-Token": refreshToken,
+        },
       }
-  
-      const response = await httpClient.get<searchUser[]>(
-        `/user/search/${query}`,
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-            "X-Refresh-Token": refreshToken,
-          },
-        }
-      );
-  
-      return response.data;
-    } catch (error:any) {
-      if (error.response?.status === 404) {
-        console.error("No users found for the query.");
-      } else {
-        console.error("SearchUser Error:", error.message);
-      }
-  
+    );
+
+    return response.data;
+  } catch (error: any) {
+    if (error.response?.status === 404) {
+      console.error("No users found for the query.");
+      return { users: [] }; 
+    } else {
+      console.error("SearchUser Error:", error.message);
       throw error; 
     }
-  };
-  
+  }
+};
 
 
 export const UpdateProfilePic = async ({ payload }: UpdateProfilePicType) => {

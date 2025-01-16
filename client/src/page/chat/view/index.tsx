@@ -86,60 +86,71 @@ const Chat = () => {
         <Sidebar  onSelectUser={setSelectedUserId}/>
 
         {/* Chat Window */}
-        {selectedUserId && Getmessage && Getmessage.length > 0 ? (
-          <>
+        {selectedUserId ? (
             <div className="w-full flex flex-col justify-between p-6">
               <div className="overflow-y-auto max-h-[500px] space-y-6">
-                {Getmessage.map((message) => (
-                  <div
-                    key={message._id}
-                    className={`flex gap-4 items-start ${
-                      message.sender._id === userId ? "justify-end" : ""
-                    }`}
-                  >
-                    
-                    {message.sender._id !== userId && (
-                      <Avatar>
-                        <AvatarImage className="rounded-full h-10 w-10" src={message.sender.profilePicture || image} />
-                      </Avatar>
-                    )}
+                {Getmessage && Getmessage.length > 0 ? (
+                  Getmessage.map((message) => (
                     <div
-                      className={`w-auto max-w-[70%] rounded-md text-[#fff] p-4 ${
-                        message.sender._id === userId ? "bg-[#386dc5] text-right" : "bg-[#039005]"
+                      key={message._id}
+                      className={`flex gap-4 items-start ${
+                        message.sender._id === userId ? "justify-end" : ""
                       }`}
                     >
-                      <p className="text-base">{message.text}</p>
+                      {message.sender._id !== userId && (
+                        <Avatar>
+                          <AvatarImage
+                            className="rounded-full h-10 w-10"
+                            src={message.sender.profilePicture || image}
+                          />
+                        </Avatar>
+                      )}
+                      <div
+                        className={`w-auto max-w-[70%] rounded-md text-[#fff] p-4 ${
+                          message.sender._id === userId
+                            ? "bg-[#386dc5] text-right"
+                            : "bg-[#039005]"
+                        }`}
+                      >
+                        <p className="text-base">{message.text}</p>
+                      </div>
+                      {message.sender._id === userId && (
+                        <Avatar>
+                          <AvatarImage
+                            className="rounded-full h-10 w-10"
+                            src={message.sender.profilePicture || image}
+                          />
+                        </Avatar>
+                      )}
                     </div>
-                    {message.sender._id === userId && (
-                      <Avatar>
-                        <AvatarImage className="rounded-full h-10 w-10" src={message.sender.profilePicture || image} />
-                      </Avatar>
-                    )}
-                  </div>
-                ))}
-                <div ref={messagesEndRef}/>
-              </div >
-
+                  ))
+                ) : (
+                  <div className="text-center text-gray-500">No messages yet</div>
+                )}
+                <div ref={messagesEndRef} />
+              </div>
+              
               <div className="flex items-center gap-4 mt-4 border-t border-[#ccc] pt-4">
                 <Input
                   placeholder="Type your message..."
                   className="flex-grow border-none focus:outline-none bg-[#4f4f4f] rounded-md p-4 text-[#ffff]"
-                  onChange={(e)=>setNewMessage(e.target.value)}
+                  onChange={(e) => setNewMessage(e.target.value)}
                   value={newMessage}
                 />
-                <button 
+                <button
                   className="bg-[#386dc5] text-[#fff] px-6 py-2 rounded-md hover:bg-[#274a8f]"
                   onClick={handleSubmit}
                   disabled={!newMessage.trim() || !conversationId || !userId}
-                  >
+                >
                   Send
                 </button>
               </div>
             </div>
-          </>
-        ) : (
-          <span className='relative top-52 text-neutral-300 text-[40px] items-center left-8 cursor-default'>Open to Conversation to start a Chat</span>
-        )}
+          ) : (
+            <span className="relative top-52 text-neutral-300 text-[40px] items-center left-8 cursor-default">
+              Open to Conversation to start a Chat
+            </span>
+          )}
       </div>
     </div>
   );

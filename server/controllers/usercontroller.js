@@ -3,7 +3,6 @@ const user = require("../models/user");
 const post = require("../models/post");
 const comment = require("../models/comment");
 const story = require("../models/story");
-const Follower = require("../models/followers")
 
 
 const getUserController = async(req,res,next) => {
@@ -229,7 +228,7 @@ const GetFollowersController = async (req, res, next) => {
         const User = await user.findById(userId)
             .populate({
                 path: "followers",
-                select: "username email createdAt", 
+                select: "username email createdAt profilePicture", 
             });
 
         if (!User) {
@@ -243,8 +242,8 @@ const GetFollowersController = async (req, res, next) => {
     }
 }
 
-
-
+  
+  
 module.exports = {getUserController,updateUserController,
                   followUserController,unfollowUserController,
                   deleteUserController,searchUserController,
