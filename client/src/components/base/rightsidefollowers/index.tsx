@@ -4,17 +4,15 @@ import image from "../../../assets/defaultprofileimg.webp"
 import { useAuthContext } from '../../../context/auth/hooks/useAuthContext';
 import { useGetallfollowers } from '../../../react-query/query/user';
 import { NavLink } from 'react-router-dom';
+import RightsideSkeleton from '../../skeletons/followerskeleton';
 
 
 const Rightside:React.FC = () => {
     const { user } = useAuthContext();
     const { data, isLoading} = useGetallfollowers(user?._id || "");
+
     if (isLoading) {
-      return (
-        <div className="flex justify-center items-center h-screen">
-          <p>Loading followers...</p>
-        </div>
-      );
+      return <RightsideSkeleton/>
     }
 
   return (

@@ -13,7 +13,13 @@ const Sharecomp: React.FC = () => {
     const { user } = useAuthContext(); 
     const [caption, setCaption] = useState<string>(''); 
     const [selectedFile, setSelectedFile] = useState<File | null>(null); 
-    const {mutate:createPost } = useCreatePostImg(); 
+
+    const { mutate: createPost }: any = useCreatePostImg();  
+
+   
+   
+   
+
 
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -51,7 +57,7 @@ const Sharecomp: React.FC = () => {
               setCaption("");
               setSelectedFile(null);
             },
-            onError: (error) => {
+            onError: (error:any) => {
               console.error("Error creating post:", error);
               alert("Failed to create post. Please try again.");
             },

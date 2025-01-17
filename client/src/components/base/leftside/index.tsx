@@ -29,7 +29,7 @@ const LeftSide:React.FC = () => {
     <div className="flex flex-col mt-[8rem]">
         <div className="flex flex-col gap-[8rem] fixed">
             <ul className="flex flex-col gap-5 ">
-                <NavLink to="/home"><div><FontAwesomeIcon icon={faHouse} className="h-7 w-7 text-[#858585]" /></div></NavLink>
+                <NavLink to="/home"><div><FontAwesomeIcon icon={faHouse}  className="h-7 w-7 text-[#858585]" /></div></NavLink>
                 <NavLink to={`/profile/${user?._id}`}><div><FontAwesomeIcon icon={faUser} className="h-7 w-7 text-[#858585]" /></div></NavLink>
                 <NavLink to={"/notification"}><div><FontAwesomeIcon icon={faBell} className="h-7 w-7 text-[#858585]" /></div></NavLink>
                 <NavLink to={"/chat"}><FontAwesomeIcon icon={faRocketchat} className="h-7 w-7 text-[#858585]" /></NavLink>

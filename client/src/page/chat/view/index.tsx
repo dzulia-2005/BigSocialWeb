@@ -9,6 +9,7 @@ import { useGetConversationOfUser } from '../../../react-query/query/conversatio
 import {  useRef, useState } from 'react';
 import { useCreateMessage } from '../../../react-query/mutation/message';
 import { queryClient } from '../../../main';
+import ChatSkeleton from '../../../components/skeletons/chatskeleton';
 
 const Chat = () => {
   const { user } = useAuthContext();
@@ -24,9 +25,13 @@ const Chat = () => {
       c.participants[0]?._id === selectedUserId || c.participants[1]?._id === selectedUserId
   )?._id;
 
-  const { data: Getmessage } = useGetMessage(conversationId || "" );
+  const { data: Getmessage ,isLoading} = useGetMessage(conversationId || "" );
   const [newMessage, setNewMessage] = useState("");
   const { mutate: sendMessage,} = useCreateMessage(); 
+
+  if (isLoading) {
+    return <ChatSkeleton/>
+  }
  
 
   const handleSubmit = () => {
@@ -112,7 +117,7 @@ const Chat = () => {
                             : "bg-[#039005]"
                         }`}
                       >
-                        <p className="text-base">{message.text}</p>
+                      <p className="text-base">{message.text}</p>
                       </div>
                       {message.sender._id === userId && (
                         <Avatar>
@@ -124,9 +129,10 @@ const Chat = () => {
                       )}
                     </div>
                   ))
-                ) : (
-                  <div className="text-center text-gray-500">No messages yet</div>
-                )}
+                   ) : (
+                     <div className="text-center text-gray-500">No messages yet</div>
+                )
+              }
                 <div ref={messagesEndRef} />
               </div>
               

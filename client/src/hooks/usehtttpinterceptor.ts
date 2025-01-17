@@ -18,7 +18,7 @@ export const useHttpInterceptor = () => {
                 const refreshToken = localStorage.getItem("refreshToken");
 
                 if (error.response?.status === 401 && refreshToken) {
-                    // Refresh ტოკენის მოთხოვნა
+                    
                     return new Promise((resolve, reject) => {
                         handlerefresh(
                             { payload: { refreshToken: refreshToken } },
@@ -45,7 +45,7 @@ export const useHttpInterceptor = () => {
                     });
                 }
 
-                // სხვა შეცდომები
+                
                 if (error.response?.status) {
                     navigate("/");
                 }
@@ -54,7 +54,7 @@ export const useHttpInterceptor = () => {
             }
         );
 
-        // Interceptor-ის ამოღება კომპონენტის unmount-ის დროს
+       
         return () => {
             httpClient.interceptors.response.eject(interceptor);
         };
