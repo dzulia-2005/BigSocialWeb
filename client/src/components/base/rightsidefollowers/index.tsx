@@ -5,11 +5,14 @@ import { useAuthContext } from '../../../context/auth/hooks/useAuthContext';
 import { useGetallfollowers } from '../../../react-query/query/user';
 import { NavLink } from 'react-router-dom';
 import RightsideSkeleton from '../../skeletons/followerskeleton';
+import { useTranslation } from 'react-i18next';
 
 
 const Rightside:React.FC = () => {
     const { user } = useAuthContext();
     const { data, isLoading} = useGetallfollowers(user?._id || "");
+    const {t}=useTranslation()
+    
 
     if (isLoading) {
       return <RightsideSkeleton/>
@@ -19,7 +22,7 @@ const Rightside:React.FC = () => {
     <aside className='md:w-1/3 space-y-8 '>
     <div className="rounded-xl  bg-[#EAFF96]  fixed">
             <div className="flex flex-col space-y-1.5 p-6">
-                <div className="text-[20px] font-semibold leading-none tracking-tight">Followers</div>
+                <div className="text-[20px] font-semibold leading-none tracking-tight">{t("homepage.Followers")}</div>
             </div>
             <div className="p-6 pt-0">
                 <ul className="space-y-4">
@@ -41,7 +44,7 @@ const Rightside:React.FC = () => {
                         </li>
                         ))
                     ):(
-                        <div>No Followers yet</div>
+                        <div>{t("homepage.NoFollowers")}</div>
                     )
                     }
                 </ul>

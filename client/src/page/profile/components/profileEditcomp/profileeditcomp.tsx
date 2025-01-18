@@ -10,6 +10,7 @@ import { faMessage } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ProfileSkeleton from '../../../../components/skeletons/profileskeleton';
 import { useCreateNewConversation } from '../../../../react-query/mutation/conversation';
+import { useTranslation } from 'react-i18next';
 
 
 
@@ -20,6 +21,8 @@ const Profileeditcomp:React.FC = () => {
     const { data: userData,isLoading } = useGetUser(userId ?? "");
     const { mutate: createConversation } = useCreateNewConversation();
     const navigate = useNavigate();
+    const {t}=useTranslation()
+    
 
     if (isLoading) {
         return <ProfileSkeleton />;
@@ -69,11 +72,11 @@ const Profileeditcomp:React.FC = () => {
           </div>
 
           <div className="mt-12 text-center">
-              <h2 className="text-xl font-semibold">{userData?.username || "username"}</h2>
+              <h2 className="text-xl font-semibold">{userData?.username || t("profilepage.username")}</h2>
               <div className="mt-1 flex items-center justify-center">
-              <span className="text-sm text-gray-500">{userData?.posts.length + " Post"}</span>
-              <span className=" ml-2 text-sm text-gray-500">{userData?.followers.length + " Followers"}</span>
-              <span className=" ml-2 text-sm text-gray-500">{userData?.following.length + " Following"}</span>
+              <span className="text-sm text-gray-500">{userData?.posts.length + t("profilepage.Post")}</span>
+              <span className=" ml-2 text-sm text-gray-500">{userData?.followers.length + t("profilepage.Followers")}</span>
+              <span className=" ml-2 text-sm text-gray-500">{userData?.following.length + t("profilepage.Following")}</span>
               <span className="mx-2 w-3 h-3 bg-blue-500 rounded-full"></span>
               </div>
           </div>

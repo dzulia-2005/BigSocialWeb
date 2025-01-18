@@ -1,0 +1,9 @@
+{
+    "username":"username",
+    "Post":"Post",
+    "Followers":"Followers",
+    "Following":"Following",
+    "likes":"likes",
+    "comments":"comments",
+    "NoPosts":"No posts available."
+}

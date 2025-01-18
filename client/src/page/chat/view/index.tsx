@@ -9,7 +9,7 @@ import { useGetConversationOfUser } from '../../../react-query/query/conversatio
 import {  useRef, useState } from 'react';
 import { useCreateMessage } from '../../../react-query/mutation/message';
 import { queryClient } from '../../../main';
-import ChatSkeleton from '../../../components/skeletons/chatskeleton';
+import { useTranslation } from 'react-i18next';
 
 const Chat = () => {
   const { user } = useAuthContext();
@@ -25,13 +25,11 @@ const Chat = () => {
       c.participants[0]?._id === selectedUserId || c.participants[1]?._id === selectedUserId
   )?._id;
 
-  const { data: Getmessage ,isLoading} = useGetMessage(conversationId || "" );
+  const { data: Getmessage } = useGetMessage(conversationId || "" );
   const [newMessage, setNewMessage] = useState("");
   const { mutate: sendMessage,} = useCreateMessage(); 
+  const {t}=useTranslation();
 
-  if (isLoading) {
-    return <ChatSkeleton/>
-  }
  
 
   const handleSubmit = () => {
@@ -130,7 +128,7 @@ const Chat = () => {
                     </div>
                   ))
                    ) : (
-                     <div className="text-center text-gray-500">No messages yet</div>
+                     <div className="text-center text-gray-500">{t("chat.Nomessages")}</div>
                 )
               }
                 <div ref={messagesEndRef} />
@@ -148,13 +146,13 @@ const Chat = () => {
                   onClick={handleSubmit}
                   disabled={!newMessage.trim() || !conversationId || !userId}
                 >
-                  Send
+                  {t("chat.Send")}
                 </button>
               </div>
             </div>
           ) : (
             <span className="relative top-52 text-neutral-300 text-[40px] items-center left-8 cursor-default">
-              Open to Conversation to start a Chat
+              {t("chat.startChat")}
             </span>
           )}
       </div>

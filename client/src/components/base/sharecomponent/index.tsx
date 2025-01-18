@@ -8,26 +8,25 @@ import { Input } from '../../ui/input';
 import { useAuthContext } from '../../../context/auth/hooks/useAuthContext';
 import { useCreatePostImg } from '../../../react-query/mutation/post';
 import { queryClient } from '../../../main';
+import { useTranslation } from 'react-i18next';
 
 const Sharecomp: React.FC = () => {
+    const {t}=useTranslation()
+
     const { user } = useAuthContext(); 
     const [caption, setCaption] = useState<string>(''); 
     const [selectedFile, setSelectedFile] = useState<File | null>(null); 
+    const [previewUrl, setPreviewUrl] = useState<string | null>(null); 
 
     const { mutate: createPost }: any = useCreatePostImg();  
 
-   
-   
-   
-
-
-
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files[0]) {
-            setSelectedFile(e.target.files[0]);
+            const file = e.target.files[0];
+            setSelectedFile(file);
+            setPreviewUrl(URL.createObjectURL(file)); 
         }
     };
-
 
     const handlePost = () => {
         if (!caption.trim()) {
@@ -56,6 +55,7 @@ const Sharecomp: React.FC = () => {
              
               setCaption("");
               setSelectedFile(null);
+              setPreviewUrl(null); 
             },
             onError: (error:any) => {
               console.error("Error creating post:", error);
@@ -63,8 +63,7 @@ const Sharecomp: React.FC = () => {
             },
           }
         );
-      };
-
+    };
 
     return (
         <div className="rounded-xl shadow bg-[#EAFF96]">
@@ -94,13 +93,23 @@ const Sharecomp: React.FC = () => {
                     style={{ display: 'none' }}
                 />
             </div>
+
+            {previewUrl && (
+                <div className="p-4 flex justify-center">
+                    <img
+                        src={previewUrl}
+                        alt="Selected"
+                        className="rounded-md max-h-40"
+                    />
+                </div>
+            )}
             <div className="flex items-center p-6">
                 <div className="flex space-x-2">
                     <button
                         className="text-[#EAFF96] bg-[#151515] rounded-xl h-6 w-40 text-xs"
                         onClick={handlePost} 
                     >
-                        Add
+                       {t("homepage.Add")}
                     </button>
                 </div>
             </div>

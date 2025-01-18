@@ -12,6 +12,7 @@ import { NavLink, useParams } from 'react-router-dom';
 import { useAuthContext } from '../../../../context/auth/hooks/useAuthContext';
 import { useGetUser } from '../../../../react-query/query/user';
 import PostSkeleton from '../../../../components/skeletons/postskeleton';
+import { useTranslation } from 'react-i18next';
 
 
 
@@ -24,6 +25,8 @@ const UserPostFeed = () => {
     const { mutate: likePost } = useLikePost();
     const { mutate: deletePost } = useDeletePost();
     const { mutate: unlikePost } = useUnlikePost();
+    const {t}=useTranslation()
+    
   
     const likedPosts = useMemo(() => {
       if (data?.posts) {
@@ -125,17 +128,17 @@ const UserPostFeed = () => {
                     icon={faHeart}
                     className={likedPosts.has(post._id) ? 'text-red-500' : 'text-gray-500'}
                   />
-                  <div>{post.likes.length} likes</div>
+                  <div>{post.likes.length} {t("profilepage.likes")}</div>
                 </div>
                 <NavLink to={`/comment/${post._id}`} className="flex items-center">
                   <FontAwesomeIcon icon={faComment} />
-                  <div>{post.comment.length} comments</div>
+                  <div>{post.comment.length} {t("profilepage.comments")}</div>
                 </NavLink>
               </div>
             </div>
           ))
         ) : (
-          <div>No posts available.</div>
+          <div>{t("profilepage.NoPosts")}</div>
         )}
       </>
     );

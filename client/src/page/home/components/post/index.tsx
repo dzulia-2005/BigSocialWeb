@@ -10,6 +10,7 @@ import { queryClient } from '../../../../main';
 import { NavLink } from 'react-router-dom';
 import { useMemo } from 'react';
 import PostSkeleton from '../../../../components/skeletons/postskeleton';
+import { useTranslation } from 'react-i18next';
 
 
 
@@ -18,10 +19,9 @@ const PostFeed = () => {
     const { data:allpost ,isLoading}: { data: any ,isLoading:any} = useGetAllPost(user?._id ?? "");
     const { mutate: likePost } = useLikePost(); 
     const { mutate: unlike_post } = useUnlikePost();
+    const {t}=useTranslation()
     
-
-
-
+    
     const likedPosts = useMemo(() => {
         if (allpost && Array.isArray(allpost.posts)) {
             return new Set(
@@ -102,11 +102,11 @@ const PostFeed = () => {
                                 icon={faHeart}
                                 className={likedPosts.has(post._id) ? 'text-red-500' : 'text-gray-500'}
                             />
-                            <div className="ml-2">{post.likes.length} likes</div>
+                            <div className="ml-2">{post.likes.length} {t("homepage.likes")}</div>
                         </div>
                         <NavLink to={`/comment/${post._id}`} className="flex items-center">
                             <FontAwesomeIcon icon={faComment} />
-                            <div className="ml-2">{post.comment.length} comments</div>
+                            <div className="ml-2">{post.comment.length} {t("homepage.comments")}</div>
                         </NavLink>
                     </div>
                 </div>

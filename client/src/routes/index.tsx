@@ -9,7 +9,7 @@ import { dashboard } from "./dashboard";
 const AppRoute = () => {
   return (
        <Routes>
-          <Route  element={<AuthLayout/>}>
+          <Route   element={<AuthLayout/>}>
              {authroutes}
           </Route>
           <Route  element={<DashboardLayout />}>

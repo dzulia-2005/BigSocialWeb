@@ -6,10 +6,13 @@ import { NavLink } from 'react-router-dom';
 import NotNotification from '../components/notnotification';
 import SkeletonNotification from '../../../components/skeletons/skeletonnotification';
 import LeftSide from '../../../components/base/leftside';
+import { useTranslation } from 'react-i18next';
 
 const Notification: React.FC = () => {
   const { user } = useAuthContext();
   const { data, isLoading} = useGetallfollowers(user?._id || "");
+  const {t}=useTranslation();
+  
 
   if (isLoading) {
    
@@ -35,8 +38,8 @@ const Notification: React.FC = () => {
           data.map((n) => (
             <NavLink to={`/profile/${n._id}`} key={n._id}>
               <div className="rounded-xl shadow bg-[#EAFF96] h-16 pt-2 pl-3.5">
-                 {n.username} started following you
-                 <div className="text-sm">{dayjs().diff(dayjs(n.createdAt), "day")} days ago</div>
+                 {n.username} {t("notification.startedfollowing")}
+                 <div className="text-sm">{dayjs().diff(dayjs(n.createdAt), "day")} {t("notification.daysago")}</div>
               </div>
             </NavLink>
           ))
