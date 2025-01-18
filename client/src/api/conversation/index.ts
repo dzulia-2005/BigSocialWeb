@@ -48,7 +48,25 @@ export const getFindTwoUsersConversation = () => {
     return httpClient.get<getFindTwoUsersConversationResponse>(CONVERSATION_ENDPOINT.findTwoUsersConversation).then((res)=>res.data);
 }
 
-export const deleteConversation = () => {
-    return httpClient.delete(CONVERSATION_ENDPOINT.deleteConversation).then((res)=>res.data);
+export const deleteConversation = async({conversationId}:{conversationId:string}) => {
+    try {
+        const accessToken = localStorage.getItem("accessToken");
+        const refreshToken = localStorage.getItem("refreshToken");
+
+        const response = await httpClient.delete(
+            CONVERSATION_ENDPOINT.deleteConversation.replace(":conversationId",conversationId),
+            {
+                headers:{
+                    Authorization: `Bearer ${accessToken}`,
+                    "X-Refresh-Token": refreshToken,
+                }
+            }
+        )
+
+        return response.data || []
+    } catch (error) {
+        console.error("delete conversation Error",error);
+        throw error;
+    }
 }
 

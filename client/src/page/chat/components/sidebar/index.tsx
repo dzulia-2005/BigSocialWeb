@@ -4,11 +4,17 @@ import { useAuthContext } from '../../../../context/auth/hooks/useAuthContext';
 import { useGetConversationOfUser } from '../../../../react-query/query/conversation';
 import { Avatar, AvatarImage } from '../../../../components/ui/avatar';
 import SkeletonLoader from '../../../../components/skeletons/chatsidebarskeleton';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { useDeleteConversation } from '../../../../react-query/mutation/conversation';
+
 
 const Sidebar = ({ onSelectUser }:{onSelectUser:any}) => {
     const { user } = useAuthContext();
     const userId = user?._id
     const { data: conversation ,isLoading} = useGetConversationOfUser(userId || "");
+    
+    const {mutate:deleteConversation} = useDeleteConversation();
 
     
     const handleConversationClick = (userId:any) => {
@@ -17,6 +23,10 @@ const Sidebar = ({ onSelectUser }:{onSelectUser:any}) => {
 
     if (isLoading) {
       return <SkeletonLoader/>
+    }
+
+    const handleDeleteClick = (conversationId:string) => {
+      deleteConversation({conversationId})
     }
   
   return (
@@ -49,6 +59,14 @@ const Sidebar = ({ onSelectUser }:{onSelectUser:any}) => {
                     ? c.participants[0]?.username
                     : c.participants[1]?.username}
                 </div>
+              </div>
+              <div className='absolute left-[22%]'>
+                <FontAwesomeIcon 
+                    icon={faTrash} className='text-red-600' 
+                    onClick={(e)=>{
+                      e.stopPropagation()
+                      handleDeleteClick(c._id)
+                    }}/>
               </div>
             </div>
           ))}                     

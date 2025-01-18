@@ -18,7 +18,7 @@ export const useCreatePost = () => {
 export const useDeletePost = () => {
     return useMutation({
         mutationKey:["delete-post"],
-        mutationFn:delete_post
+        mutationFn:delete_post,
     })
 }
 

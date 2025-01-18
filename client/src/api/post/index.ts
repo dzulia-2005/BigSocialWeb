@@ -164,23 +164,29 @@ export const unlike_post = async({userId,postId}:{userId?:string,postId:string})
         
 }
 
-export const getOnePost = async({postId}:{postId:string}):Promise<getonePostType[] | undefined> => {
+
+export const getOnePost = async ({ postId }: { postId: string }): Promise<getonePostType[] | undefined> => {
+  if (!postId) {
+    console.error("Post ID is undefined");
+    return undefined;
+  }
+
   try {
     const accessToken = localStorage.getItem("accessToken");
     const refreshToken = localStorage.getItem("refreshToken");
 
     const response = await httpClient.get(
-      POST_ENDPOINTS.getonePost.replace(":postId",postId),
+      POST_ENDPOINTS.getonePost.replace(":postId", postId),
       {
-         headers:{
-           Authorization: `Bearer ${accessToken}`,
-           "X-Refresh-Token": refreshToken,
-        }
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "X-Refresh-Token": refreshToken,
+        },
       }
-  )
+    );
 
-  return response.data || []
+    return response.data || [];
   } catch (error) {
-    console.error("getonepost error",error)
+    console.error("Error fetching post details:", error);
   }
-}
+};

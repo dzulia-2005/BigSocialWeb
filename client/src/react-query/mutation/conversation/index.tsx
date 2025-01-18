@@ -15,7 +15,14 @@ export const useCreateNewConversation = () => {
 
 export const useDeleteConversation = () => {
     return useMutation({
-        mutationKey:["Delete-Conversation"],
-        mutationFn:deleteConversation
-    })
-}
+      mutationFn: deleteConversation,
+      mutationKey:["delete-conversation"],
+      onSuccess: (data) => {
+        console.log('Conversation deleted successfully:', data);
+        queryClient.invalidateQueries<any>(['delete-conversation']);
+      },
+      onError: (error) => {
+        console.error('Error deleting conversation:', error);
+      },
+    });
+  };

@@ -6,7 +6,6 @@ export const useGetUserPost = (userId: string) => {
     return useQuery<getuserpostsType[]>({
         queryKey:["get-user-post",userId],
         queryFn:() => get_UserPost({ userId }),
-        
     })
 }
 
@@ -17,9 +16,11 @@ export const useGetAllPost = (userId:string) => {
     })
 }
 
-export const useGetOnePost = (postId:string) => {
+
+export const useGetOnePost = (postId: string) => {
     return useQuery<getonePostType[] | undefined>({
-        queryKey:["get-onePost",postId],
-        queryFn:() => getOnePost({postId})
-    })
-}
+      queryKey: ["get-onePost", postId],
+      queryFn: () => getOnePost({ postId }),
+      enabled: !!postId, 
+    });
+  };
