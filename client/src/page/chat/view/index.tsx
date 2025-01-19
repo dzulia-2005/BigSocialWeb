@@ -85,11 +85,8 @@ const Chat = () => {
   return (
     <div className="rounded-xl shadow bg-[#EAFF96] h-[600px] overflow-hidden">
       <div className="flex h-full">
-        {/* Sidebar */}
         <Sidebar  onSelectUser={setSelectedUserId}/>
-
-        {/* Chat Window */}
-        {selectedUserId ? (
+          {selectedUserId ? (
             <div className="w-full flex flex-col justify-between p-6">
               <div className="overflow-y-auto max-h-[500px] space-y-6">
                 {Getmessage && Getmessage.length > 0 ? (

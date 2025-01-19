@@ -28,7 +28,7 @@ const Rightside:React.FC = () => {
                 <ul className="space-y-4">
                     {data?.length ? (
                         data.map((f)=>(
-                            <li>
+                            <li key={f._id}>
                               <NavLink to={`/profile/${f._id}`}>  
                                 <div className="flex items-center">
                                     <span >

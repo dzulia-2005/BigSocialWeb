@@ -11,8 +11,9 @@ const Profile = lazy(()=>import('../../../page/profile/view/profile'));
 
 export const profile = [
     <Route 
-    path={dashboard.profile} 
-    element={
+      key="profile"
+      path={dashboard.profile} 
+      element={
         <Suspense fallback={<div className="flex items-center justify-center h-screen"><Spin indicator={<LoadingOutlined style={{ fontSize: 48 }} spin />} /></div>}>
             <AuthGuard>
                 <Profile/>

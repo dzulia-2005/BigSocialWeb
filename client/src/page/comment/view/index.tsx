@@ -78,13 +78,11 @@ const CommentRoute: React.FC = () => {
                </div>
                <div className="mx-6">
                  <img
-                   src={data.image.length > 0 ? data.image[0] : image}
-                   alt="Post"
+                   src={data.image.length > 0 ? data.image[0] : null}
                    className="w-full h-auto"
                  />
                </div>
 
-               {/* Add comment */}
                <div className="flex items-center px-6 py-4">
                  <Avatar>
                    <AvatarImage

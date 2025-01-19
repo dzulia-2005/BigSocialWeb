@@ -11,6 +11,7 @@ const Notification = lazy(()=>import("../../../page/notification/view/index"));
 
 export const notification = [
     <Route
+      key="notification"
       path={dashboard.notification}
       element = {
         <Suspense fallback = {<div className="flex items-center justify-center h-screen"><Spin indicator={<LoadingOutlined style={{ fontSize: 48 }} spin />} /></div>}>

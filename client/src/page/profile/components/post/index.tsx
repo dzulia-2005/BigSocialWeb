@@ -114,8 +114,7 @@ const UserPostFeed = () => {
               </div>
               <div className="mx-6">
                 <img
-                  src={post.image?.[0] || image}
-                  alt="Post"
+                  src={post.image?.[0]}
                   className="w-full h-auto"
                 />
               </div>

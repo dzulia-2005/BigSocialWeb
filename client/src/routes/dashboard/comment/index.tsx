@@ -9,6 +9,7 @@ const CommentRoute = lazy(()=>import("../../../page/comment/view"));
 
 export const comment = [
     <Route
+    key="comment"
     path={dashboard.comment}
     element={
         <Suspense fallback={<div className="flex items-center justify-center h-screen"><Spin indicator={<LoadingOutlined style={{ fontSize: 48 }} spin />} /></div>}>

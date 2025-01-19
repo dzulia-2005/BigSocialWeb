@@ -12,7 +12,6 @@ import { useTranslation } from 'react-i18next';
 
 const Sharecomp: React.FC = () => {
     const {t}=useTranslation()
-
     const { user } = useAuthContext(); 
     const [caption, setCaption] = useState<string>(''); 
     const [selectedFile, setSelectedFile] = useState<File | null>(null); 
@@ -30,38 +29,35 @@ const Sharecomp: React.FC = () => {
 
     const handlePost = () => {
         if (!caption.trim()) {
-          alert("Please enter a caption for the post.");
-          return;
-        }
-        if (!selectedFile) {
-          alert("Please select an image.");
-          return;
+            alert("Please enter a caption for the post.");
+            return;
         }
         if (!user?._id) {
-          alert("User not authenticated.");
-          return;
+            alert("User not authenticated.");
+            return;
         }
-      
+    
         const formData = new FormData();
         formData.append("caption", caption);
-        formData.append("images", selectedFile);
-      
+    
+        if (selectedFile) {
+            formData.append("images", selectedFile); 
+        }
+    
         createPost(
-          { userId: user._id, payload: formData },
-          {
-            onSuccess: () => {
-              alert("Post created successfully!");
-              queryClient.invalidateQueries<any>("create-postwith-img");
-             
-              setCaption("");
-              setSelectedFile(null);
-              setPreviewUrl(null); 
-            },
-            onError: (error:any) => {
-              console.error("Error creating post:", error);
-              alert("Failed to create post. Please try again.");
-            },
-          }
+            { userId: user._id, payload: formData },
+            {
+                onSuccess: () => {
+                    queryClient.invalidateQueries<any>("create-postwith-img");
+    
+                    setCaption("");
+                    setSelectedFile(null);
+                    setPreviewUrl(null); 
+                },
+                onError: (error: any) => {
+                    console.error("Error creating post:", error);
+                },
+            }
         );
     };
 

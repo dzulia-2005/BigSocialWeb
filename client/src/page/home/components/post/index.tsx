@@ -88,8 +88,7 @@ const PostFeed = () => {
                     </div>
                     <div className="mx-6">
                         <img
-                            src={post.image.length > 0 ? post.image[0] : image}
-                            alt="Post"
+                            src={post.image.length > 0 ? post.image[0] : null}
                             className="w-full h-auto"
                         />
                     </div>

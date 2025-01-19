@@ -31,20 +31,21 @@ const createpostController = async(req,res,next) => {
 const generateFileUrl = (filename) => {
     return process.env.URL+`/uploads/${filename}`
 }
-
 const createpostwithimageController = async (req, res, next) => {
     const { userId } = req.params;
     const { caption } = req.body;
     const files = req.files;
 
     try {
-       
         const user = await User.findById(userId);
         if (!user) {
             throw new CustomError("User not found", 404);
         }
 
-        const imageurl = files.map((file) => generateFileUrl(file.filename));
+        
+        const imageurl = files && files.length > 0 
+            ? files.map((file) => generateFileUrl(file.filename)) 
+            : [];
 
         const newPost = new Post({
             user: userId,
@@ -54,15 +55,13 @@ const createpostwithimageController = async (req, res, next) => {
 
         await newPost.save();
 
-        
         user.posts.push(newPost._id);
         await user.save();
-
         
         const populatedPost = await newPost.populate([
             {
-            path: "user",
-            select: "username profilePicture",
+                path: "user",
+                select: "username profilePicture",
             },
             {
                 path: "comment",
@@ -70,7 +69,6 @@ const createpostwithimageController = async (req, res, next) => {
             },
         ]);
 
-        
         res.status(201).json({
             message: "Post created successfully",
             post: populatedPost,
@@ -79,7 +77,6 @@ const createpostwithimageController = async (req, res, next) => {
         next(error);
     }
 };
-
 
 const updatePostController = async(req,res,next) => {
     const {postId}=req.params;
