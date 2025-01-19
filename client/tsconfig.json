@@ -12,6 +12,11 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
-    }
+    },
+    "esModuleInterop": true,  
+    "moduleResolution": "node",  
+    "strict": true, 
+    "target": "ESNext",  
+    "types": ["node", "socket.io-client"]  
   }
 }

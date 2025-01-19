@@ -11,26 +11,22 @@ import { useCreateMessage } from '../../../react-query/mutation/message';
 import { queryClient } from '../../../main';
 import { useTranslation } from 'react-i18next';
 
+
 const Chat = () => {
   const { user } = useAuthContext();
   const userId = user?._id;
-
   const [selectedUserId, setSelectedUserId] = useState(null);
   const messagesEndRef = useRef<HTMLDivElement>(null); 
-
   const { data: conversation } = useGetConversationOfUser(userId || "");
-
+  const [newMessage, setNewMessage] = useState("");
+  const { mutate: sendMessage,} = useCreateMessage(); 
+  const {t}=useTranslation();
   const conversationId = conversation?.find(
     (c) =>
       c.participants[0]?._id === selectedUserId || c.participants[1]?._id === selectedUserId
   )?._id;
-
   const { data: Getmessage } = useGetMessage(conversationId || "" );
-  const [newMessage, setNewMessage] = useState("");
-  const { mutate: sendMessage,} = useCreateMessage(); 
-  const {t}=useTranslation();
 
- 
 
   const handleSubmit = () => {
    
