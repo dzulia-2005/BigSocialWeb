@@ -10,6 +10,7 @@ import {  useRef, useState } from 'react';
 import { useCreateMessage } from '../../../react-query/mutation/message';
 import { queryClient } from '../../../main';
 import { useTranslation } from 'react-i18next';
+import EmojiPicker from 'emoji-picker-react';
 
 
 const Chat = () => {
@@ -26,6 +27,8 @@ const Chat = () => {
       c.participants[0]?._id === selectedUserId || c.participants[1]?._id === selectedUserId
   )?._id;
   const { data: Getmessage } = useGetMessage(conversationId || "" );
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+
 
 
   const handleSubmit = () => {
@@ -78,6 +81,11 @@ const Chat = () => {
   );
 };
 
+const handleEmojiClick = (emojiObject: any) => {
+  setNewMessage((prev) => prev + emojiObject.emoji);
+  setShowEmojiPicker(false);
+};
+
   return (
     <div className="rounded-xl shadow bg-[#EAFF96] h-[600px] overflow-hidden">
       <div className="flex h-full">
@@ -128,6 +136,17 @@ const Chat = () => {
               </div>
               
               <div className="flex items-center gap-4 mt-4 border-t border-[#ccc] pt-4">
+              {showEmojiPicker && (
+                <div className="absolute bottom-12 left-0 z-10">
+                  <EmojiPicker onEmojiClick={handleEmojiClick} />
+                </div>
+              )}
+              <button
+                className="bg-[#386dc5] text-[#fff] px-4 py-2 rounded-md hover:bg-[#274a8f]"
+                onClick={() => setShowEmojiPicker((prev) => !prev)}
+              >
+                😊
+              </button>
                 <Input
                   placeholder="Type your message..."
                   className="flex-grow border-none focus:outline-none bg-[#4f4f4f] rounded-md p-4 text-[#ffff]"
