@@ -78,30 +78,40 @@ const createpostwithimageController = async (req, res, next) => {
     }
 };
 
-const updatePostController = async(req,res,next) => {
-    const {postId}=req.params;
-    const {caption}=req.body;
+const updatePostController = async (req, res, next) => {
+    const { postId } = req.params;
+    const { caption } = req.body;
+    const images = req.files || []; 
 
     try {
+       
         const updateToPost = await Post.findById(postId);
         if (!updateToPost) {
-            throw new CustomError("post not found",404);
+            throw new CustomError("Post not found", 404);
         }
 
-        const updatedpost = await Post.findByIdAndUpdate(
+        const updatedFields = {};
+        
+        
+        if (caption) updatedFields.caption = caption;
+
+        
+        if (images.length > 0) {
+            const newImages = images.map((file) => generateFileUrl(file.filename));
+            updatedFields.image = newImages;
+        }
+
+        const updatedPost = await Post.findByIdAndUpdate(
             postId,
-            {caption},
-            {new:true}
-        )
+            { $set: updatedFields },
+            { new: true }
+        );
 
-        await updateToPost.save();
-        res.status(201).json({message:"post updated successfully",post:updatedpost});
-
-
+        res.status(201).json({ message: "Post updated successfully", post: updatedPost });
     } catch (error) {
         next(error);
     }
-}
+};
 
 
 const getAllPostController = async (req, res, next) => {

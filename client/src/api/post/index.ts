@@ -1,6 +1,6 @@
 import { httpClient } from ".."
 import { POST_ENDPOINTS } from "./index.enum"
-import { createPostType,  getallpostType,  getonePostType,  getuserpostsType} from "./index.type"
+import { createPostType,  getallpostType,  getonePostType,  getuserpostsType,} from "./index.type"
 
 
 export const createPost = async({payload}:createPostType) => {
@@ -89,7 +89,6 @@ export const get_UserPost = async ({ userId }: { userId: string }): Promise<getu
     }
   };
   
-
 
 
 export const delete_post = async({postId}:{postId:string}) => {
@@ -188,5 +187,29 @@ export const getOnePost = async ({ postId }: { postId: string }): Promise<getone
     return response.data || [];
   } catch (error) {
     console.error("Error fetching post details:", error);
+  }
+};
+
+export const updatePost = async ({ payload }: { payload: FormData }) => {
+  try {
+    const accessToken = localStorage.getItem("accessToken");
+    const refreshToken = localStorage.getItem("refreshToken");
+
+    const response = await httpClient.put(
+      POST_ENDPOINTS.updatePost.replace(":postId", payload.get("postId") as string),
+      payload, // პირდაპირ ვიყენებთ გადაცემულ FormData ობიექტს
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "X-Refresh-Token": refreshToken,
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error("updatePost error", error);
+    throw error;
   }
 };

@@ -3,5 +3,6 @@ export enum dashboard {
     profile = "/profile/:userId",
     comment = "/comment/:postId",
     chat = "/chat",
-    notification = "/notification"
+    notification = "/notification",
+    editpost = "/editpost/:postId"
 }

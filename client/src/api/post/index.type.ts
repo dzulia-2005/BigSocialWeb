@@ -82,3 +82,11 @@ export type getonePostType = {
     updatedAt: string;
     __v: number;
 }
+
+export type updatePostType = {
+    payload : {
+        postId : string;
+        caption: string;
+        image :File;
+    }
+}

@@ -170,7 +170,6 @@ export const UpdateProfilePic = async ({ payload }: UpdateProfilePicType) => {
             }
         )
 
-        console.log(response)
         return response.data
 
     } catch (error) {

@@ -2,12 +2,12 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Avatar, AvatarImage } from '@radix-ui/react-avatar';
 import image from '../../../../assets/defaultprofileimg.webp';
-import { faComment, faHeart } from '@fortawesome/free-solid-svg-icons';
+import { faComment, faHeart, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
 import { useGetUserPost } from '../../../../react-query/query/post'
 import { queryClient } from '../../../../main'
 import { useDeletePost, useLikePost, useUnlikePost } from '../../../../react-query/mutation/post'
 import { faDeleteLeft } from '@fortawesome/free-solid-svg-icons';
-import { useMemo } from 'react';
+import { useMemo} from 'react';
 import { NavLink, useParams } from 'react-router-dom';
 import { useAuthContext } from '../../../../context/auth/hooks/useAuthContext';
 import { useGetUser } from '../../../../react-query/query/user';
@@ -26,7 +26,6 @@ const UserPostFeed = () => {
     const { mutate: deletePost } = useDeletePost();
     const { mutate: unlikePost } = useUnlikePost();
     const {t}=useTranslation()
-    
   
     const likedPosts = useMemo(() => {
       if (data?.posts) {
@@ -101,13 +100,23 @@ const UserPostFeed = () => {
                   </Avatar>
                   <div className="ml-4">{post.user?.username}</div>
                 </div>
-                {userData?._id === user._id && (
-                  <FontAwesomeIcon
-                    icon={faDeleteLeft}
-                    className="relative top-3 w-7 h-7 cursor-pointer"
-                    onClick={() => handleDeletePost(post._id)}
-                  />
-                )}
+
+                <div className="flex items-center space-x-4">
+                  {userData?._id === user._id && (
+                    <FontAwesomeIcon
+                      icon={faDeleteLeft}
+                      className="w-7 h-7 cursor-pointer text-red-500"
+                      onClick={() => handleDeletePost(post._id)}
+                    />
+                  )}
+                  <NavLink to={`/editpost/${post._id}`}>
+                      <FontAwesomeIcon 
+                      icon={faPenToSquare} 
+                      className="text-gray-700 text-xl cursor-pointer"
+                    />
+                  </NavLink>
+                </div>
+
               </div>
               <div className="pl-6">
                 <p className="py-2">{post.caption}</p>
@@ -127,11 +136,11 @@ const UserPostFeed = () => {
                     icon={faHeart}
                     className={likedPosts.has(post._id) ? 'text-red-500' : 'text-gray-500'}
                   />
-                  <div>{post.likes.length} {t("profilepage.likes")}</div>
+                  <div className="ml-2">{post.likes.length} {t("profilepage.likes")}</div>
                 </div>
                 <NavLink to={`/comment/${post._id}`} className="flex items-center">
                   <FontAwesomeIcon icon={faComment} />
-                  <div>{post.comment.length} {t("profilepage.comments")}</div>
+                  <div className="ml-2">{post.comment.length} {t("profilepage.comments")}</div>
                 </NavLink>
               </div>
             </div>

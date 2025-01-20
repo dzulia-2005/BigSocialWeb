@@ -19,7 +19,7 @@ router.post("/create",createpostController);
 router.post("/create/:userId",upload.array("images",5),createpostwithimageController);
 
 //update post
-router.put("/update/:postId",updatePostController);
+router.put("/update/:postId", upload.array('image'),updatePostController);
 
 //get all posts
 router.get("/all/:userId",getAllPostController);

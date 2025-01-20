@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query"
-import { createPost, createPostImg, delete_post, like_post, unlike_post } from "../../../api/post"
+import { createPost, createPostImg, delete_post, like_post, unlike_post, updatePost } from "../../../api/post"
 
 export const useCreatePostImg = () => {
     return useMutation({
@@ -33,5 +33,12 @@ export const useUnlikePost = () => {
     return useMutation({
         mutationKey:["unlike-post"],
         mutationFn:unlike_post
+    })
+}
+
+export const useUpdatePost = () => {
+    return useMutation({
+        mutationKey:["update-post"],
+        mutationFn:updatePost
     })
 }

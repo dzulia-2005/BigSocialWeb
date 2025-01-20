@@ -10,8 +10,7 @@ import { SignupSchema } from './shcema'
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSignUp } from '../../../../react-query/mutation/auth'
 import { useNavigate } from 'react-router-dom'
-
-
+import { notification } from "antd";
 
 
 type registerFormValues = SignUpPayload["payload"]
@@ -40,9 +39,24 @@ const SignUp:React.FC = () => {
   console.log(errors)
 
   const onSubmit = (SignUpPayload:registerFormValues) => {
-    handleRegister({payload:SignUpPayload},{ onSuccess:() => {
-      navigate("/")
-    }})
+    handleRegister({payload:SignUpPayload}
+      ,{
+         onSuccess:() => {
+          notification.open({
+            message: 'Now Log In',
+            description: 'you created account successfully',
+            placement: 'topRight',
+          });
+          navigate("/")
+         },
+         onError:()=>{
+          notification.open({
+            message: 'Registration Failed',
+            description: 'You could not register.',
+            placement: 'topRight',
+          });
+         }
+      })
   }
 
 

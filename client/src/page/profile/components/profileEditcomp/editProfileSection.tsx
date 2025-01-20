@@ -37,8 +37,6 @@ const EditProfileSection:React.FC = () => {
         {
           onSuccess: () => {
               queryClient.invalidateQueries<any>(['updateprofpic', user._id]);            
-
-            
           },
         }
       );

@@ -5,5 +5,6 @@ export enum POST_ENDPOINTS {
     deletepost = "/post/delete/:postId",
     likePost = "/post/like/:postId",
     unlikePost = "/post//unlike/:postId",
-    getonePost = "/post/getonepost/:postId"
+    getonePost = "/post/getonepost/:postId",
+    updatePost = "/post/update/:postId"
 }
