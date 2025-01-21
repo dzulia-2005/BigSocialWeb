@@ -9,7 +9,8 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,css,scss,json,yml,md}\"",
     "preview": "vite preview",
-    "prepare": "husky install"
+    "prepare": "husky install", 
+    "test": "echo \"No tests specified\" && exit 0"
   },
   "husky": {
     "hooks": {

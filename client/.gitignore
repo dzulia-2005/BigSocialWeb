@@ -1,27 +1,29 @@
-# Node.js
+
 node_modules/
-package-lock.json
 
-# Build artefacts
+# Build output
 dist/
-*.map
+build/
 
-# OS
-.DS_Store
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
 
-# IDE-specific files
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# IDE specific files
 .idea/
 .vscode/
 
-# OS temp files
+# OS generated files
+.DS_Store
 Thumbs.db
 
-# Composer files
-composer.lock
-
-# Windows-specific files
-*.suo
-*.user
-
-# Env configuration
-.env
+# TypeScript
+*.tsbuildinfo
