@@ -22,3 +22,6 @@ composer.lock
 # Windows-specific files
 *.suo
 *.user
+
+# Env configuration
+.env
