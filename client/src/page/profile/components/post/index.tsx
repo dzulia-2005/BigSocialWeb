@@ -147,7 +147,7 @@ const UserPostFeed = () => {
             </div>
           ))
         ) : (
-          <div>{t("profilepage.NoPosts")}</div>
+          <div className='text-center'>{t("profilepage.NoPosts")}</div>
         )}
       </>
     );

@@ -65,12 +65,12 @@ const SignUp:React.FC = () => {
     <TabsContent value="password">
         <Card className='bg-[#EAFF96]'>
           <CardHeader>
-            <CardTitle>Register</CardTitle>
+            <CardTitle className='text-[#000]'>Register</CardTitle>
             <CardDescription>Create Account</CardDescription>
           </CardHeader>
           <CardContent className="space-y-2">
             <div className="space-y-1">
-              <Label htmlFor="current">Username</Label>
+              <Label htmlFor="current" className='text-[#000]'>Username</Label>
 
               <Controller   
                     control={control} 
@@ -89,7 +89,7 @@ const SignUp:React.FC = () => {
 
             </div>
           <div className="space-y-1">
-              <Label htmlFor="name">Email</Label>
+              <Label htmlFor="name" className='text-[#000]'>Email</Label>
 
               <Controller 
                     control={control} 
@@ -107,7 +107,7 @@ const SignUp:React.FC = () => {
               )}
             </div>
             <div className="space-y-1">
-              <Label htmlFor="name">Password</Label>
+              <Label htmlFor="name" className='text-[#000]'>Password</Label>
 
               <Controller 
                   control={control} 
@@ -127,7 +127,7 @@ const SignUp:React.FC = () => {
             </div>
           </CardContent>
           <CardFooter >
-            <Button onClick={handleSubmit(onSubmit)} className='flex items-center text-[#EAFF96]'>Register</Button>
+            <Button onClick={handleSubmit(onSubmit)} className='flex hover:bg-[#000] items-center text-[#EAFF96] bg-[#000]'>Register</Button>
           </CardFooter>
         </Card>
       </TabsContent>

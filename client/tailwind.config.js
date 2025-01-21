@@ -12,17 +12,15 @@ export default {
                 sm: 'calc(var(--radius) - 4px)'
             },
             colors: {
-                background: {
-                    DEFAULT: 'hsl(var(--background))',
-                    light: '#FFFFFF', // light mode main background
-                    dark: '#1F1F1F',   // dark mode main background
-                },
-                foreground: {
-                    DEFAULT: 'hsl(var(--foreground))',
-                },
+                background: 'hsl(var(--background))',
+                foreground: 'hsl(var(--foreground))',
                 card: {
                     DEFAULT: 'hsl(var(--card))',
                     foreground: 'hsl(var(--card-foreground))'
+                },
+                popover: {
+                    DEFAULT: 'hsl(var(--popover))',
+                    foreground: 'hsl(var(--popover-foreground))'
                 },
                 primary: {
                     DEFAULT: 'hsl(var(--primary))',
@@ -44,34 +42,16 @@ export default {
                     DEFAULT: 'hsl(var(--destructive))',
                     foreground: 'hsl(var(--destructive-foreground))'
                 },
-                border: {
-                    light: 'hsl(var(--border))',
-                    dark: 'hsl(var(--border))',
-                },
-                input: {
-                    light: 'hsl(var(--input))',
-                    dark: 'hsl(var(--input))',
-                },
-                ring: {
-                    light: 'hsl(var(--ring))',
-                    dark: 'hsl(var(--ring))',
-                },
+                border: 'hsl(var(--border))',
+                input: 'hsl(var(--input))',
+                ring: 'hsl(var(--ring))',
                 chart: {
                     '1': 'hsl(var(--chart-1))',
                     '2': 'hsl(var(--chart-2))',
                     '3': 'hsl(var(--chart-3))',
                     '4': 'hsl(var(--chart-4))',
                     '5': 'hsl(var(--chart-5))'
-                },
-                text: {
-                    DEFAULT: '#000000', // Always black text
-                },
-                white: 'transparent',  // აქ დავაშალეთ თეთრი ფერი
-                black: '#000000', // ფიქსირებული შავი ფერი
-                gray: {
-                    DEFAULT: '#1f1f1f', // შეგიძლიათ აირჩიოთ სხვა გრავიც თუნდაც ჩრდილში იყოს
-                },
-                // საჭიროების შემთხვევაში წაშალეთ ან დაამატეთ სხვა ფერები
+                }
             }
         }
     },
