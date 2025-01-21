@@ -69,13 +69,13 @@ const Login: React.FC = () => {
     <TabsContent value="account">
       <Card className="bg-[#EAFF96]">
         <CardHeader>
-          <CardTitle>Account</CardTitle>
+          <CardTitle className='text-[#000]'>Account</CardTitle>
           <CardDescription>Login to your account</CardDescription>
         </CardHeader>
         <form >
           <CardContent className="space-y-2">
             <div className="space-y-1">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email" className='text-[#000]'>Email</Label>
 
               <Controller 
                 control={control} 
@@ -94,7 +94,7 @@ const Login: React.FC = () => {
                 )}
             </div>
             <div className="space-y-1">
-              <Label htmlFor="password">Password</Label>
+              <Label className='text-[#000]' htmlFor="password">Password</Label>
 
                 <Controller 
                     control={control}

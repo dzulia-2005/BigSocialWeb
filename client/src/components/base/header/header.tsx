@@ -34,7 +34,7 @@ const Header:React.FC = () => {
       }
     };
   return (
-    <header className='w-full h-16 bg-white dark:bg-[#151515] text-[#000]  border-b border-[#585858]-500 fixed z-10'>
+    <header className='w-full h-16  bg-[#fff] dark:bg-[#151515] text-[#000]  border-b border-[#585858]-500 fixed z-10'>
     <nav className='py-4 px-7' >
         <ul className='flex items-center justify-between'>   
           <DropdownMenu>

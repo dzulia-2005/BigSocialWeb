@@ -31,7 +31,7 @@ const Comments: React.FC<{ postId: string }> = ({ postId }) => {
           );
         })
       ) : (
-        <div className="px-6">No comments found.</div>
+        <div className="text-center">No comments found.</div>
       )}
     </>
   );

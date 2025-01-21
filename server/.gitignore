@@ -1,1 +1,17 @@
-node_modules
+# Ignore all files in node_modules
+node_modules/
+
+# Ignore temporary files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Ignore system files
+.DS_Store
+
+# Ignore build artifacts
+build/
+dist/
+
+# Ignore .env file
+.env
