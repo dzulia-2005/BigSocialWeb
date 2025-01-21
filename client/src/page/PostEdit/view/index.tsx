@@ -5,22 +5,25 @@ import image from 'antd/es/image';
 import LeftSide from '../../../components/base/leftside';
 import { Input } from '../../../components/ui/input';
 import { useGetOnePost } from '../../../react-query/query/post';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Postcommentskeleton from '../../../components/skeletons/postcommentskeleton';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faImage } from '@fortawesome/free-solid-svg-icons';
 import { useUpdatePost } from '../../../react-query/mutation/post';
+import { useAuthContext } from '../../../context/auth/hooks/useAuthContext';
 
 
 
 const EditPost: React.FC = () => {
+  const {user} = useAuthContext();
+
   const { postId } = useParams<{ postId: string }>(); 
   const { data ,isLoading}: { data: any ,isLoading:any} = useGetOnePost(postId || ""); 
   const {mutate:updatePost} = useUpdatePost();
 
   const [caption,setCaption]= useState<string>("");
   const [imageFile,setImageFile] = useState<File | null>(null);
-  
+  const navigate = useNavigate()
   const handleCaptionChange = (e:React.ChangeEvent<HTMLInputElement>) => {
     setCaption(e.target.value);
   }
@@ -47,7 +50,7 @@ const EditPost: React.FC = () => {
         { payload: formData },
         {
           onSuccess: () => {
-            alert("Post updated successfully");
+            navigate(`/profile/${user?._id}`)
           },
           onError: (error) => {
             console.error("Error updating post:", error);
