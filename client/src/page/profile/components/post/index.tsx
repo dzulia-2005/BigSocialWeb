@@ -102,6 +102,13 @@ const UserPostFeed = () => {
                 </div>
 
                 <div className="flex items-center space-x-4">
+                  <NavLink to={`/editpost/${post._id}`}>
+                       <FontAwesomeIcon 
+                       icon={faPenToSquare} 
+                       className="text-gray-700 text-xl cursor-pointer"
+                     />
+                   </NavLink>
+                   
                   {userData?._id === user._id && (
                     <FontAwesomeIcon
                       icon={faDeleteLeft}
@@ -109,12 +116,6 @@ const UserPostFeed = () => {
                       onClick={() => handleDeletePost(post._id)}
                     />
                   )}
-                  <NavLink to={`/editpost/${post._id}`}>
-                      <FontAwesomeIcon 
-                      icon={faPenToSquare} 
-                      className="text-gray-700 text-xl cursor-pointer"
-                    />
-                  </NavLink>
                 </div>
 
               </div>

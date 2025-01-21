@@ -4,6 +4,7 @@ import DashboardLayout from "../layout/dashboard";
 import { authroutes } from "./auth";
 import NotFound from "../page/NotFoundPage";
 import { dashboard } from "./dashboard";
+import { ThemeProvider } from "../components/theme/theme-provider";
 
 
 const AppRoute = () => {
@@ -12,8 +13,8 @@ const AppRoute = () => {
           <Route   element={<AuthLayout/>}>
              {authroutes}
           </Route>
-          <Route  element={<DashboardLayout />}>
-             {dashboard}
+          <Route  element={<ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme"><DashboardLayout /></ThemeProvider>}>
+               {dashboard}
           </Route>
           <Route path='*' element={<NotFound/>}/>
        </Routes>

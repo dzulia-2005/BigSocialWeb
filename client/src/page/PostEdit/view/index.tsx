@@ -83,22 +83,23 @@ const EditPost: React.FC = () => {
                  </div>
                </div>
                <div className="pl-6 flex items-center justify-around">
+                 <label htmlFor="image-upload">
+                      <FontAwesomeIcon className="w-7 h-7 cursor-pointer" icon={faImage} />
+                 </label>
+                 <input
+                     id="image-upload"
+                     type="file"
+                     accept="image/*"
+                     onChange={handleChangeImage}
+                     style={{ display: 'none' }}
+                 />
+
                  <Input
                       placeholder="edit caption"
                       className="w-[70%] bg-[#4F4F4F] border-none text-[#ffff] focus:outline-none my-2"
                       value={caption}
                       onChange={handleCaptionChange}
                       name='text'
-                    />
-                    <label htmlFor="image-upload">
-                         <FontAwesomeIcon className="w-7 h-7 cursor-pointer" icon={faImage} />
-                    </label>
-                    <input
-                        id="image-upload"
-                        type="file"
-                        accept="image/*"
-                        onChange={handleChangeImage}
-                        style={{ display: 'none' }}
                     />
                </div>
                <div className="mx-6">

@@ -12,6 +12,7 @@ import { NavLink, useNavigate } from 'react-router-dom'
 import { useSignOut } from '../../../react-query/query/auth'
 import { useAuthContext } from '../../../context/auth/hooks/useAuthContext'
 import Headersearchinput from '../../ui/headersearchinput'
+import { ModeToggle } from '../../theme/mode-toggle'
 
 const Header:React.FC = () => {
     const { user } = useAuthContext();
@@ -33,7 +34,7 @@ const Header:React.FC = () => {
       }
     };
   return (
-    <header className='w-full h-16 bg-[#151515] border-b border-[#585858]-500 fixed z-10'>
+    <header className='w-full h-16 bg-white dark:bg-[#151515] text-[#000]  border-b border-[#585858]-500 fixed z-10'>
     <nav className='py-4 px-7' >
         <ul className='flex items-center justify-between'>   
           <DropdownMenu>
@@ -53,6 +54,7 @@ const Header:React.FC = () => {
             <div className="relative w-full max-w-[50%] sm:max-w-[40%] md:max-w-[35%] lg:max-w-[30%] mx-auto">
               <Headersearchinput/>
             </div>
+            <ModeToggle/>
         </ul>
     </nav>
 </header>
