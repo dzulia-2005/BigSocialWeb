@@ -1,27 +1,4 @@
-# Node.js
+# .gitignore
 node_modules/
 package-lock.json
-
-# Build artefacts
-dist/
-*.map
-
-# OS
-.DS_Store
-
-# IDE-specific files
-.idea/
-.vscode/
-
-# OS temp files
-Thumbs.db
-
-# Composer files
-composer.lock
-
-# Windows-specific files
-*.suo
-*.user
-
-# Env configuration
 .env
