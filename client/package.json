@@ -11,13 +11,12 @@
     "preview": "vite preview",
     "prepare": "husky install"
   },
-    "husky": {
-      "hooks": {
-        "pre-commit": "lint-staged",
-        "pre-push": "eslint . && prettier --check \"**/*.{js,jsx,ts,tsx,css,scss,json,yml,md}\""
-      }
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "pre-push": "eslint . && prettier --check \"**/*.{js,jsx,ts,tsx,css,scss,json,yml,md}\""
+    }
   },
-
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",

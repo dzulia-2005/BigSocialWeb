@@ -1,17 +1,24 @@
-# Ignore all files in node_modules
+# Node.js
 node_modules/
+package-lock.json
 
-# Ignore temporary files
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+# Build artefacts
+dist/
+*.map
 
-# Ignore system files
+# OS
 .DS_Store
 
-# Ignore build artifacts
-build/
-dist/
+# IDE-specific files
+.idea/
+.vscode/
 
-# Ignore .env file
-.env
+# OS temp files
+Thumbs.db
+
+# Composer files
+composer.lock
+
+# Windows-specific files
+*.suo
+*.user
