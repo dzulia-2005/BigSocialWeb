@@ -34,7 +34,9 @@ app.use("/api/comments",verifyToken,commentRoute);
 app.use("/api/conversation",verifyToken,conversationRoute);
 app.use("/api/message",verifyToken,messageRoute);
 
-
+app.get('/api', (req, res) => {
+  res.json({ message: 'Hello from Express on Vercel!' });
+});
 
 app.use(errorhandler);
 
