@@ -6,7 +6,7 @@
     "start": "node index.js",
     "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "npm run build"
+    "prod": "NODE_ENV=production node index.js"
   },
   "author": "",
   "license": "ISC",

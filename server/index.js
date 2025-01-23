@@ -46,4 +46,10 @@ app.use(errorhandler);
 connectDB();
 
 
+app.listen(process.env.PORT,()=>{
+  connectDB()
+  console.log("Server running on port 3000");
+})
+
+
 module.exports = app;
