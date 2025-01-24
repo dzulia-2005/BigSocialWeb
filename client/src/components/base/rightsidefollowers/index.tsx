@@ -33,7 +33,7 @@ const Rightside:React.FC = () => {
                                 <div className="flex items-center">
                                     <span >
                                         <Avatar >
-                                            <AvatarImage className="rounded-full h-10 w-10" src={ f.profilePicture ||image}/>
+                                            <AvatarImage className="rounded-full h-10 w-10" src={ f.profilePicture ? `https://${f.profilePicture}` : image}/>
                                         </Avatar>
                                     </span>
                                     <div className="ml-4">

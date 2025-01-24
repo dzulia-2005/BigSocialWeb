@@ -19,7 +19,7 @@ const Comments: React.FC<{ postId: string }> = ({ postId }) => {
                 <Avatar>
                   <AvatarImage
                     className="rounded-full h-10 w-10"
-                    src={comment?.user.profilePicture || image}
+                    src={comment?.user?.profilePicture ? `https://${comment?.user?.profilePicture}` : image}
                   />
                 </Avatar>
                 <div className="ml-4">

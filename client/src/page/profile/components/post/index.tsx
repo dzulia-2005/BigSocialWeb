@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Avatar, AvatarImage } from '@radix-ui/react-avatar';
-import image from '../../../../assets/defaultprofileimg.webp';
 import { faComment, faHeart, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
 import { useGetUserPost } from '../../../../react-query/query/post'
 import { queryClient } from '../../../../main'
@@ -95,7 +94,7 @@ const UserPostFeed = () => {
                   <Avatar>
                     <AvatarImage
                       className="rounded-full h-10 w-10"
-                      src={post.user?.profilePicture || image}
+                      src={`https://${post.user?.profilePicture}`}
                     />
                   </Avatar>
                   <div className="ml-4">{post.user?.username}</div>
@@ -124,9 +123,8 @@ const UserPostFeed = () => {
               </div>
               <div className="mx-6">
                 <img
-                  src={post.image?.[0]}
-                  className="w-full h-auto"
-                />
+                  src={post.image.length > 0 ? `https://${post.image[0]}` : undefined}
+                  />
               </div>
               <div className="flex mx-6 justify-between mb-4 mt-3">
                 <div

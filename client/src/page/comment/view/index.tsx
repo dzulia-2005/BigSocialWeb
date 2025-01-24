@@ -2,7 +2,6 @@
 import React, { useState } from 'react';
 import { useAuthContext } from '../../../context/auth/hooks/useAuthContext';
 import { Avatar, AvatarImage } from '@radix-ui/react-avatar';
-import image from 'antd/es/image';
 import LeftSide from '../../../components/base/leftside';
 import { Input } from '../../../components/ui/input';
 import { useCreateComment } from '../../../react-query/mutation/comment';
@@ -65,7 +64,7 @@ const CommentRoute: React.FC = () => {
                    <Avatar>
                      <AvatarImage
                        className="rounded-full h-10 w-10"
-                       src={data.user?.profilePicture || image}
+                       src={ data?.user?.profilePicture ? `https://${data?.user?.profilePicture}` : undefined}
                      />
                    </Avatar>
                    <div className="ml-4">
@@ -78,8 +77,8 @@ const CommentRoute: React.FC = () => {
                </div>
                <div className="mx-6">
                  <img
-                   src={data.image.length > 0 ? data.image[0] : null}
-                   className="w-full h-auto"
+                    src={data.image?.[0] ? `https://${data.image[0]}` : undefined}
+                    className="w-full h-auto"
                  />
                </div>
 
@@ -87,7 +86,7 @@ const CommentRoute: React.FC = () => {
                  <Avatar>
                    <AvatarImage
                      className="rounded-full h-10 w-10"
-                     src={user?.profilePicture || ""}
+                     src={user?.profilePicture ? `https://${user?.profilePicture}` : undefined }
                    />
                  </Avatar>
                  <div className="ml-4">

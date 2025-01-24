@@ -1,6 +1,9 @@
 import { createContext, PropsWithChildren, useEffect, useState } from "react";
 import { useGetMe } from "../../react-query/query/auth";
 import { useHttpInterceptor } from "../../hooks/usehtttpinterceptor";
+import { Spin } from "antd";
+import { LoadingOutlined } from "@ant-design/icons";
+
 
 interface AuthContextType {
   user: User | null;
@@ -52,7 +55,9 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
 
   
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex items-center justify-center h-screen"><Spin indicator={<LoadingOutlined style={{ fontSize: 48 }} spin />} /></div>
+    )
   }
 
   return (

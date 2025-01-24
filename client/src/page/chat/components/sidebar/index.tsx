@@ -49,8 +49,8 @@ const Sidebar = ({ onSelectUser }:{onSelectUser:any}) => {
                      className="rounded-full h-10 w-10"
                      src={
                        c.participants[0]?._id !== userId
-                         ? c.participants[0]?.profilePicture
-                         : c.participants[1]?.profilePicture
+                         ? `https://${c.participants[0]?.profilePicture}`
+                         : `https://${c.participants[1]?.profilePicture}`
                      }
                    />
                  </Avatar>

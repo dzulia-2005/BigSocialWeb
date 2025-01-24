@@ -3,7 +3,6 @@ import { useAuthContext } from '../../../../context/auth/hooks/useAuthContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faComment, faHeart } from '@fortawesome/free-solid-svg-icons';
 import { Avatar, AvatarImage } from '../../../../components/ui/avatar';
-import image from '../../../../assets/defaultprofileimg.webp';
 import { useGetAllPost } from '../../../../react-query/query/post';
 import { useLikePost, useUnlikePost } from '../../../../react-query/mutation/post';
 import { queryClient } from '../../../../main';
@@ -76,7 +75,7 @@ const PostFeed = () => {
                         <Avatar>
                             <AvatarImage
                                 className="rounded-full h-10 w-10"
-                                src={post.user?.profilePicture || image}
+                                src={`https://${post.user?.profilePicture}`}
                             />
                         </Avatar>
                         <div className="ml-4">
@@ -88,7 +87,7 @@ const PostFeed = () => {
                     </div>
                     <div className="mx-6">
                         <img
-                            src={post.image.length > 0 ? post.image[0] : null}
+                            src={post.image.length > 0 ? `https://${post.image[0]}` : undefined}
                             className="w-full h-auto"
                         />
                     </div>

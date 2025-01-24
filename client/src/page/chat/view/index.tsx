@@ -105,7 +105,7 @@ const handleEmojiClick = (emojiObject: any) => {
                         <Avatar>
                           <AvatarImage
                             className="rounded-full h-10 w-10"
-                            src={message.sender.profilePicture || image}
+                            src={message.sender.profilePicture ? `https://${message.sender.profilePicture}`: image}
                           />
                         </Avatar>
                       )}
@@ -122,7 +122,7 @@ const handleEmojiClick = (emojiObject: any) => {
                         <Avatar>
                           <AvatarImage
                             className="rounded-full h-10 w-10"
-                            src={message.sender.profilePicture || image}
+                            src={message.sender.profilePicture ? `https://${message.sender.profilePicture }`: image}
                           />
                         </Avatar>
                       )}

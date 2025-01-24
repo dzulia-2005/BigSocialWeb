@@ -68,7 +68,7 @@ const Sharecomp: React.FC = () => {
                         <Avatar>
                             <AvatarImage
                                 className="rounded-full h-10 w-10"
-                                src={user?.profilePicture || image}
+                                src={user?.profilePicture ? `https://${user?.profilePicture}` : image}
                             />
                         </Avatar>
                 </div>

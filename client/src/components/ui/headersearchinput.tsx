@@ -50,7 +50,7 @@ const Headersearchinput = () => {
                      className="px-4 py-2 hover:bg-blue-100 cursor-pointer flex items-center space-x-3"
                    >
                      <img
-                       src={user.profilePicture}
+                       src={user.profilePicture ? `https://${user.profilePicture}` : undefined}
                        alt={user.username}
                        className="w-8 h-8 rounded-full"
                      />

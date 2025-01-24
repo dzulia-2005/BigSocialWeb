@@ -79,7 +79,7 @@ const SearchInput = () => {
                 onClick={() => handleUserClick(user._id)} 
               >
                 <img
-                  src={user.profilePicture}
+                  src={user.profilePicture ? `https://${user.profilePicture}` : undefined}
                   alt={user.username}
                   className="w-8 h-8 rounded-full"
                 />
