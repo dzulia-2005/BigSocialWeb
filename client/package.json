@@ -9,7 +9,7 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,css,scss,json,yml,md}\"",
     "preview": "vite preview",
-     "prepare": "echo 'Skipping husky install'",
+    "prepare": "echo 'Skipping husky install'",
     "test": "echo \"No tests specified\" && exit 0"
   },
   "husky": {
@@ -25,6 +25,7 @@
     "@fortawesome/free-brands-svg-icons": "^6.7.1",
     "@fortawesome/free-solid-svg-icons": "^6.7.1",
     "@fortawesome/react-fontawesome": "^0.2.2",
+    "@hookform/resolvers": "^3.10.0",
     "@mui/material": "^6.4.0",
     "@radix-ui/react-avatar": "^1.1.1",
     "@radix-ui/react-dropdown-menu": "^2.1.4",
