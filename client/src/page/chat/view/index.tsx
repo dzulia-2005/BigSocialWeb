@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Input } from '../../../components/ui/input';
-import { Avatar, AvatarImage } from '../../../components/ui/avatar';
+import { Avatar } from '../../../components/ui/avatar';
 import image from '../../../assets/profileimg.jpg';
 import Sidebar from '../components/sidebar';
 import { useAuthContext } from '../../../context/auth/hooks/useAuthContext';
@@ -121,7 +121,7 @@ const handleEmojiClick = (emojiObject: any) => {
                       </div>
                       {message.sender._id === userId && (
                         <Avatar>
-                          <AvatarImage
+                          <img
                             className="rounded-full h-10 w-10"
                             src={message.sender.profilePicture ? `https://${message.sender.profilePicture }`: image}
                             onError={(e) => (e.currentTarget.src = image)}
