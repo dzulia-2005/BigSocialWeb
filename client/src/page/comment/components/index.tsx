@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Avatar, AvatarImage } from "@radix-ui/react-avatar";
-import image from "../../../assets/defaultprofileimg.webp";
+import { Avatar } from "@radix-ui/react-avatar";
+import image from "../../../assets/profileimg.jpg";
 import { useGetAllComment } from "../../../react-query/query/comment";
 
 const Comments: React.FC<{ postId: string }> = ({ postId }) => {
@@ -17,9 +17,10 @@ const Comments: React.FC<{ postId: string }> = ({ postId }) => {
             <div key={comment._id} className="py-4 border-t border-[#393636]">
               <div className="flex items-center px-6 py-2">
                 <Avatar>
-                  <AvatarImage
+                  <img
                     className="rounded-full h-10 w-10"
                     src={comment?.user?.profilePicture ? `https://${comment?.user?.profilePicture}` : image}
+                    onError={(e) => (e.currentTarget.src = image)}
                   />
                 </Avatar>
                 <div className="ml-4">

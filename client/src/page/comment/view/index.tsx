@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from 'react';
 import { useAuthContext } from '../../../context/auth/hooks/useAuthContext';
-import { Avatar, AvatarImage } from '@radix-ui/react-avatar';
+import { Avatar } from '@radix-ui/react-avatar';
 import LeftSide from '../../../components/base/leftside';
 import { Input } from '../../../components/ui/input';
 import { useCreateComment } from '../../../react-query/mutation/comment';
@@ -10,7 +10,7 @@ import { queryClient } from '../../../main';
 import { useGetOnePost } from '../../../react-query/query/post';
 import { useParams } from 'react-router-dom';
 import Postcommentskeleton from '../../../components/skeletons/postcommentskeleton';
-
+import Image from "../../../assets/profileimg.jpg"
 
 
 const CommentRoute: React.FC = () => {
@@ -62,9 +62,10 @@ const CommentRoute: React.FC = () => {
                <div className="flex items-center justify-between pr-6 relative">
                  <div className="pl-6 flex items-center pt-6">
                    <Avatar>
-                     <AvatarImage
+                     <img
                        className="rounded-full h-10 w-10"
-                       src={ data?.user?.profilePicture ? `https://${data?.user?.profilePicture}` : undefined}
+                       src={ data?.user?.profilePicture ? `https://${data?.user?.profilePicture}` : Image}
+                       onError={(e) => (e.currentTarget.src = Image)}
                      />
                    </Avatar>
                    <div className="ml-4">
@@ -84,9 +85,10 @@ const CommentRoute: React.FC = () => {
 
                <div className="flex items-center px-6 py-4">
                  <Avatar>
-                   <AvatarImage
+                   <img
                      className="rounded-full h-10 w-10"
-                     src={user?.profilePicture ? `https://${user?.profilePicture}` : undefined }
+                     src={user?.profilePicture ? `https://${user?.profilePicture}` : Image }
+                     onError={(e) => (e.currentTarget.src = Image)}
                    />
                  </Avatar>
                  <div className="ml-4">
