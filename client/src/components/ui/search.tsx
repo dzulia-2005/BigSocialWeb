@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import { useSearchUser } from "../../react-query/query/user";
 import { useCreateNewConversation } from "../../react-query/mutation/conversation";
 import { useAuthContext } from "../../context/auth/hooks/useAuthContext";
-
+import Image from "../../assets/profileimg.jpg"
 const SearchInput = () => {
   const { user } = useAuthContext(); 
   const userId = user?._id;
@@ -79,9 +79,10 @@ const SearchInput = () => {
                 onClick={() => handleUserClick(user._id)} 
               >
                 <img
-                  src={user.profilePicture ? `https://${user.profilePicture}` : undefined}
+                  src={user.profilePicture ? `https://${user.profilePicture}` : Image}
                   alt={user.username}
                   className="w-8 h-8 rounded-full"
+                  onError={(e) => (e.currentTarget.src = Image)}
                 />
                 <span>{user.username}</span>
               </li>

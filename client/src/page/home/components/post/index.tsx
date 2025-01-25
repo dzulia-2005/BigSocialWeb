@@ -2,7 +2,7 @@
 import { useAuthContext } from '../../../../context/auth/hooks/useAuthContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faComment, faHeart } from '@fortawesome/free-solid-svg-icons';
-import { Avatar, AvatarImage } from '../../../../components/ui/avatar';
+import { Avatar } from '../../../../components/ui/avatar';
 import { useGetAllPost } from '../../../../react-query/query/post';
 import { useLikePost, useUnlikePost } from '../../../../react-query/mutation/post';
 import { queryClient } from '../../../../main';
@@ -10,7 +10,7 @@ import { NavLink } from 'react-router-dom';
 import { useMemo } from 'react';
 import PostSkeleton from '../../../../components/skeletons/postskeleton';
 import { useTranslation } from 'react-i18next';
-
+import Image from "../../../../assets/profileimg.jpg"
 
 
 const PostFeed = () => {
@@ -73,10 +73,11 @@ const PostFeed = () => {
                         replace
                     >
                         <Avatar>
-                            <AvatarImage
+                            <img
                                 className="rounded-full h-10 w-10"
-                                src={`https://${post.user?.profilePicture}`}
-                            />
+                                src={post.user?.profilePicture ? `https://${post.user?.profilePicture}` : Image}
+                                onError={(e) => (e.currentTarget.src = Image)}
+                           />
                         </Avatar>
                         <div className="ml-4">
                             <div className="p-0">{post.user?.username}</div>

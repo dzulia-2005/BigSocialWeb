@@ -2,12 +2,12 @@
 import Search from '../../../../components/ui/search';
 import { useAuthContext } from '../../../../context/auth/hooks/useAuthContext';
 import { useGetConversationOfUser } from '../../../../react-query/query/conversation';
-import { Avatar, AvatarImage } from '../../../../components/ui/avatar';
+import { Avatar } from '../../../../components/ui/avatar';
 import SkeletonLoader from '../../../../components/skeletons/chatsidebarskeleton';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { useDeleteConversation } from '../../../../react-query/mutation/conversation';
-
+import Image from "../../../../assets/profileimg.jpg"
 
 const Sidebar = ({ onSelectUser }:{onSelectUser:any}) => {
     const { user } = useAuthContext();
@@ -45,13 +45,14 @@ const Sidebar = ({ onSelectUser }:{onSelectUser:any}) => {
             >
               <div className='flex items-center'>
                  <Avatar>
-                   <AvatarImage
+                   <img
                      className="rounded-full h-10 w-10"
                      src={
                        c.participants[0]?._id !== userId
                          ? `https://${c.participants[0]?.profilePicture}`
-                         : `https://${c.participants[1]?.profilePicture}`
+                         : Image
                      }
+                     onError={(e) => (e.currentTarget.src = Image)}
                    />
                  </Avatar>
                  <div className="ml-4">

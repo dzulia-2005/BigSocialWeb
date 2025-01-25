@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Avatar, AvatarImage } from '@radix-ui/react-avatar';
+import { Avatar } from '@radix-ui/react-avatar';
 import { faComment, faHeart, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
 import { useGetUserPost } from '../../../../react-query/query/post'
 import { queryClient } from '../../../../main'
@@ -12,8 +12,9 @@ import { useAuthContext } from '../../../../context/auth/hooks/useAuthContext';
 import { useGetUser } from '../../../../react-query/query/user';
 import PostSkeleton from '../../../../components/skeletons/postskeleton';
 import { useTranslation } from 'react-i18next';
-
-
+import Image from "../../../../assets/profileimg.jpg"
+import { Spin } from "antd";
+import { LoadingOutlined } from "@ant-design/icons";
 
 
 const UserPostFeed = () => {
@@ -81,8 +82,8 @@ const UserPostFeed = () => {
       );
     };
   
-    if (!user) return <div>Loading user...</div>;
-    if (!data) return <div>Loading posts...</div>;
+    if (!user) return <div className="flex items-center justify-center h-screen"><Spin indicator={<LoadingOutlined style={{ fontSize: 48 }} spin />} /></div>;
+    if (!data) return <div className="flex items-center justify-center h-screen"><Spin indicator={<LoadingOutlined style={{ fontSize: 48 }} spin />} /></div>;
   
     return (
       <>
@@ -92,21 +93,24 @@ const UserPostFeed = () => {
               <div className="flex items-center justify-between pr-6">
                 <div className="pl-6 flex items-center pt-6">
                   <Avatar>
-                    <AvatarImage
+                    <img
                       className="rounded-full h-10 w-10"
-                      src={`https://${post.user?.profilePicture}`}
+                      src={post.user?.profilePicture ? `https://${post.user?.profilePicture}` : Image}
+                      onError={(e) => (e.currentTarget.src = Image)}
                     />
                   </Avatar>
                   <div className="ml-4">{post.user?.username}</div>
                 </div>
 
                 <div className="flex items-center space-x-4">
-                  <NavLink to={`/editpost/${post._id}`}>
-                       <FontAwesomeIcon 
-                       icon={faPenToSquare} 
-                       className="text-gray-700 text-xl cursor-pointer"
-                     />
-                   </NavLink>
+                  {userData?._id === user._id && (
+                    <NavLink to={`/editpost/${post._id}`}>
+                         <FontAwesomeIcon 
+                           icon={faPenToSquare} 
+                           className="text-gray-700 text-xl cursor-pointer"
+                          />
+                     </NavLink>
+                  )}
                    
                   {userData?._id === user._id && (
                     <FontAwesomeIcon

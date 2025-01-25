@@ -1,5 +1,3 @@
-import  Image  from '../../../../assets/defaultprofileimg.webp';
-import BGImage from '../../../../assets/post.png';
 import React  from 'react';
 import EditProfileSection from './editProfileSection';
 import { useGetUser } from '../../../../react-query/query/user';
@@ -11,6 +9,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ProfileSkeleton from '../../../../components/skeletons/profileskeleton';
 import { useCreateNewConversation } from '../../../../react-query/mutation/conversation';
 import { useTranslation } from 'react-i18next';
+import  BGImage  from '../../../../assets/post.png';
+import Image from '../../../../assets/profileimg.jpg';
 
 
 
@@ -60,6 +60,7 @@ const Profileeditcomp:React.FC = () => {
                  className="w-full h-48 object-cover rounded-t-lg"
                  src={userData?.coverpicture ?`https://${userData?.coverpicture}` : BGImage}
                  alt="Cover"
+                 onError={(e) => (e.currentTarget.src = BGImage)}
               />
               {user?._id !== userData?._id ? <FontAwesomeIcon onClick={()=>handleUserClick(userData?._id)} icon={faMessage} beat  className='text-[#3e7ee8] size-6 mt-1 absolute left-7 bottom-36'/> : null}
               <div className="absolute top-2/3 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
@@ -67,6 +68,7 @@ const Profileeditcomp:React.FC = () => {
                   className="w-24 h-24 rounded-full border-4 border-white shadow-lg"
                   src={userData?.profilePicture ? `https://${userData.profilePicture}` : Image}
                   alt="Profile"
+                  onError={(e) => (e.currentTarget.src = Image)}
               />
               </div>
           </div>

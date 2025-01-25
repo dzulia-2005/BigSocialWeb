@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { useSearchUser } from "../../react-query/query/user";
 import { useAuthContext } from "../../context/auth/hooks/useAuthContext";
 import { NavLink } from "react-router-dom";
+import Image from "../../assets/profileimg.jpg"
 
 const Headersearchinput = () => {
     const { user } = useAuthContext();
@@ -50,9 +51,10 @@ const Headersearchinput = () => {
                      className="px-4 py-2 hover:bg-blue-100 cursor-pointer flex items-center space-x-3"
                    >
                      <img
-                       src={user.profilePicture ? `https://${user.profilePicture}` : undefined}
+                       src={user.profilePicture ? `https://${user.profilePicture}` : Image}
                        alt={user.username}
                        className="w-8 h-8 rounded-full"
+                       onError={(e) => (e.currentTarget.src = Image)}
                      />
                      <span>{user.username}</span>
                    </li>

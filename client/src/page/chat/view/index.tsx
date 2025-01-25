@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Input } from '../../../components/ui/input';
 import { Avatar, AvatarImage } from '../../../components/ui/avatar';
-import image from '../../../assets/defaultprofileimg.webp';
+import image from '../../../assets/profileimg.jpg';
 import Sidebar from '../components/sidebar';
 import { useAuthContext } from '../../../context/auth/hooks/useAuthContext';
 import { useGetMessage } from '../../../react-query/query/message/index';
@@ -103,9 +103,10 @@ const handleEmojiClick = (emojiObject: any) => {
                     >
                       {message.sender._id !== userId && (
                         <Avatar>
-                          <AvatarImage
+                          <img
                             className="rounded-full h-10 w-10"
                             src={message.sender.profilePicture ? `https://${message.sender.profilePicture}`: image}
+                            onError={(e) => (e.currentTarget.src = image)}
                           />
                         </Avatar>
                       )}
@@ -123,6 +124,7 @@ const handleEmojiClick = (emojiObject: any) => {
                           <AvatarImage
                             className="rounded-full h-10 w-10"
                             src={message.sender.profilePicture ? `https://${message.sender.profilePicture }`: image}
+                            onError={(e) => (e.currentTarget.src = image)}
                           />
                         </Avatar>
                       )}

@@ -1,6 +1,6 @@
-import { Avatar, AvatarImage } from '@radix-ui/react-avatar'
+import { Avatar } from '@radix-ui/react-avatar'
 import React from 'react'
-import image from "../../../assets/defaultprofileimg.webp"
+import Image from "../../../assets/profileimg.jpg"
 import { useAuthContext } from '../../../context/auth/hooks/useAuthContext';
 import { useGetallfollowers } from '../../../react-query/query/user';
 import { NavLink } from 'react-router-dom';
@@ -33,7 +33,12 @@ const Rightside:React.FC = () => {
                                 <div className="flex items-center">
                                     <span >
                                         <Avatar >
-                                            <AvatarImage className="rounded-full h-10 w-10" src={ f.profilePicture ? `https://${f.profilePicture}` : image}/>
+                                            <img 
+                                                className="rounded-full h-10 w-10" 
+                                                src={ f.profilePicture ? `https://${f.profilePicture}` : Image}
+                                                onError={(e) => (e.currentTarget.src = Image)}
+
+                                                />
                                         </Avatar>
                                     </span>
                                     <div className="ml-4">

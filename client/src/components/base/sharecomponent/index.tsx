@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from 'react';
-import { Avatar, AvatarImage } from '@radix-ui/react-avatar';
-import image from "../../../assets/defaultprofileimg.webp";
+import { Avatar } from '@radix-ui/react-avatar';
+import Image from '../../../assets/profileimg.jpg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faImage } from '@fortawesome/free-solid-svg-icons';
 import { Input } from '../../ui/input';
@@ -66,9 +66,10 @@ const Sharecomp: React.FC = () => {
             <div className="p-1 flex items-center justify-around pt-6">
                 <div>
                         <Avatar>
-                            <AvatarImage
+                            <img
                                 className="rounded-full h-10 w-10"
-                                src={user?.profilePicture ? `https://${user?.profilePicture}` : image}
+                                src={user?.profilePicture ? `https://${user?.profilePicture}` : Image}
+                                onError={(e) => (e.currentTarget.src = Image)}
                             />
                         </Avatar>
                 </div>
