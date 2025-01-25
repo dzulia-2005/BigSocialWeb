@@ -30,8 +30,8 @@ const Sidebar = ({ onSelectUser }:{onSelectUser:any}) => {
     }
   
   return (
-    <div className="w-[30%] border-r border-[#ccc] hidden md:flex flex-col p-4 bg-[#EAFF96]">
-          <Search/>
+    <div className="w-[30%] border-r border-[#ccc]  flex-col p-4 bg-[#EAFF96]">
+          <Search />
           <div className="overflow-y-auto max-h-full space-y-4"> 
           {conversation?.map((c) => (
             <div
@@ -55,17 +55,17 @@ const Sidebar = ({ onSelectUser }:{onSelectUser:any}) => {
                      onError={(e) => (e.currentTarget.src = Image)}
                    />
                  </Avatar>
-                 <div className="ml-4">
-                   <div className="font-semibold text-[#333]">
-                     {c.participants[0]?._id !== userId
-                       ? c.participants[0]?.username
-                       : c.participants[1]?.username}
-                   </div>
-                 </div>
+                <div className="ml-4 hidden sm:block">
+                  <div className="font-semibold text-[#333]">
+                    {c.participants[0]?._id !== userId
+                      ? c.participants[0]?.username
+                      : c.participants[1]?.username}
+                  </div>
+                </div>
 
               </div>
 
-              <div className=''>
+              <div className='hidden sm:block'>
                 <FontAwesomeIcon 
                     icon={faTrash} className='text-red-600' 
                     onClick={(e)=>{

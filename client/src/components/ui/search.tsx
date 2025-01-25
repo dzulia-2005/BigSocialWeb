@@ -54,7 +54,7 @@ const SearchInput = () => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   return (
-    <div className="flex flex-col items-center p-4">
+    <div className="hidden md:flex flex-col items-center p-4 ">
       <div ref={inputRef} className="relative w-full sm:w-10 md:w-52">
         <input
           type="text"

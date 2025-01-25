@@ -144,7 +144,7 @@ const handleEmojiClick = (emojiObject: any) => {
                 </div>
               )}
               <button
-                className="bg-[#386dc5] text-[#fff] px-4 py-2 rounded-md hover:bg-[#274a8f]"
+                className="bg-[#386dc5] text-[#fff] px-4 py-2 rounded-md hover:bg-[#274a8f] sm:h-auto sm:w-auto h-[35px] w-[10px] text-sm flex justify-center"
                 onClick={() => setShowEmojiPicker((prev) => !prev)}
               >
                 😊
@@ -156,7 +156,7 @@ const handleEmojiClick = (emojiObject: any) => {
                   value={newMessage}
                 />
                 <button
-                  className="bg-[#386dc5] text-[#fff] px-6 py-2 rounded-md hover:bg-[#274a8f]"
+                   className="bg-[#386dc5] text-[#fff] px-6 py-2 rounded-md hover:bg-[#274a8f] sm:h-auto sm:w-auto h-[35px] w-[10px] text-sm pr-4 text-center flex justify-center"
                   onClick={handleSubmit}
                   disabled={!newMessage.trim() || !conversationId || !userId}
                 >
